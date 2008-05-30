@@ -3,11 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.seasar.chronos</groupId>
+	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-example</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-RC3</version>
-	<name>s2config Example</name>
+	<version>0.0.1-RC1</version>
+	<name>S2Config Example</name>
 	<url>http://s2config.sandbox.seasar.org/</url>
 	<build>
 		<defaultGoal>validate</defaultGoal>

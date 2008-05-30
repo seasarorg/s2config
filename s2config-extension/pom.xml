@@ -4,14 +4,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<relativePath>../s2config-project/pom.xml</relativePath>
-		<groupId>org.seasar.chronos</groupId>
+		<groupId>org.seasar.config</groupId>
 		<artifactId>s2config-project</artifactId>
-		<version>0.0.1-RC3-SNAPSHOT</version>
+		<version>0.0.1-RC1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>s2config-extension</artifactId>
 	<packaging>jar</packaging>
-	<name>s2config Extension</name>
+	<name>S2Config Extension</name>
 	<url>http://s2config.sandbox.seasar.org/</url>
 	<build>
 		<defaultGoal>validate</defaultGoal>
