@@ -1,11 +1,11 @@
 package org.seasar.config.core.config.impl;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.poi.hssf.record.formula.functions.T;
 import org.seasar.config.core.config.AbstractConfigWriter;
 import org.seasar.config.core.exception.FileNotFoundRuntimeException;
 import org.seasar.framework.exception.IORuntimeException;
@@ -17,7 +17,8 @@ public class ConfigResourceBundleWriter extends AbstractConfigWriter {
 	private String configFilePath;
 
 	public void open(String configName) {
-		configFilePath = ResourceUtil.getResourcePath(configName, null);
+		File file = ResourceUtil.getResourceAsFile(configName, null);
+		configFilePath = file.getAbsolutePath();
 		properties = ResourceUtil.getProperties(configName);
 	}
 
@@ -43,8 +44,8 @@ public class ConfigResourceBundleWriter extends AbstractConfigWriter {
 		properties = null;
 	}
 
-	public void writeConfigValue(String key, T value) {
-		properties.put(key, value);
+	public <T extends Object> void writeConfigValue(String key, T value) {
+		properties.put(key, value.toString());
 
 	}
 

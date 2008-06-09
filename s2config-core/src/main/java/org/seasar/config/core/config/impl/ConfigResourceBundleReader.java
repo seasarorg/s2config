@@ -18,7 +18,7 @@ public class ConfigResourceBundleReader extends AbstractConfigReader {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T readConfigValue(String key, T defaultValue) {
+	public <T extends Object> T readConfigValue(String key, T defaultValue) {
 		try {
 			Object result = rb.getObject(key);
 			return (T) result;
