@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import org.seasar.config.core.config.AbstractConfigReader;
 
-public class ConfigResourceBundleReader extends AbstractConfigReader {
+public class ConfigPropertiesReader extends AbstractConfigReader {
 
 	private ResourceBundle rb;
 

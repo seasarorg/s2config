@@ -7,7 +7,7 @@ import org.seasar.framework.unit.Seasar2;
 @RunWith(Seasar2.class)
 public class ConfigResourceBundleReaderTest {
 
-	private ConfigResourceBundleReader configResourceBundleReader;
+	private ConfigPropertiesReader configResourceBundleReader;
 
 	@Test
 	public void testReadConfigValue() {

@@ -7,7 +7,7 @@ import org.seasar.framework.unit.Seasar2;
 @RunWith(Seasar2.class)
 public class ConfigResourceBundleWriterTest {
 
-	private ConfigResourceBundleWriter configResourceBundleWriter;
+	private ConfigPropertiesWriter configResourceBundleWriter;
 
 	@Test
 	public void testWriteConfigValue() {

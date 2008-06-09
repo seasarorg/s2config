@@ -11,7 +11,7 @@ import org.seasar.config.core.exception.FileNotFoundRuntimeException;
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.util.ResourceUtil;
 
-public class ConfigResourceBundleWriter extends AbstractConfigWriter {
+public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
 	private Properties properties;
 	private String configFilePath;
