@@ -2,15 +2,18 @@ package org.seasar.config.core.container;
 
 import org.seasar.config.core.config.ConfigReader;
 import org.seasar.config.core.config.ConfigWriter;
+import org.seasar.config.core.util.ConfigContainerTraversal;
+import org.seasar.config.core.util.ConfigContainerTraversal.ConfigContainerHandler;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.util.Disposable;
 
 public class ConfigContainer implements Disposable {
 
+	private boolean initialized;
 	private String configName;
 	private ConfigWriter configWriter;
 	private ConfigReader configReader;
-	private ConfigContainer childContainer;
+	private ConfigContainer childConfigContainer;
 	private S2Container s2Container;
 
 	public void setConfigName(String configName) {
@@ -33,24 +36,54 @@ public class ConfigContainer implements Disposable {
 		this.configReader = configReader;
 	}
 
-	private void initialize() {
+	private synchronized void initialize() {
+		if (initialized) {
+			return;
+		}
 		configReader.open(configName);
 		String env = configReader.readConfigValue("env", null);
 		if (env != null) {
-			childContainer = (ConfigContainer) s2Container
+			childConfigContainer = (ConfigContainer) s2Container
 					.getComponent(ConfigContainer.class);
 			String[] configNameSplit = configName.split("\\.");
-			childContainer.setConfigName(String.format("%s_%s.properties",
-					configNameSplit[0], env));
-			childContainer.initialize();
+			childConfigContainer.setConfigName(String.format(
+					"%s_%s.properties", configNameSplit[0], env));
+			childConfigContainer.initialize();
 		}
+		initialized = true;
+	}
+
+	public <T> void putConfigValue(String key, T value) {
+		this.initialize();
+
+	}
+
+	public <T> T getConfigValue(final String key, final T defaultValue) {
+		this.initialize();
+		T result = ConfigContainerTraversal.forEach(this,
+				new ConfigContainerHandler<T>() {
+					public T proccess(ConfigContainer container) {
+						T result = container.configReader.readConfigValue(key,
+								defaultValue);
+						return result;
+					}
+				});
+		return result;
 	}
 
 	public void dispose() {
 		configReader.close();
-		if (this.childContainer != null) {
-			this.childContainer.dispose();
+		if (this.childConfigContainer != null) {
+			this.childConfigContainer.dispose();
 		}
+	}
+
+	public ConfigContainer getChildConfigContainer() {
+		return childConfigContainer;
+	}
+
+	public void setChildConfigContainer(ConfigContainer childConfigContainer) {
+		this.childConfigContainer = childConfigContainer;
 	}
 
 }
