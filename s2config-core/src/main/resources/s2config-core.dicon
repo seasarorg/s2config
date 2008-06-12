@@ -4,4 +4,5 @@
 <components>
 	<component class="org.seasar.config.core.config.impl.ConfigResourceBundleWriter"/>
 	<component class="org.seasar.config.core.config.impl.ConfigResourceBundleReader"/>
+	<component class="org.seasar.config.core.container.ConfigContainer" instance="prototype"/>
 </components>
