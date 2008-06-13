@@ -5,6 +5,11 @@ import java.util.Properties;
 import org.seasar.config.core.config.AbstractConfigReader;
 import org.seasar.framework.util.ResourceUtil;
 
+/**
+ * 
+ * @author junichi
+ * 
+ */
 public class ConfigPropertiesReader extends AbstractConfigReader {
 
 	private Properties properties;

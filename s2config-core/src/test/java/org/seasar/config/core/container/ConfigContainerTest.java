@@ -10,9 +10,9 @@ public class ConfigContainerTest {
 	private ConfigContainer configContainer;
 
 	@Test
-	public void testGetConfigValue() {
+	public void testFindAllConfigValue() {
 		configContainer.setConfigName("test.properties");
-		String result = configContainer.getConfigValue("test", null);
+		String result = configContainer.findAllConfigValue("test", null);
 		System.out.println(result);
 	}
 }

@@ -13,6 +13,7 @@ public class ConfigContainer implements Disposable {
 	private String configName;
 	private ConfigWriter configWriter;
 	private ConfigReader configReader;
+	private ConfigContainer parentConfigContainer;
 	private ConfigContainer childConfigContainer;
 	private S2Container s2Container;
 
@@ -49,6 +50,7 @@ public class ConfigContainer implements Disposable {
 			childConfigContainer.setConfigName(String.format(
 					"%s_%s.properties", configNameSplit[0], env));
 			childConfigContainer.initialize();
+			childConfigContainer.setParentConfigContainer(this);
 		}
 		initialized = true;
 	}
@@ -66,7 +68,7 @@ public class ConfigContainer implements Disposable {
 
 	public <T> T findAllConfigValue(final String key, final T defaultValue) {
 		this.initialize();
-		T result = ConfigContainerTraversal.forEach(this,
+		T result = ConfigContainerTraversal.forEachReverse(this,
 				new ConfigContainerHandler<T>() {
 					public T proccess(ConfigContainer container) {
 						T result = container.getConfigValue(key, defaultValue);
@@ -89,6 +91,14 @@ public class ConfigContainer implements Disposable {
 
 	public void setChildConfigContainer(ConfigContainer childConfigContainer) {
 		this.childConfigContainer = childConfigContainer;
+	}
+
+	public ConfigContainer getParentConfigContainer() {
+		return parentConfigContainer;
+	}
+
+	public void setParentConfigContainer(ConfigContainer parentConfigContainer) {
+		this.parentConfigContainer = parentConfigContainer;
 	}
 
 }

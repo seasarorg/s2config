@@ -20,4 +20,22 @@ public final class ConfigContainerTraversal {
 		return null;
 	}
 
+	public static <T> T forEachReverse(ConfigContainer rootContainer,
+			ConfigContainerHandler<T> handler) {
+		ConfigContainer currentContainer = rootContainer;
+		ConfigContainer lastChildContainer = null;
+		for (; currentContainer != null; currentContainer = currentContainer
+				.getChildConfigContainer()) {
+			lastChildContainer = currentContainer;
+		}
+		for (currentContainer = lastChildContainer; currentContainer != null; currentContainer = currentContainer
+				.getParentConfigContainer()) {
+			T result = handler.proccess(currentContainer);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
 }
