@@ -56,6 +56,17 @@ public class ConfigContainer implements Disposable {
 		return result;
 	}
 
+	/**
+	 * キーに対応する値を末端のコンフィグコンテナから順番に検索し返します．
+	 * 
+	 * @param <T>
+	 *            値の型
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
+	 * @return 値
+	 */
 	public <T> T findAllConfigValue(final String key, final T defaultValue) {
 		this.initialize();
 		T result = ConfigContainerTraversal.forEachParent(this,
@@ -68,20 +79,45 @@ public class ConfigContainer implements Disposable {
 		return result;
 	}
 
+	/**
+	 * 子供のコンフィグコンテナを返します．
+	 * 
+	 * @return コンフィグコンテナ
+	 */
 	public ConfigContainer getChildConfigContainer() {
 		return childConfigContainer;
 	}
 
+	/**
+	 * コンフィグ名を返します．
+	 * 
+	 * @return コンフィグ名
+	 */
 	public String getConfigName() {
 		return configName;
 	}
 
+	/**
+	 * キーに対応する値をコンフィグコンテナから取得します．
+	 * 
+	 * @param <T>
+	 *            値の型
+	 * @param key
+	 * @param defaultValue
+	 *            デフォルト値
+	 * @return
+	 */
 	public <T> T getConfigValue(String key, T defaultValue) {
 		this.initialize();
 		T result = this.configReader.readConfigValue(key, defaultValue);
 		return result;
 	}
 
+	/**
+	 * 親のコンフィグコンテナを返します．
+	 * 
+	 * @return コンフィグコンテナ
+	 */
 	public ConfigContainer getParentConfigContainer() {
 		return parentConfigContainer;
 	}
@@ -108,6 +144,16 @@ public class ConfigContainer implements Disposable {
 		initialized = true;
 	}
 
+	/**
+	 * キーに対応する値を設定します．
+	 * 
+	 * @param <T>
+	 *            値の型
+	 * @param key
+	 *            キー
+	 * @param value
+	 *            値
+	 */
 	public <T> void putConfigValue(String key, T value) {
 		this.initialize();
 		this.configWriter.writeConfigValue(key, value);
