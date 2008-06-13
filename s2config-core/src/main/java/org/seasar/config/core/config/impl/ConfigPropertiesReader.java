@@ -19,25 +19,33 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T readConfigValue(String key, T defaultValue) {
-
-		String result = properties.getProperty(key, defaultValue.toString());
+		String result = properties.getProperty(key,
+				defaultValue != null ? defaultValue.toString() : null);
 		if (result == null) {
 			return defaultValue;
 		}
-		T returnValue = null;
-		if (defaultValue.getClass().equals(Integer.class)) {
+		try {
 			Integer parseValue = Integer.parseInt(result);
-			returnValue = (T) parseValue;
+			return (T) parseValue;
+		} catch (NumberFormatException e) {
+			;
 		}
-		if (defaultValue.getClass().equals(Long.class)) {
+		try {
 			Long parseValue = Long.parseLong(result);
-			returnValue = (T) parseValue;
+			return (T) parseValue;
+		} catch (NumberFormatException e) {
+			;
 		}
-		if (defaultValue.getClass().equals(Boolean.class)) {
-			Boolean parseValue = Boolean.parseBoolean(result);
-			returnValue = (T) parseValue;
+		String lowercase = result.toLowerCase();
+		Boolean parseValue = null;
+		if (lowercase.equals("true")) {
+			parseValue = Boolean.TRUE;
+			return (T) parseValue;
+		} else if (lowercase.equals("false")) {
+			parseValue = Boolean.FALSE;
+			return (T) parseValue;
 		}
-		return returnValue;
+		return (T) result;
 
 	}
 }

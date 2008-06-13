@@ -12,7 +12,7 @@ public class ConfigContainerTest {
 	@Test
 	public void testGetConfigValue() {
 		configContainer.setConfigName("test.properties");
-		configContainer.getConfigValue("test", null);
+		String result = configContainer.getConfigValue("test", null);
+		System.out.println(result);
 	}
-
 }
