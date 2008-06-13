@@ -67,6 +67,9 @@ public class ConfigContainer implements Disposable {
 		return parentConfigContainer;
 	}
 
+	/**
+	 * コンフィグコンテナを初期化します．
+	 */
 	private synchronized void initialize() {
 		if (initialized) {
 			return;
