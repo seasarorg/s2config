@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
 	"http://www.seasar.org/dtd/components24.dtd">
 <components>
-	<component class="org.seasar.config.core.config.impl.ConfigResourceBundleWriter"/>
-	<component class="org.seasar.config.core.config.impl.ConfigResourceBundleReader"/>
+	<component class="org.seasar.config.core.config.impl.ConfigPropertiesWriter"/>
+	<component class="org.seasar.config.core.config.impl.ConfigPropertiesReader"/>
 	<component class="org.seasar.config.core.container.ConfigContainer" instance="prototype"/>
 </components>

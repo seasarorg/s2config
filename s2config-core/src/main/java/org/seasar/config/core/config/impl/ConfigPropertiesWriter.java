@@ -45,7 +45,7 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	}
 
 	public <T extends Object> void writeConfigValue(String key, T value) {
-		properties.put(key, value.toString());
+		properties.setProperty(key, value.toString());
 
 	}
 
