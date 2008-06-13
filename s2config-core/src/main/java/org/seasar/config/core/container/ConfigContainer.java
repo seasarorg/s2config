@@ -42,6 +42,7 @@ public class ConfigContainer implements Disposable {
 			return;
 		}
 		configReader.open(configName);
+		configWriter.open(configName);
 		String env = configReader.readConfigValue("env", null);
 		if (env != null) {
 			childConfigContainer = (ConfigContainer) s2Container
@@ -78,8 +79,13 @@ public class ConfigContainer implements Disposable {
 		return result;
 	}
 
+	public void sync() {
+		this.configWriter.flash();
+	}
+
 	public void dispose() {
 		configReader.close();
+		configWriter.close();
 		if (this.childConfigContainer != null) {
 			this.childConfigContainer.dispose();
 		}
@@ -101,4 +107,15 @@ public class ConfigContainer implements Disposable {
 		this.parentConfigContainer = parentConfigContainer;
 	}
 
+	public ConfigContainer findAllConfigContainer(final String configName) {
+		this.initialize();
+		ConfigContainer result = ConfigContainerTraversal.forEach(this,
+				new ConfigContainerHandler<ConfigContainer>() {
+					public ConfigContainer proccess(ConfigContainer container) {
+						return configName.equals(container.getConfigName()) ? container
+								: null;
+					}
+				});
+		return result;
+	}
 }

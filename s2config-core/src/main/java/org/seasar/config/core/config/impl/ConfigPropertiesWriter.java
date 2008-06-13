@@ -15,14 +15,19 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
 	private Properties properties;
 	private String configFilePath;
+	private boolean changed = false;
 
 	public void open(String configName) {
 		File file = ResourceUtil.getResourceAsFile(configName, null);
 		configFilePath = file.getAbsolutePath();
 		properties = ResourceUtil.getProperties(configName);
+		changed = false;
 	}
 
-	public void close() {
+	public synchronized void flash() {
+		if (!changed) {
+			return;
+		}
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(configFilePath);
@@ -40,13 +45,17 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 				}
 			}
 		}
+		changed = false;
+	}
 
+	public void close() {
+		this.flash();
 		properties = null;
 	}
 
 	public <T extends Object> void writeConfigValue(String key, T value) {
 		properties.setProperty(key, value.toString());
-
+		changed = true;
 	}
 
 }
