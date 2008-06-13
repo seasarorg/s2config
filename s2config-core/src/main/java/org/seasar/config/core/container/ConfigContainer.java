@@ -55,16 +55,21 @@ public class ConfigContainer implements Disposable {
 
 	public <T> void putConfigValue(String key, T value) {
 		this.initialize();
-
+		this.configWriter.writeConfigValue(key, value);
 	}
 
-	public <T> T getConfigValue(final String key, final T defaultValue) {
+	public <T> T getConfigValue(String key, T defaultValue) {
+		this.initialize();
+		T result = this.configReader.readConfigValue(key, defaultValue);
+		return result;
+	}
+
+	public <T> T getConfigValueRecurcive(final String key, final T defaultValue) {
 		this.initialize();
 		T result = ConfigContainerTraversal.forEach(this,
 				new ConfigContainerHandler<T>() {
 					public T proccess(ConfigContainer container) {
-						T result = container.configReader.readConfigValue(key,
-								defaultValue);
+						T result = container.getConfigValue(key, defaultValue);
 						return result;
 					}
 				});
