@@ -8,7 +8,14 @@ public final class ConfigContainerTraversal {
 		public T proccess(ConfigContainer container);
 	}
 
-	public static <T> T forEach(ConfigContainer rootContainer,
+	/**
+	 * 
+	 * @param <T>
+	 * @param rootContainer
+	 * @param handler
+	 * @return
+	 */
+	public static <T> T forEachChild(ConfigContainer rootContainer,
 			ConfigContainerHandler<T> handler) {
 		for (ConfigContainer currentContainer = rootContainer; currentContainer != null; currentContainer = currentContainer
 				.getChildConfigContainer()) {
@@ -20,7 +27,7 @@ public final class ConfigContainerTraversal {
 		return null;
 	}
 
-	public static <T> T forEachReverse(ConfigContainer rootContainer,
+	public static <T> T forEachParent(ConfigContainer rootContainer,
 			ConfigContainerHandler<T> handler) {
 		ConfigContainer currentContainer = rootContainer;
 		ConfigContainer lastChildContainer = null;

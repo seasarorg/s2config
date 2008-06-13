@@ -27,7 +27,7 @@ public class ConfigContainer implements Disposable {
 
 	public ConfigContainer findAllConfigContainer(final String configName) {
 		this.initialize();
-		ConfigContainer result = ConfigContainerTraversal.forEach(this,
+		ConfigContainer result = ConfigContainerTraversal.forEachChild(this,
 				new ConfigContainerHandler<ConfigContainer>() {
 					public ConfigContainer proccess(ConfigContainer container) {
 						return configName.equals(container.getConfigName()) ? container
@@ -39,7 +39,7 @@ public class ConfigContainer implements Disposable {
 
 	public <T> T findAllConfigValue(final String key, final T defaultValue) {
 		this.initialize();
-		T result = ConfigContainerTraversal.forEachReverse(this,
+		T result = ConfigContainerTraversal.forEachParent(this,
 				new ConfigContainerHandler<T>() {
 					public T proccess(ConfigContainer container) {
 						T result = container.getConfigValue(key, defaultValue);
