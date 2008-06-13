@@ -7,6 +7,12 @@ import org.seasar.config.core.util.ConfigContainerTraversal.ConfigContainerHandl
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.util.Disposable;
 
+/**
+ * コンフィグを管理するコンテナクラスです．
+ * 
+ * @author junichi
+ * 
+ */
 public class ConfigContainer implements Disposable {
 
 	private boolean initialized;
@@ -17,6 +23,12 @@ public class ConfigContainer implements Disposable {
 	private ConfigContainer childConfigContainer;
 	private S2Container s2Container;
 
+	/**
+	 * コンフィグコンテナを破棄します．
+	 * <p>
+	 * コンフィグコンテナを破棄します．子供のコンテナがある場合も破棄します．
+	 * </p>
+	 */
 	public void dispose() {
 		configReader.close();
 		configWriter.close();
@@ -25,6 +37,13 @@ public class ConfigContainer implements Disposable {
 		}
 	}
 
+	/**
+	 * コンフィグ名に対応するコンフィグコンテナを検索して返します．
+	 * 
+	 * @param configName
+	 *            コンフィグ名
+	 * @return コンフィグコンテナ
+	 */
 	public ConfigContainer findAllConfigContainer(final String configName) {
 		this.initialize();
 		ConfigContainer result = ConfigContainerTraversal.forEachChild(this,
