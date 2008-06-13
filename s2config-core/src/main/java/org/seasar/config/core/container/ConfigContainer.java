@@ -64,7 +64,7 @@ public class ConfigContainer implements Disposable {
 		return result;
 	}
 
-	public <T> T getConfigValueRecurcive(final String key, final T defaultValue) {
+	public <T> T findAllConfigValue(final String key, final T defaultValue) {
 		this.initialize();
 		T result = ConfigContainerTraversal.forEach(this,
 				new ConfigContainerHandler<T>() {
