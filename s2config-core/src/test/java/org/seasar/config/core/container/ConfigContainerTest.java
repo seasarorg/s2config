@@ -17,6 +17,7 @@ public class ConfigContainerTest {
 		String result = configContainer.findAllConfigValue("test", null);
 		assertNotNull(result);
 		System.out.println(result);
+		configContainer.dispose();
 	}
 
 	@Test
@@ -25,5 +26,6 @@ public class ConfigContainerTest {
 		ConfigContainer childConfigContainer = configContainer
 				.findAllConfigContainer("test_custom.properties");
 		assertNotNull(childConfigContainer);
+		configContainer.dispose();
 	}
 }

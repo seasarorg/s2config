@@ -17,24 +17,54 @@ public class ConfigContainer implements Disposable {
 	private ConfigContainer childConfigContainer;
 	private S2Container s2Container;
 
-	public void setConfigName(String configName) {
-		this.configName = configName;
+	public void dispose() {
+		configReader.close();
+		configWriter.close();
+		if (this.childConfigContainer != null) {
+			this.childConfigContainer.dispose();
+		}
+	}
+
+	public ConfigContainer findAllConfigContainer(final String configName) {
+		this.initialize();
+		ConfigContainer result = ConfigContainerTraversal.forEach(this,
+				new ConfigContainerHandler<ConfigContainer>() {
+					public ConfigContainer proccess(ConfigContainer container) {
+						return configName.equals(container.getConfigName()) ? container
+								: null;
+					}
+				});
+		return result;
+	}
+
+	public <T> T findAllConfigValue(final String key, final T defaultValue) {
+		this.initialize();
+		T result = ConfigContainerTraversal.forEachReverse(this,
+				new ConfigContainerHandler<T>() {
+					public T proccess(ConfigContainer container) {
+						T result = container.getConfigValue(key, defaultValue);
+						return result;
+					}
+				});
+		return result;
+	}
+
+	public ConfigContainer getChildConfigContainer() {
+		return childConfigContainer;
 	}
 
 	public String getConfigName() {
 		return configName;
 	}
 
-	public void setS2Container(S2Container container) {
-		s2Container = container;
+	public <T> T getConfigValue(String key, T defaultValue) {
+		this.initialize();
+		T result = this.configReader.readConfigValue(key, defaultValue);
+		return result;
 	}
 
-	public void setConfigWriter(ConfigWriter configWriter) {
-		this.configWriter = configWriter;
-	}
-
-	public void setConfigReader(ConfigReader configReader) {
-		this.configReader = configReader;
+	public ConfigContainer getParentConfigContainer() {
+		return parentConfigContainer;
 	}
 
 	private synchronized void initialize() {
@@ -61,61 +91,31 @@ public class ConfigContainer implements Disposable {
 		this.configWriter.writeConfigValue(key, value);
 	}
 
-	public <T> T getConfigValue(String key, T defaultValue) {
-		this.initialize();
-		T result = this.configReader.readConfigValue(key, defaultValue);
-		return result;
-	}
-
-	public <T> T findAllConfigValue(final String key, final T defaultValue) {
-		this.initialize();
-		T result = ConfigContainerTraversal.forEachReverse(this,
-				new ConfigContainerHandler<T>() {
-					public T proccess(ConfigContainer container) {
-						T result = container.getConfigValue(key, defaultValue);
-						return result;
-					}
-				});
-		return result;
-	}
-
-	public void sync() {
-		this.configWriter.flash();
-	}
-
-	public void dispose() {
-		configReader.close();
-		configWriter.close();
-		if (this.childConfigContainer != null) {
-			this.childConfigContainer.dispose();
-		}
-	}
-
-	public ConfigContainer getChildConfigContainer() {
-		return childConfigContainer;
-	}
-
 	public void setChildConfigContainer(ConfigContainer childConfigContainer) {
 		this.childConfigContainer = childConfigContainer;
 	}
 
-	public ConfigContainer getParentConfigContainer() {
-		return parentConfigContainer;
+	public void setConfigName(String configName) {
+		this.configName = configName;
+	}
+
+	public void setConfigReader(ConfigReader configReader) {
+		this.configReader = configReader;
+	}
+
+	public void setConfigWriter(ConfigWriter configWriter) {
+		this.configWriter = configWriter;
 	}
 
 	public void setParentConfigContainer(ConfigContainer parentConfigContainer) {
 		this.parentConfigContainer = parentConfigContainer;
 	}
 
-	public ConfigContainer findAllConfigContainer(final String configName) {
-		this.initialize();
-		ConfigContainer result = ConfigContainerTraversal.forEach(this,
-				new ConfigContainerHandler<ConfigContainer>() {
-					public ConfigContainer proccess(ConfigContainer container) {
-						return configName.equals(container.getConfigName()) ? container
-								: null;
-					}
-				});
-		return result;
+	public void setS2Container(S2Container container) {
+		s2Container = container;
+	}
+
+	public void sync() {
+		this.configWriter.flash();
 	}
 }
