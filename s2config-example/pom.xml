@@ -6,7 +6,7 @@
 	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-example</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-RC1</version>
+	<version>0.0.1-RC1-SNAPSHOT</version>
 	<name>S2Config Example</name>
 	<url>http://s2config.sandbox.seasar.org/</url>
 	<build>
