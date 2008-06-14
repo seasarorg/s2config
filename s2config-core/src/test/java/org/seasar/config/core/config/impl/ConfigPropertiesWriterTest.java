@@ -9,12 +9,15 @@ public class ConfigPropertiesWriterTest {
 
 	private ConfigPropertiesWriter configPropertiesWriter;
 
+	public void afterClass() {
+
+	}
+
 	@Test
 	public void testWriteConfigValue() {
 		configPropertiesWriter.open("test.properties");
 		configPropertiesWriter.writeConfigValue("xxx", 100);
 		configPropertiesWriter.close();
-
 	}
 
 }

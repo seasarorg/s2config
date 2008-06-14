@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.seasar.config.core.config.AbstractConfigWriter;
 import org.seasar.config.core.exception.FileNotFoundRuntimeException;
 import org.seasar.framework.exception.IORuntimeException;
+import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.util.ResourceUtil;
 
 public class ConfigPropertiesWriter extends AbstractConfigWriter {
@@ -20,7 +21,11 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	public void open(String configName) {
 		File file = ResourceUtil.getResourceAsFile(configName, null);
 		configFilePath = file.getAbsolutePath();
-		properties = ResourceUtil.getProperties(configName);
+		try {
+			properties = ResourceUtil.getProperties(configName);
+		} catch (ResourceNotFoundRuntimeException e) {
+			properties = new Properties();
+		}
 		changed = false;
 	}
 
