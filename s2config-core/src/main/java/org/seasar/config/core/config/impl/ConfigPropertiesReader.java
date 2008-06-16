@@ -15,7 +15,8 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 	private Properties properties;
 
 	public void open(String configName) {
-		properties = ResourceUtil.getProperties(configName);
+		properties = ResourceUtil.getProperties(configName
+				.concat(".properties"));
 	}
 
 	public void close() {

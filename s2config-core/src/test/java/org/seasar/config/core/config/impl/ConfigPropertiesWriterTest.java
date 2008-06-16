@@ -15,7 +15,7 @@ public class ConfigPropertiesWriterTest {
 
 	@Test
 	public void testWriteConfigValue() {
-		configPropertiesWriter.open("test.properties");
+		configPropertiesWriter.open("test");
 		configPropertiesWriter.writeConfigValue("xxx", 100);
 		configPropertiesWriter.close();
 	}

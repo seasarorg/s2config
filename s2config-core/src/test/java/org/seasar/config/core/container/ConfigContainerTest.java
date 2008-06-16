@@ -13,7 +13,7 @@ public class ConfigContainerTest {
 
 	@Test
 	public void testFindAllConfigValue() {
-		configContainer.setConfigName("test.properties");
+		configContainer.setConfigName("test");
 		String result = configContainer.findAllConfigValue("test", null);
 		assertNotNull(result);
 		System.out.println(result);
@@ -22,9 +22,9 @@ public class ConfigContainerTest {
 
 	@Test
 	public void testFindAllChildConfigContainer() {
-		configContainer.setConfigName("test.properties");
+		configContainer.setConfigName("test");
 		ConfigContainer childConfigContainer = configContainer
-				.findAllConfigContainer("test_custom.properties");
+				.findAllConfigContainer("test_custom");
 		assertNotNull(childConfigContainer);
 		configContainer.dispose();
 	}

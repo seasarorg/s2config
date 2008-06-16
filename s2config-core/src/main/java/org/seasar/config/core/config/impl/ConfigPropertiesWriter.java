@@ -19,10 +19,11 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	private boolean changed = false;
 
 	public void open(String configName) {
-		File file = ResourceUtil.getResourceAsFile(configName, null);
+		String realConfigName = configName.concat(".properties");
+		File file = ResourceUtil.getResourceAsFile(realConfigName, null);
 		configFilePath = file.getAbsolutePath();
 		try {
-			properties = ResourceUtil.getProperties(configName);
+			properties = ResourceUtil.getProperties(realConfigName);
 		} catch (ResourceNotFoundRuntimeException e) {
 			properties = new Properties();
 		}
