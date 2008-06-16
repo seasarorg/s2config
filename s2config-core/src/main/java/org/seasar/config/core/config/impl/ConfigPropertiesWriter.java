@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import org.seasar.config.core.config.AbstractConfigWriter;
@@ -30,6 +31,16 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 		changed = false;
 	}
 
+	private void closeOutputStream(OutputStream os) {
+		if (os != null) {
+			try {
+				os.close();
+			} catch (IOException e) {
+				throw new IORuntimeException(e);
+			}
+		}
+	}
+
 	public synchronized void flash() {
 		if (!changed) {
 			return;
@@ -43,13 +54,7 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 		} catch (IOException e) {
 			throw new IORuntimeException(e);
 		} finally {
-			if (fos != null) {
-				try {
-					fos.close();
-				} catch (IOException e) {
-					throw new IORuntimeException(e);
-				}
-			}
+			closeOutputStream(fos);
 		}
 		changed = false;
 	}
