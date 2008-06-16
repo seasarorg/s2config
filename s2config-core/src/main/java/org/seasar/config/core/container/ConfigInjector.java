@@ -1,0 +1,131 @@
+package org.seasar.config.core.container;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.seasar.config.core.autodetector.ConfigClassAutoDetector;
+import org.seasar.config.core.config.ConfigValidator;
+import org.seasar.config.core.config.annotation.Config;
+import org.seasar.config.core.config.annotation.ConfigKey;
+import org.seasar.framework.beans.BeanDesc;
+import org.seasar.framework.beans.PropertyDesc;
+import org.seasar.framework.beans.factory.BeanDescFactory;
+import org.seasar.framework.container.ComponentDef;
+import org.seasar.framework.container.S2Container;
+import org.seasar.framework.container.util.SmartDeployUtil;
+import org.seasar.framework.container.util.Traversal;
+import org.seasar.framework.util.ClassTraversal;
+import org.seasar.framework.util.ClassUtil;
+import org.seasar.framework.util.tiger.ReflectionUtil;
+
+public class ConfigInjector {
+
+	private ConfigClassAutoDetector configClassAutoDetector;
+
+	private ConfigValidator configValidator;
+
+	private List<Class<?>> targetClassList = new ArrayList<Class<?>>();
+
+	private S2Container s2Container;
+
+	private void register() {
+		this.registerSmartDepolyComponent(s2Container.getRoot());
+		this.registerS2Component(s2Container.getRoot());
+	}
+
+	private void registerS2Component(S2Container s2Container) {
+		Traversal.forEachComponent(s2Container,
+				new Traversal.ComponentDefHandler() {
+					public Object processComponent(ComponentDef componentDef) {
+						Class<?> clazz = componentDef.getComponentClass();
+						if (clazz != null) {
+							if (configValidator.isValid(clazz)) {
+								if (!targetClassList.contains(clazz)) {
+									targetClassList.add(clazz);
+								}
+							}
+						}
+						return null;
+					}
+				});
+	}
+
+	private void registerSmartDepolyComponent(S2Container s2Container) {
+		if (SmartDeployUtil.isSmartdeployMode(s2Container)) {
+			this.configClassAutoDetector
+					.detect(new ClassTraversal.ClassHandler() {
+						public void processClass(String packageName,
+								String shortClassName) {
+							String name = ClassUtil.concatName(packageName,
+									shortClassName);
+							Class<?> clazz = ReflectionUtil
+									.forNameNoException(name);
+							if (!targetClassList.contains(clazz)) {
+								targetClassList.add(clazz);
+							}
+						}
+					});
+		}
+	}
+
+	public void inject(ConfigContainer rootConfigContainer) {
+		this.register();
+		for (Class<?> clazz : this.targetClassList) {
+			Object target = this.s2Container.getRoot().getComponent(clazz);
+			Config config = clazz.getAnnotation(Config.class);
+			ConfigContainer configContainer = rootConfigContainer
+					.findAllConfigContainer(config.value());
+			if (configContainer != null) {
+				BeanDesc beanDesc = BeanDescFactory.getBeanDesc(clazz);
+				for (int i = 0; i < beanDesc.getPropertyDescSize(); i++) {
+					PropertyDesc propDesc = beanDesc.getPropertyDesc(i);
+					if (propDesc.isWritable()) {
+						String configKeyName = propDesc.getPropertyName();
+						ConfigKey configKey = propDesc.getField()
+								.getAnnotation(ConfigKey.class);
+						if (configKey != null) {
+							configKeyName = configKey.value();
+						}
+						Object value = configContainer.findAllConfigValue(
+								configKeyName, null);
+						propDesc.setValue(target, value);
+					}
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * @return the configClassAutoDetector
+	 */
+	public ConfigClassAutoDetector getConfigClassAutoDetector() {
+		return configClassAutoDetector;
+	}
+
+	/**
+	 * @param configClassAutoDetector
+	 *            the configClassAutoDetector to set
+	 */
+	public void setConfigClassAutoDetector(
+			ConfigClassAutoDetector configClassAutoDetector) {
+		this.configClassAutoDetector = configClassAutoDetector;
+	}
+
+	/**
+	 * @param container
+	 *            the s2Container to set
+	 */
+	public void setS2Container(S2Container container) {
+		s2Container = container;
+	}
+
+	/**
+	 * @param configValidator
+	 *            the configValidator to set
+	 */
+	public void setConfigValidator(ConfigValidator configValidator) {
+		this.configValidator = configValidator;
+	}
+
+}

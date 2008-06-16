@@ -2,7 +2,18 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
 	"http://www.seasar.org/dtd/components24.dtd">
 <components>
+	<include path="aop.dicon"/>
+	
+	<include path="convention.dicon"
+		condition="@org.seasar.config.core.util.DiconConditionUtil@hasConvention()" />
+
+	<component name="configValidator" class="org.seasar.config.core.config.ConfigValidator"/>
+	<component name="configClassAutoDetector" class="org.seasar.config.core.autodetector.ConfigClassAutoDetector"/>
+	<component class="org.seasar.config.core.container.ConfigInjector">
+	</component>
+
 	<component class="org.seasar.config.core.config.impl.ConfigPropertiesWriter" instance="prototype"/>
 	<component class="org.seasar.config.core.config.impl.ConfigPropertiesReader" instance="prototype"/>
-	<component class="org.seasar.config.core.container.ConfigContainer" instance="prototype"/>
+	<component name="configContainer" class="org.seasar.config.core.container.ConfigContainer" instance="prototype"/>
+
 </components>

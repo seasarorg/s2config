@@ -5,4 +5,5 @@
 	<include path="convention.dicon"/>
 	<include path="aop.dicon"/>
 	<include path="s2config-core.dicon"/>
+
 </components>

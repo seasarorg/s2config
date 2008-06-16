@@ -125,7 +125,7 @@ public class ConfigContainer implements Disposable {
 	/**
 	 * コンフィグコンテナを初期化します．
 	 */
-	private synchronized void initialize() {
+	public synchronized void initialize() {
 		if (initialized) {
 			return;
 		}
