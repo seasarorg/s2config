@@ -5,5 +5,12 @@
 	<include path="convention.dicon"/>
 	<include path="aop.dicon"/>
 	<include path="s2config-core.dicon"/>
+	
+	<component class="org.seasar.config.core.container.ConfigContainer">
+		<property name="configName">"test"</property>
+		<initMethod name="initialize"/>
+		<initMethod name="inject"/>
+	</component>
+	
 
 </components>

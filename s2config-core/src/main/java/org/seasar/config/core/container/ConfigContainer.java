@@ -22,6 +22,7 @@ public class ConfigContainer implements Disposable {
 	private ConfigContainer parentConfigContainer;
 	private ConfigContainer childConfigContainer;
 	private S2Container s2Container;
+	private ConfigInjector configInjector;
 
 	/**
 	 * コンフィグコンテナを破棄します．
@@ -35,6 +36,10 @@ public class ConfigContainer implements Disposable {
 		if (this.childConfigContainer != null) {
 			this.childConfigContainer.dispose();
 		}
+	}
+
+	public void inject() {
+		this.configInjector.inject(this);
 	}
 
 	/**
@@ -135,9 +140,8 @@ public class ConfigContainer implements Disposable {
 		if (env != null) {
 			childConfigContainer = (ConfigContainer) s2Container
 					.getComponent(ConfigContainer.class);
-			String[] configNameSplit = configName.split("\\.");
 			childConfigContainer.setConfigName(String.format(
-					"%s_%s.properties", configNameSplit[0], env));
+					"%s_%s.properties", configName, env));
 			childConfigContainer.initialize();
 			childConfigContainer.setParentConfigContainer(this);
 		}
@@ -185,5 +189,13 @@ public class ConfigContainer implements Disposable {
 
 	public void sync() {
 		this.configWriter.flash();
+	}
+
+	/**
+	 * @param configInjector
+	 *            the configInjector to set
+	 */
+	public void setConfigInjector(ConfigInjector configInjector) {
+		this.configInjector = configInjector;
 	}
 }
