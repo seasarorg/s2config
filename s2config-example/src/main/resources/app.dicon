@@ -4,5 +4,5 @@
 <components>
 	<include path="convention.dicon"/>
 	<include path="aop.dicon"/>
-	<include path="config-core.dicon"/>
+	<include path="config.dicon"/>
 </components>
