@@ -14,11 +14,14 @@ import org.seasar.framework.container.ComponentDef;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.util.SmartDeployUtil;
 import org.seasar.framework.container.util.Traversal;
+import org.seasar.framework.log.Logger;
 import org.seasar.framework.util.ClassTraversal;
 import org.seasar.framework.util.ClassUtil;
 import org.seasar.framework.util.tiger.ReflectionUtil;
 
 public class ConfigInjector {
+
+	private static Logger log = Logger.getLogger(ConfigInjector.class);
 
 	private ConfigClassAutoDetector configClassAutoDetector;
 
@@ -88,6 +91,15 @@ public class ConfigInjector {
 						}
 						Object value = configContainer.findAllConfigValue(
 								configKeyName, null);
+						if (value != null) {
+							log
+									.debug(String
+											.format(
+													"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
+													propDesc, config.value(),
+													configKeyName, value
+															.toString()));
+						}
 						propDesc.setValue(target, value);
 					}
 				}

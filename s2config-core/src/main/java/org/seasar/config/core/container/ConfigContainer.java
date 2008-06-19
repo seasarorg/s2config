@@ -39,6 +39,7 @@ public class ConfigContainer implements Disposable {
 	}
 
 	public void inject() {
+		this.initialize();
 		this.configInjector.inject(this);
 	}
 
