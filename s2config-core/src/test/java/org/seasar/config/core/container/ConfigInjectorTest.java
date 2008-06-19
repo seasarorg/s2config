@@ -7,15 +7,12 @@ import org.seasar.framework.unit.Seasar2;
 @RunWith(Seasar2.class)
 public class ConfigInjectorTest {
 
-	private ConfigInjector configInjector;
-
 	private ConfigContainer configContainer;
 
 	@Test
 	public void testInject() {
 		configContainer.setConfigName("test");
-		configContainer.initialize();
-		configInjector.inject(configContainer);
+		configContainer.inject();
 	}
 
 }
