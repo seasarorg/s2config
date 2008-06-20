@@ -27,7 +27,7 @@ public class ConfigInjector {
 
 	private ConfigValidator configValidator;
 
-	private List<Class<?>> targetClassList = new ArrayList<Class<?>>();
+	private List<ComponentDef> targetComponentDefList = new ArrayList<ComponentDef>();
 
 	private S2Container s2Container;
 
@@ -43,8 +43,9 @@ public class ConfigInjector {
 						Class<?> clazz = componentDef.getComponentClass();
 						if (clazz != null) {
 							if (configValidator.isValid(clazz)) {
-								if (!targetClassList.contains(clazz)) {
-									targetClassList.add(clazz);
+								if (!targetComponentDefList
+										.contains(componentDef)) {
+									targetComponentDefList.add(componentDef);
 								}
 							}
 						}
@@ -53,7 +54,7 @@ public class ConfigInjector {
 				});
 	}
 
-	private void registerSmartDepolyComponent(S2Container s2Container) {
+	private void registerSmartDepolyComponent(final S2Container s2Container) {
 		if (SmartDeployUtil.isSmartdeployMode(s2Container)) {
 			this.configClassAutoDetector
 					.detect(new ClassTraversal.ClassHandler() {
@@ -63,8 +64,10 @@ public class ConfigInjector {
 									shortClassName);
 							Class<?> clazz = ReflectionUtil
 									.forNameNoException(name);
-							if (!targetClassList.contains(clazz)) {
-								targetClassList.add(clazz);
+							ComponentDef componentDef = s2Container
+									.getComponentDef(clazz);
+							if (!targetComponentDefList.contains(componentDef)) {
+								targetComponentDefList.add(componentDef);
 							}
 						}
 					});
@@ -73,8 +76,9 @@ public class ConfigInjector {
 
 	public void inject(ConfigContainer rootConfigContainer) {
 		this.register();
-		for (Class<?> clazz : this.targetClassList) {
-			Object target = this.s2Container.getRoot().getComponent(clazz);
+		for (final ComponentDef componentDef : this.targetComponentDefList) {
+			Object target = componentDef.getComponent();
+			Class<?> clazz = componentDef.getComponentClass();
 			Config config = clazz.getAnnotation(Config.class);
 			ConfigContainer configContainer = rootConfigContainer
 					.findAllConfigContainer(config.value());

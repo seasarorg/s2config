@@ -8,7 +8,6 @@
 	
 	<component class="org.seasar.config.core.container.ConfigContainer">
 		<property name="configName">"test"</property>
-		<initMethod name="inject"/>
 	</component>
 
 </components>
