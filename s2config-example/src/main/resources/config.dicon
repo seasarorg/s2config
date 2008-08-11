@@ -5,6 +5,6 @@
 	<include path="s2config-core.dicon"/>
 	<component class="org.seasar.config.core.container.ConfigContainer">
 		<property name="configName">"log4j"</property>
-		<initMethod name="inject"/>
+		<initMethod name="loadToBeans"/>
 	</component>	
 </components>
