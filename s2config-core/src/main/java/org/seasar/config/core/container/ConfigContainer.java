@@ -38,12 +38,12 @@ public class ConfigContainer implements Disposable {
 		}
 	}
 
-	public void loadBeans() {
+	public void loadToBeans() {
 		this.initialize();
 		this.configInjector.inject(this, true);
 	}
 	
-	public void saveConfig(){
+	public void saveFromBeans(){
 		this.initialize();
 		this.configInjector.inject(this, false);		
 	}
