@@ -74,7 +74,7 @@ public class ConfigInjector {
 		}
 	}
 
-	public void inject(ConfigContainer rootConfigContainer) {
+	public void inject(ConfigContainer rootConfigContainer,  boolean toBeans) {
 		this.register();
 		for (final ComponentDef componentDef : this.targetComponentDefList) {
 			Object target = componentDef.getComponent();
@@ -86,30 +86,45 @@ public class ConfigInjector {
 				BeanDesc beanDesc = BeanDescFactory.getBeanDesc(clazz);
 				for (int i = 0; i < beanDesc.getPropertyDescSize(); i++) {
 					PropertyDesc propDesc = beanDesc.getPropertyDesc(i);
-					if (propDesc.isWritable()) {
+					if (toBeans && propDesc.isWritable()) {
+						putConfigValueToBeanValue(target, config,
+								configContainer, propDesc);
+					}else if (propDesc.isReadable()){
 						String configKeyName = propDesc.getPropertyName();
 						ConfigKey configKey = propDesc.getField()
-								.getAnnotation(ConfigKey.class);
+						.getAnnotation(ConfigKey.class);
 						if (configKey != null) {
 							configKeyName = configKey.value();
 						}
-						Object value = configContainer.findAllConfigValue(
-								configKeyName, null);
-						if (value != null) {
-							log
-									.debug(String
-											.format(
-													"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
-													propDesc, config.value(),
-													configKeyName, value
-															.toString()));
-						}
-						propDesc.setValue(target, value);
+						Object value = propDesc.getValue(target);
+						configContainer.putConfigValue(configKeyName, value);
 					}
 				}
 			}
 
 		}
+	}
+
+	private void putConfigValueToBeanValue(Object target, Config config,
+			ConfigContainer configContainer, PropertyDesc propDesc) {
+		String configKeyName = propDesc.getPropertyName();
+		ConfigKey configKey = propDesc.getField()
+				.getAnnotation(ConfigKey.class);
+		if (configKey != null) {
+			configKeyName = configKey.value();
+		}
+		Object value = configContainer.findAllConfigValue(
+				configKeyName, null);
+		if (value != null) {
+			log
+					.debug(String
+							.format(
+									"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
+									propDesc, config.value(),
+									configKeyName, value
+											.toString()));
+		}
+		propDesc.setValue(target, value);
 	}
 
 	/**

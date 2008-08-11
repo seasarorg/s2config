@@ -12,7 +12,7 @@ public class ConfigInjectorTest {
 	@Test
 	public void testInject() {
 		configContainer.setConfigName("test");
-		configContainer.inject();
+		configContainer.loadBeans();
 	}
 
 }
