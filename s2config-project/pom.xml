@@ -4,7 +4,7 @@
 	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-project</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.1-RC1-SNAPSHOT</version>
+	<version>1.0.0-RC1-SNAPSHOT</version>
 	<name>S2Config Project</name>
 	<description></description>
 	<url>http://s2config.sandbox.seasar.org/</url>
