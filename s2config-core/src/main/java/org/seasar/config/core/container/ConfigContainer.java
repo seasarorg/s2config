@@ -38,14 +38,20 @@ public class ConfigContainer implements Disposable {
 		}
 	}
 
+	/**
+	 * 外部設定ファイルからConfigに設定を読み込みます．
+	 */
 	public void loadToBeans() {
 		this.initialize();
 		this.configInjector.inject(this, true);
 	}
-	
-	public void saveFromBeans(){
+
+	/**
+	 * Configから外部設定ファイルに設定を書き込みます．
+	 */
+	public void saveFromBeans() {
 		this.initialize();
-		this.configInjector.inject(this, false);		
+		this.configInjector.inject(this, false);
 	}
 
 	/**
@@ -193,6 +199,9 @@ public class ConfigContainer implements Disposable {
 		s2Container = container;
 	}
 
+	/**
+	 * 設定ファイルに同期します．
+	 */
 	public void sync() {
 		this.configWriter.flash();
 	}
