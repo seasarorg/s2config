@@ -11,6 +11,7 @@ import org.seasar.framework.beans.BeanDesc;
 import org.seasar.framework.beans.PropertyDesc;
 import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.framework.container.ComponentDef;
+import org.seasar.framework.container.ComponentNotFoundRuntimeException;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.util.SmartDeployUtil;
 import org.seasar.framework.container.util.Traversal;
@@ -27,7 +28,8 @@ public class ConfigInjector {
 
 	private ConfigValidator configValidator;
 
-	private List<ComponentDef> targetComponentDefList = new ArrayList<ComponentDef>();
+	private List<ComponentDef> targetComponentDefList =
+		new ArrayList<ComponentDef>();
 
 	private S2Container s2Container;
 
@@ -38,61 +40,69 @@ public class ConfigInjector {
 
 	private void registerS2Component(S2Container s2Container) {
 		Traversal.forEachComponent(s2Container,
-				new Traversal.ComponentDefHandler() {
-					public Object processComponent(ComponentDef componentDef) {
-						Class<?> clazz = componentDef.getComponentClass();
-						if (clazz != null) {
-							if (configValidator.isValid(clazz)) {
-								if (!targetComponentDefList
-										.contains(componentDef)) {
-									targetComponentDefList.add(componentDef);
-								}
+			new Traversal.ComponentDefHandler() {
+
+				public Object processComponent(ComponentDef componentDef) {
+					Class<?> clazz = componentDef.getComponentClass();
+					if (clazz != null) {
+						if (configValidator.isValid(clazz)) {
+							if (!targetComponentDefList.contains(componentDef)) {
+								targetComponentDefList.add(componentDef);
 							}
 						}
-						return null;
 					}
-				});
+					return null;
+				}
+			});
 	}
 
 	private void registerSmartDepolyComponent(final S2Container s2Container) {
 		if (SmartDeployUtil.isSmartdeployMode(s2Container)) {
 			this.configClassAutoDetector
-					.detect(new ClassTraversal.ClassHandler() {
-						public void processClass(String packageName,
-								String shortClassName) {
-							String name = ClassUtil.concatName(packageName,
-									shortClassName);
-							Class<?> clazz = ReflectionUtil
-									.forNameNoException(name);
-							ComponentDef componentDef = s2Container
-									.getComponentDef(clazz);
-							if (!targetComponentDefList.contains(componentDef)) {
-								targetComponentDefList.add(componentDef);
+				.detect(new ClassTraversal.ClassHandler() {
+
+					public void processClass(String packageName,
+						String shortClassName) {
+						String name =
+							ClassUtil.concatName(packageName, shortClassName);
+						Class<?> clazz =
+							ReflectionUtil.forNameNoException(name);
+						if (clazz != null) {
+							try {
+								ComponentDef componentDef =
+									s2Container.getComponentDef(clazz);
+								if (!targetComponentDefList
+									.contains(componentDef)) {
+									targetComponentDefList.add(componentDef);
+								}
+							} catch (ComponentNotFoundRuntimeException e) {
+								;
 							}
 						}
-					});
+					}
+				});
 		}
 	}
 
-	public void inject(ConfigContainer rootConfigContainer,  boolean toBeans) {
+	public void inject(ConfigContainer rootConfigContainer, boolean toBeans) {
 		this.register();
 		for (final ComponentDef componentDef : this.targetComponentDefList) {
 			Object target = componentDef.getComponent();
 			Class<?> clazz = componentDef.getComponentClass();
 			Config config = clazz.getAnnotation(Config.class);
-			ConfigContainer configContainer = rootConfigContainer
-					.findAllConfigContainer(config.value());
+			ConfigContainer configContainer =
+				rootConfigContainer.findAllConfigContainer(config.value());
 			if (configContainer != null) {
 				BeanDesc beanDesc = BeanDescFactory.getBeanDesc(clazz);
 				for (int i = 0; i < beanDesc.getPropertyDescSize(); i++) {
 					PropertyDesc propDesc = beanDesc.getPropertyDesc(i);
 					if (toBeans && propDesc.isWritable()) {
 						putConfigValueToBeanValue(target, config,
-								configContainer, propDesc);
-					}else if (propDesc.isReadable()){
+							configContainer, propDesc);
+					} else if (propDesc.isReadable()) {
 						String configKeyName = propDesc.getPropertyName();
-						ConfigKey configKey = propDesc.getField()
-						.getAnnotation(ConfigKey.class);
+						ConfigKey configKey =
+							propDesc.getField().getAnnotation(ConfigKey.class);
 						if (configKey != null) {
 							configKeyName = configKey.value();
 						}
@@ -106,23 +116,23 @@ public class ConfigInjector {
 	}
 
 	private void putConfigValueToBeanValue(Object target, Config config,
-			ConfigContainer configContainer, PropertyDesc propDesc) {
+		ConfigContainer configContainer, PropertyDesc propDesc) {
 		String configKeyName = propDesc.getPropertyName();
-		ConfigKey configKey = propDesc.getField()
-				.getAnnotation(ConfigKey.class);
+		ConfigKey configKey =
+			propDesc.getField().getAnnotation(ConfigKey.class);
 		if (configKey != null) {
 			configKeyName = configKey.value();
 		}
-		Object value = configContainer.findAllConfigValue(
-				configKeyName, null);
+		Object value =
+			configContainer.findAllConfigValue(Object.class, configKeyName,
+				null);
 		if (value != null) {
 			log
-					.debug(String
-							.format(
-									"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
-									propDesc, config.value(),
-									configKeyName, value
-											.toString()));
+				.debug(String
+					.format(
+						"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
+						propDesc, config.value(), configKeyName, value
+							.toString()));
 		}
 		propDesc.setValue(target, value);
 	}
@@ -139,7 +149,7 @@ public class ConfigInjector {
 	 *            the configClassAutoDetector to set
 	 */
 	public void setConfigClassAutoDetector(
-			ConfigClassAutoDetector configClassAutoDetector) {
+		ConfigClassAutoDetector configClassAutoDetector) {
 		this.configClassAutoDetector = configClassAutoDetector;
 	}
 

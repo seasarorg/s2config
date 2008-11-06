@@ -14,7 +14,8 @@ public class ConfigContainerTest {
 	@Test
 	public void testFindAllConfigValue() {
 		configContainer.setConfigName("test");
-		String result = configContainer.findAllConfigValue("test", null);
+		String result =
+			configContainer.findAllConfigValue(String.class, "test");
 		assertNotNull(result);
 		System.out.println(result);
 		configContainer.dispose();
@@ -23,8 +24,8 @@ public class ConfigContainerTest {
 	@Test
 	public void testFindAllChildConfigContainer() {
 		configContainer.setConfigName("test");
-		ConfigContainer childConfigContainer = configContainer
-				.findAllConfigContainer("test_custom");
+		ConfigContainer childConfigContainer =
+			configContainer.findAllConfigContainer("test_custom");
 		assertNotNull(childConfigContainer);
 		configContainer.dispose();
 	}

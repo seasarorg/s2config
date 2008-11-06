@@ -13,8 +13,9 @@ public class ConfigPropertiesReaderTest {
 
 	@Test
 	public void testReadConfigValue() {
-		configPropertiesReader.open("test.properties");
-		int ret = configPropertiesReader.readConfigValue("xxx", 0);
+		configPropertiesReader.open("test");
+		int ret =
+			configPropertiesReader.readConfigValue(Integer.class, "xxx", 0);
 		Assert.assertEquals(100, ret);
 	}
 

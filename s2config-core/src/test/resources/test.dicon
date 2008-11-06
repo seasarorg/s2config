@@ -6,7 +6,7 @@
 	<include path="aop.dicon"/>
 	<include path="s2config-core.dicon"/>
 	
-	<component class="org.seasar.config.core.container.ConfigContainer">
+	<component class="org.seasar.config.core.container.impl.ConfigContainerImpl" instance="prototype">
 		<property name="configName">"test"</property>
 	</component>
 

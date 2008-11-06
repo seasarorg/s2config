@@ -1,6 +1,7 @@
 package org.seasar.config.core.util;
 
 import org.seasar.config.core.container.ConfigContainer;
+import org.seasar.config.core.container.impl.ConfigContainerImpl;
 
 public final class ConfigContainerTraversal {
 
@@ -8,11 +9,11 @@ public final class ConfigContainerTraversal {
 	 * コンフィグコンテナを処理するためのハンドラです．
 	 * 
 	 * @author junichi
-	 * 
 	 * @param <T>
 	 *            ハンドラの戻り値の型
 	 */
 	public static interface ConfigContainerHandler<T> {
+
 		public T proccess(ConfigContainer container);
 	}
 
@@ -27,10 +28,10 @@ public final class ConfigContainerTraversal {
 	 *            コンテナを処理するハンドラ
 	 * @return ハンドラからの戻り値
 	 */
-	public static <T> T forEachChild(ConfigContainer rootContainer,
-			ConfigContainerHandler<T> handler) {
-		for (ConfigContainer currentContainer = rootContainer; currentContainer != null; currentContainer = currentContainer
-				.getChildConfigContainer()) {
+	public static <T> T forEachChild(ConfigContainerImpl rootContainer,
+		ConfigContainerHandler<T> handler) {
+		for (ConfigContainer currentContainer = rootContainer; currentContainer != null; currentContainer =
+			currentContainer.getChildConfigContainer()) {
 			T result = handler.proccess(currentContainer);
 			if (result != null) {
 				return result;
@@ -50,16 +51,16 @@ public final class ConfigContainerTraversal {
 	 *            コンテナを処理するハンドラ
 	 * @return ハンドラからの戻り値
 	 */
-	public static <T> T forEachParent(ConfigContainer rootContainer,
-			ConfigContainerHandler<T> handler) {
+	public static <T> T forEachParent(ConfigContainerImpl rootContainer,
+		ConfigContainerHandler<T> handler) {
 		ConfigContainer currentContainer = rootContainer;
 		ConfigContainer lastChildContainer = null;
-		for (; currentContainer != null; currentContainer = currentContainer
-				.getChildConfigContainer()) {
+		for (; currentContainer != null; currentContainer =
+			currentContainer.getChildConfigContainer()) {
 			lastChildContainer = currentContainer;
 		}
-		for (currentContainer = lastChildContainer; currentContainer != null; currentContainer = currentContainer
-				.getParentConfigContainer()) {
+		for (currentContainer = lastChildContainer; currentContainer != null; currentContainer =
+			currentContainer.getParentConfigContainer()) {
 			T result = handler.proccess(currentContainer);
 			if (result != null) {
 				return result;

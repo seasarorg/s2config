@@ -20,8 +20,10 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 
 	private static final String PACKAGE_NAME_CONFIG = "config";
 
-	protected final List<Class<? extends Annotation>> annotations = CollectionsUtil
-			.newArrayList();
+	private static final String PACKAGE_NAME_DTO = "dto";
+
+	protected final List<Class<? extends Annotation>> annotations =
+		CollectionsUtil.newArrayList();
 
 	protected NamingConvention namingConvention;
 
@@ -43,16 +45,20 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 		this.classLoader = classLoader;
 	}
 
+	private void addTargetPackageSubName(String packageSubName) {
+		for (final String rootPackageName : namingConvention
+			.getRootPackageNames()) {
+			final String packageName =
+				ClassUtil.concatName(rootPackageName, packageSubName);
+			this.addTargetPackageName(packageName);
+		}
+	}
+
 	@InitMethod
 	public void init() {
 		if (this.namingConvention != null) {
-			final String taskPackageName = PACKAGE_NAME_CONFIG;
-			for (final String rootPackageName : this.namingConvention
-					.getRootPackageNames()) {
-				final String packageName = ClassUtil.concatName(
-						rootPackageName, taskPackageName);
-				this.addTargetPackageName(packageName);
-			}
+			addTargetPackageSubName(PACKAGE_NAME_CONFIG);
+			addTargetPackageSubName(PACKAGE_NAME_DTO);
 		}
 	}
 
@@ -65,16 +71,17 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 		for (int i = 0; i < getTargetPackageNameSize(); i++) {
 			final String packageName = getTargetPackageName(i);
 			for (final Resources resources : ResourcesUtil
-					.getResourcesTypes(packageName)) {
+				.getResourcesTypes(packageName)) {
 				try {
 					resources.forEach(new ClassHandler() {
+
 						public void processClass(final String packageName,
-								final String shortClassName) {
+							final String shortClassName) {
 							if (packageName.startsWith(packageName)
-									&& ConfigClassAutoDetector.this.isConfig(
-											packageName, shortClassName)) {
+								&& ConfigClassAutoDetector.this.isConfig(
+									packageName, shortClassName)) {
 								handler.processClass(packageName,
-										shortClassName);
+									shortClassName);
 							}
 						}
 					});
@@ -86,7 +93,7 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	}
 
 	protected boolean isConfig(final String packageName,
-			final String shortClassName) {
+		final String shortClassName) {
 		final String name = ClassUtil.concatName(packageName, shortClassName);
 		final Class<?> clazz = this.getClass(name);
 		return configValidator.isValid(clazz);
