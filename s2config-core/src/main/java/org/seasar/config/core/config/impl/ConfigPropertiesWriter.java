@@ -16,7 +16,9 @@ import org.seasar.framework.util.ResourceUtil;
 public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
 	private Properties properties;
+
 	private String configFilePath;
+
 	private boolean changed = false;
 
 	public void open(String configName) {

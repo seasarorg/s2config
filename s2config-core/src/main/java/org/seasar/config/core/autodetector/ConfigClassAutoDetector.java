@@ -17,7 +17,6 @@ import org.seasar.framework.util.tiger.CollectionsUtil;
 import org.seasar.framework.util.tiger.ReflectionUtil;
 
 public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
-
 	private static final String PACKAGE_NAME_CONFIG = "config";
 
 	private static final String PACKAGE_NAME_DTO = "dto";
@@ -50,13 +49,13 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 			.getRootPackageNames()) {
 			final String packageName =
 				ClassUtil.concatName(rootPackageName, packageSubName);
-			this.addTargetPackageName(packageName);
+			addTargetPackageName(packageName);
 		}
 	}
 
 	@InitMethod
 	public void init() {
-		if (this.namingConvention != null) {
+		if (namingConvention != null) {
 			addTargetPackageSubName(PACKAGE_NAME_CONFIG);
 			addTargetPackageSubName(PACKAGE_NAME_DTO);
 		}
@@ -100,8 +99,8 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	}
 
 	protected Class<?> getClass(final String className) {
-		if (this.classLoader != null) {
-			return ReflectionUtil.forName(className, this.classLoader);
+		if (classLoader != null) {
+			return ReflectionUtil.forName(className, classLoader);
 		}
 		return ReflectionUtil.forNameNoException(className);
 	}

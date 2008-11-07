@@ -15,17 +15,17 @@ import org.seasar.framework.util.ResourceUtil;
  * @author junichi
  */
 public class ConfigPropertiesReader extends AbstractConfigReader {
-
 	private static Logger log = Logger.getLogger(ConfigPropertiesReader.class);
 
 	private Properties properties;
 
 	public void open(String configName) {
+		String configPropertiesName = configName.concat(".properties");
 		try {
-			properties =
-				ResourceUtil.getProperties(configName.concat(".properties"));
+			properties = ResourceUtil.getProperties(configPropertiesName);
 		} catch (ResourceNotFoundRuntimeException e) {
-			log.warn("プロパティファイルがみつかりません。", e);
+			log.warn(String.format("プロパティファイルがみつかりません。(%s)",
+				configPropertiesName));
 		}
 	}
 

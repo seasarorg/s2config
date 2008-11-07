@@ -91,20 +91,21 @@ public class ConfigInjector {
 			Class<?> clazz = componentDef.getComponentClass();
 			Config config = clazz.getAnnotation(Config.class);
 			ConfigContainer configContainer =
-				rootConfigContainer.findAllConfigContainer(config.value());
+				rootConfigContainer.findAllConfigContainer(config.name());
 			if (configContainer != null) {
 				BeanDesc beanDesc = BeanDescFactory.getBeanDesc(clazz);
 				for (int i = 0; i < beanDesc.getPropertyDescSize(); i++) {
 					PropertyDesc propDesc = beanDesc.getPropertyDesc(i);
-					if (toBeans && propDesc.isWritable()) {
+					String configKeyName = propDesc.getPropertyName();
+					ConfigKey configKey =
+						propDesc.getField().getAnnotation(ConfigKey.class);
+					if (toBeans && propDesc.isWritable()
+						&& !configKey.readOnly()) {
 						putConfigValueToBeanValue(target, config,
 							configContainer, propDesc);
 					} else if (propDesc.isReadable()) {
-						String configKeyName = propDesc.getPropertyName();
-						ConfigKey configKey =
-							propDesc.getField().getAnnotation(ConfigKey.class);
 						if (configKey != null) {
-							configKeyName = configKey.value();
+							configKeyName = configKey.name();
 						}
 						Object value = propDesc.getValue(target);
 						configContainer.putConfigValue(configKeyName, value);
@@ -121,7 +122,7 @@ public class ConfigInjector {
 		ConfigKey configKey =
 			propDesc.getField().getAnnotation(ConfigKey.class);
 		if (configKey != null) {
-			configKeyName = configKey.value();
+			configKeyName = configKey.name();
 		}
 		Object value =
 			configContainer.findAllConfigValue(Object.class, configKeyName,
@@ -131,7 +132,7 @@ public class ConfigInjector {
 				.debug(String
 					.format(
 						"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
-						propDesc, config.value(), configKeyName, value
+						propDesc, config.name(), configKeyName, value
 							.toString()));
 		}
 		propDesc.setValue(target, value);

@@ -3,15 +3,15 @@ package org.seasar.config.core.config;
 import org.seasar.config.core.config.annotation.Config;
 import org.seasar.config.core.config.annotation.ConfigKey;
 
-@Config("test")
+@Config(name = "test")
 public class ApplicationConfig {
 
 	public String env;
 
-	@ConfigKey("test")
+	@ConfigKey(name = "test")
 	public String hoge;
 
-	@ConfigKey("app.debug")
+	@ConfigKey(name = "app.debug")
 	public boolean debug;
 
 }
