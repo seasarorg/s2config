@@ -25,8 +25,10 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
 	public Map<String, Object> toMap() {
 		Map<String, Object> result = CollectionsUtil.newHashMap();
-		for (Object key : properties.keySet()) {
-			result.put((String) key, properties.get(key));
+		if (properties != null) {
+			for (Object key : properties.keySet()) {
+				result.put((String) key, properties.get(key));
+			}
 		}
 		return result;
 	}
@@ -79,8 +81,10 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	}
 
 	public <T extends Object> void writeConfigValue(String key, T value) {
-		properties.setProperty(key, value.toString());
-		changed = true;
+		if (value != null) {
+			properties.setProperty(key, value.toString());
+			changed = true;
+		}
 	}
 
 }
