@@ -81,7 +81,8 @@ public class ConfigInjector {
 		}
 	}
 
-	public void inject(ConfigContainer rootConfigContainer, boolean toBeans) {
+	public boolean inject(ConfigContainer rootConfigContainer, boolean toBeans) {
+		boolean result = false;
 		register();
 		for (final ComponentDef componentDef : targetComponentDefList) {
 			Object target = componentDef.getComponent();
@@ -100,19 +101,30 @@ public class ConfigInjector {
 						&& !configKey.readOnly()) {
 						putConfigValueToBeanValue(target, config,
 							configContainer, propDesc);
+						result = true;
 					} else if (propDesc.isReadable()) {
 						if (configKey != null) {
 							configKeyName = configKey.name();
 						}
 						Object value = propDesc.getValue(target);
 						configContainer.putConfigValue(configKeyName, value);
+						result = true;
 					}
 				}
 			}
 
 		}
+		return result;
 	}
 
+	/**
+	 * JavaBeansに設定値を読み込みます。８０
+	 * 
+	 * @param target
+	 * @param config
+	 * @param configContainer
+	 * @param propDesc
+	 */
 	private void putConfigValueToBeanValue(Object target, Config config,
 		ConfigContainer configContainer, PropertyDesc propDesc) {
 		String configKeyName = propDesc.getPropertyName();
@@ -121,16 +133,19 @@ public class ConfigInjector {
 		if (configKey != null) {
 			configKeyName = configKey.name();
 		}
-		Class<?> clazz = propDesc.getField().getType();
 		Object value =
-			configContainer.findAllConfigValue(clazz, configKeyName, null);
+			configContainer.findAllConfigValue(propDesc.getField().getType(),
+				configKeyName, null);
 		if (value != null) {
+			String currentValue =
+				propDesc.getValue(target) != null ? propDesc.getValue(target)
+					.toString() : null;
 			log
 				.debug(String
 					.format(
-						"PropertyDesc %s : configName = %s, configKeyName = %s, value = %s",
+						"[PropertyDesc %s : configName = %s, configKeyName = %s, value = %s] -> [targetClass %s : value = %s]",
 						propDesc, config.name(), configKeyName, value
-							.toString()));
+							.toString(), target.getClass(), currentValue));
 			propDesc.setValue(target, value);
 		}
 	}

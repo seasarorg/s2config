@@ -10,7 +10,7 @@ import org.seasar.framework.container.annotation.tiger.BindingType;
 
 public class ConfigContainerWrapper implements ConfigContainer {
 
-	private ConfigContainer configContainer;
+	private final ConfigContainer configContainer;
 
 	public ConfigContainerWrapper(ConfigContainer configContainer) {
 		this.configContainer = configContainer;
@@ -106,6 +106,10 @@ public class ConfigContainerWrapper implements ConfigContainer {
 
 	public void dispose() {
 		configContainer.dispose();
+	}
+
+	public boolean isLoaded() {
+		return configContainer.isLoaded();
 	}
 
 }

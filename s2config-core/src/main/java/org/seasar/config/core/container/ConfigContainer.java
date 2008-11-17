@@ -7,6 +7,8 @@ import org.seasar.framework.util.Disposable;
 
 public interface ConfigContainer extends Disposable {
 
+	boolean isLoaded();
+
 	/**
 	 * 外部設定ファイルからConfigに設定を読み込みます．
 	 */

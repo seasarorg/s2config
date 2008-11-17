@@ -36,6 +36,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	private ConfigInjector configInjector;
 
+	private boolean loaded;
+
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -44,8 +46,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 	public void dispose() {
 		configReader.close();
 		configWriter.close();
-		if (this.childConfigContainer != null) {
-			this.childConfigContainer.dispose();
+		if (childConfigContainer != null) {
+			childConfigContainer.dispose();
 		}
 	}
 
@@ -55,8 +57,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#loadToBeans()
 	 */
 	public void loadToBeans() {
-		this.initialize();
-		this.configInjector.inject(this, true);
+		initialize();
+		loaded = configInjector.inject(this, true);
 	}
 
 	/*
@@ -65,8 +67,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#saveFromBeans()
 	 */
 	public void saveFromBeans() {
-		this.initialize();
-		this.configInjector.inject(this, false);
+		initialize();
+		configInjector.inject(this, false);
 	}
 
 	/*
@@ -75,7 +77,7 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#findAllConfigContainer(java.lang.String)
 	 */
 	public ConfigContainer findAllConfigContainer(final String configName) {
-		this.initialize();
+		initialize();
 		ConfigContainer result =
 			ConfigContainerTraversal.forEachChild(this,
 				new ConfigContainerHandler<ConfigContainer>() {
@@ -106,7 +108,7 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 */
 	public <T> T findAllConfigValue(final Class<T> resultClass,
 		final String key, final T defaultValue) {
-		this.initialize();
+		initialize();
 		T result =
 			ConfigContainerTraversal.forEachParent(this,
 				new ConfigContainerHandler<T>() {
@@ -146,9 +148,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 *      java.lang.String, T)
 	 */
 	public <T> T getConfigValue(Class<T> resultClass, String key, T defaultValue) {
-		this.initialize();
-		T result =
-			this.configReader.readConfigValue(resultClass, key, defaultValue);
+		initialize();
+		T result = configReader.readConfigValue(resultClass, key, defaultValue);
 		return result;
 	}
 
@@ -217,8 +218,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 *      T)
 	 */
 	public <T> void putConfigValue(String key, T value) {
-		this.initialize();
-		this.configWriter.writeConfigValue(key, value);
+		initialize();
+		configWriter.writeConfigValue(key, value);
 	}
 
 	/*
@@ -283,7 +284,7 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#sync()
 	 */
 	public void sync() {
-		this.configWriter.flash();
+		configWriter.flash();
 	}
 
 	/*
@@ -293,5 +294,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 */
 	public void setConfigInjector(ConfigInjector configInjector) {
 		this.configInjector = configInjector;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
 	}
 }
