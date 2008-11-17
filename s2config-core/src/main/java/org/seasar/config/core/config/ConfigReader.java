@@ -1,6 +1,11 @@
 package org.seasar.config.core.config;
 
+import java.util.Map;
+
 public interface ConfigReader {
+	public Map<String, Object> toMap();
+
+	public void load(Map<String, Object> configResource);
 
 	public void open(String configName);
 

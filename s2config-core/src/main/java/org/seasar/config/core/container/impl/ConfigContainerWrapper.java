@@ -1,5 +1,7 @@
 package org.seasar.config.core.container.impl;
 
+import java.util.Map;
+
 import org.seasar.config.core.config.ConfigReader;
 import org.seasar.config.core.config.ConfigWriter;
 import org.seasar.config.core.container.ConfigContainer;
@@ -110,6 +112,21 @@ public class ConfigContainerWrapper implements ConfigContainer {
 
 	public boolean isLoaded() {
 		return configContainer.isLoaded();
+	}
+
+	public Map<String, Object> getConfigMap() {
+		return configContainer.getConfigMap();
+	}
+
+	public void loadFromMap(String configName,
+		Map<String, Map<String, Object>> resourceMap) {
+		configContainer.loadFromMap(configName, resourceMap);
+
+	}
+
+	public void saveToMap(Map<String, Map<String, Object>> resourceMap) {
+		configContainer.saveToMap(resourceMap);
+
 	}
 
 }

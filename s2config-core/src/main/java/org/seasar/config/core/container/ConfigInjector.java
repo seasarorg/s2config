@@ -143,9 +143,10 @@ public class ConfigInjector {
 			log
 				.debug(String
 					.format(
-						"[PropertyDesc %s : configName = %s, configKeyName = %s, value = %s] -> [targetClass %s : value = %s]",
+						"[PropertyDesc %s : configName = %s, configKeyName = %s value = %s] -> [targetClass %s:%d : value = %s]",
 						propDesc, config.name(), configKeyName, value
-							.toString(), target.getClass(), currentValue));
+							.toString(), target.getClass(), target.getClass()
+							.hashCode(), currentValue));
 			propDesc.setValue(target, value);
 		}
 	}

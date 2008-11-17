@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.Properties;
 
 import org.seasar.config.core.config.AbstractConfigWriter;
@@ -12,6 +13,7 @@ import org.seasar.config.core.exception.FileNotFoundRuntimeException;
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.util.ResourceUtil;
+import org.seasar.framework.util.tiger.CollectionsUtil;
 
 public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
@@ -20,6 +22,14 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	private String configFilePath;
 
 	private boolean changed = false;
+
+	public Map<String, Object> toMap() {
+		Map<String, Object> result = CollectionsUtil.newHashMap();
+		for (Object key : properties.keySet()) {
+			result.put((String) key, properties.get(key));
+		}
+		return result;
+	}
 
 	public void open(String configName) {
 		try {
@@ -47,22 +57,24 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 		if (!changed) {
 			return;
 		}
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(configFilePath);
-			properties.store(fos, null);
-		} catch (FileNotFoundException e) {
-			throw new FileNotFoundRuntimeException(e);
-		} catch (IOException e) {
-			throw new IORuntimeException(e);
-		} finally {
-			closeOutputStream(fos);
+		if (configFilePath != null) {
+			FileOutputStream fos = null;
+			try {
+				fos = new FileOutputStream(configFilePath);
+				properties.store(fos, null);
+			} catch (FileNotFoundException e) {
+				throw new FileNotFoundRuntimeException(e);
+			} catch (IOException e) {
+				throw new IORuntimeException(e);
+			} finally {
+				closeOutputStream(fos);
+			}
 		}
 		changed = false;
 	}
 
 	public void close() {
-		this.flash();
+		flash();
 		properties = null;
 	}
 

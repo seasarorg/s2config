@@ -1,5 +1,7 @@
 package org.seasar.config.core.container.impl;
 
+import java.util.Map;
+
 import org.seasar.config.core.config.ConfigReader;
 import org.seasar.config.core.config.ConfigWriter;
 import org.seasar.config.core.container.ConfigContainer;
@@ -10,6 +12,7 @@ import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
 import org.seasar.framework.log.Logger;
+import org.seasar.framework.util.tiger.CollectionsUtil;
 
 /**
  * コンフィグを管理するコンテナクラスです．
@@ -299,4 +302,55 @@ public class ConfigContainerImpl implements ConfigContainer {
 	public boolean isLoaded() {
 		return loaded;
 	}
+
+	public void loadFromMap(String configName,
+		Map<String, Map<String, Object>> resourceMap) {
+		Map<String, Object> configResource = resourceMap.get(configName);
+		this.configName = configName;
+		configReader.load(configResource);
+		String env = configReader.readConfigValue(String.class, "env");
+		if (env != null) {
+			childConfigContainer =
+				(ConfigContainer) s2Container
+					.getComponent(ConfigContainer.class);
+			childConfigContainer.setConfigName(String.format("%s_%s",
+				configName, env));
+			loadFromMap(childConfigContainer.getConfigName(), resourceMap);
+			childConfigContainer.setParentConfigContainer(this);
+		}
+		initialized = true;
+	}
+
+	public Map<String, Object> getConfigMap() {
+		Map<String, Object> result = CollectionsUtil.newHashMap();
+		result.putAll(configReader.toMap());
+		Map<String, Object> writerMap = configWriter.toMap();
+		for (String key : writerMap.keySet()) {
+			result.put(key, writerMap.get(key));
+		}
+		return result;
+	}
+
+	public void saveToMap(final Map<String, Map<String, Object>> resourceMap) {
+		ConfigContainerTraversal.forEachParent(this,
+			new ConfigContainerHandler<Void>() {
+				public Void proccess(ConfigContainer container) {
+					ConfigWriter configCacheWriter =
+						(ConfigWriter) s2Container
+							.getComponent(ConfigWriter.class);
+					configCacheWriter
+						.open(container.getConfigName() + "_cache");
+					for (String key : container.getConfigMap().keySet()) {
+						Object value = container.getConfigMap().get(key);
+						configCacheWriter.writeConfigValue(key, value);
+					}
+					resourceMap.put(container.getConfigName(),
+						configCacheWriter.toMap());
+					configCacheWriter.close();
+					configCacheWriter = null;
+					return null;
+				}
+			});
+	}
+
 }

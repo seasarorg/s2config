@@ -2,6 +2,7 @@ package org.seasar.config.core.config.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Map;
 import java.util.Properties;
 
 import org.seasar.config.core.config.AbstractConfigReader;
@@ -10,6 +11,7 @@ import org.seasar.framework.log.Logger;
 import org.seasar.framework.util.BooleanConversionUtil;
 import org.seasar.framework.util.NumberConversionUtil;
 import org.seasar.framework.util.ResourceUtil;
+import org.seasar.framework.util.tiger.CollectionsUtil;
 
 /**
  * @author junichi
@@ -18,6 +20,21 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 	private static Logger log = Logger.getLogger(ConfigPropertiesReader.class);
 
 	private Properties properties;
+
+	public Map<String, Object> toMap() {
+		Map<String, Object> result = CollectionsUtil.newHashMap();
+		for (Object key : properties.keySet()) {
+			result.put((String) key, properties.get(key));
+		}
+		return result;
+	}
+
+	public void load(Map<String, Object> configResource) {
+		properties = new Properties();
+		for (String key : configResource.keySet()) {
+			properties.put(key, configResource.get(key));
+		}
+	}
 
 	public void open(String configName) {
 		String configPropertiesName = configName.concat(".properties");
@@ -72,4 +89,5 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		}
 		return convertValue(type, result);
 	}
+
 }

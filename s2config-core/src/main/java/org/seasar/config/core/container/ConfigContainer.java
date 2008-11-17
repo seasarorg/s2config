@@ -1,21 +1,29 @@
 package org.seasar.config.core.container;
 
+import java.util.Map;
+
 import org.seasar.config.core.config.ConfigReader;
 import org.seasar.config.core.config.ConfigWriter;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.util.Disposable;
 
 public interface ConfigContainer extends Disposable {
+	Map<String, Object> getConfigMap();
+
+	void saveToMap(Map<String, Map<String, Object>> resourceMap);
+
+	void loadFromMap(String configName,
+		Map<String, Map<String, Object>> resourceMap);
 
 	boolean isLoaded();
 
 	/**
-	 * 外部設定ファイルからConfigに設定を読み込みます．
+	 * 外部設定ファイルからJavaBeansに設定を読み込みます．
 	 */
 	void loadToBeans();
 
 	/**
-	 * Configから外部設定ファイルに設定を書き込みます．
+	 * JavaBeansから外部設定ファイルに設定を書き込みます．
 	 */
 	void saveFromBeans();
 
