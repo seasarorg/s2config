@@ -140,13 +140,14 @@ public class ConfigInjector {
 			String currentValue =
 				propDesc.getValue(target) != null ? propDesc.getValue(target)
 					.toString() : null;
-			log
-				.debug(String
-					.format(
-						"[PropertyDesc %s : configName = %s, configKeyName = %s value = %s] -> [targetClass %s:%d : value = %s]",
-						propDesc, config.name(), configKeyName, value
-							.toString(), target.getClass(), target.getClass()
-							.hashCode(), currentValue));
+			// log
+			// .debug(String
+			// .format(
+			// "[PropertyDesc %s : configName = %s, configKeyName = %s value =
+			// %s] -> [targetClass %s:%d : value = %s]",
+			// propDesc, config.name(), configKeyName, value
+			// .toString(), target.getClass(), target.getClass()
+			// .hashCode(), currentValue));
 			propDesc.setValue(target, value);
 		}
 	}
