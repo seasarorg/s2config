@@ -95,7 +95,10 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 		final String shortClassName) {
 		final String name = ClassUtil.concatName(packageName, shortClassName);
 		final Class<?> clazz = this.getClass(name);
-		return configValidator.isValid(clazz);
+		if (clazz != null) {
+			return configValidator.isValid(clazz);
+		}
+		return false;
 	}
 
 	protected Class<?> getClass(final String className) {
