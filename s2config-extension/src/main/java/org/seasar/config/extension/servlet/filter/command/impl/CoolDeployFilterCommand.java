@@ -12,25 +12,18 @@ import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 import org.seasar.framework.container.SingletonS2Container;
 
 public class CoolDeployFilterCommand extends DefaultFilterCommand {
-	public static synchronized FilterCommand getInstance(
-		ServletRequest request, ServletResponse response,
-		FilterChain filterChain) {
+	public static synchronized FilterCommand getInstance() {
 		if (instance == null) {
-			instance =
-				new CoolDeployFilterCommand(request, response, filterChain);
+			instance = new CoolDeployFilterCommand();
 		}
 		return instance;
-	}
-
-	protected CoolDeployFilterCommand(ServletRequest request,
-		ServletResponse response, FilterChain filterChain) {
-		super(request, response, filterChain);
 	}
 
 	public static boolean initialized;
 
 	@Override
-	public void execute() throws IOException, ServletException {
+	public void execute(ServletRequest request, ServletResponse response,
+		FilterChain filterChain) throws IOException, ServletException {
 		if (!initialized) {
 			ConfigContainer configContainer =
 				SingletonS2Container.getComponent(ConfigContainer.class);
@@ -39,7 +32,7 @@ public class CoolDeployFilterCommand extends DefaultFilterCommand {
 				initialized = true;
 			}
 		}
-		super.execute();
+		super.execute(request, response, filterChain);
 	}
 
 }

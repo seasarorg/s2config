@@ -32,25 +32,21 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		ServletRequest request, ServletResponse response,
 		FilterChain filterChain) {
 		if (instance == null) {
-			instance =
-				new HotDeployFilterCommand(request, response, filterChain);
+			instance = new HotDeployFilterCommand();
 		}
 		return instance;
 	}
 
-	protected HotDeployFilterCommand(ServletRequest request,
-		ServletResponse response, FilterChain filterChain) {
-		super(request, response, filterChain);
-	}
-
 	@Override
 	@SuppressWarnings("unchecked")
-	public void execute() throws IOException, ServletException {
+	public void execute(ServletRequest request, ServletResponse response,
+		FilterChain filterChain) throws IOException, ServletException {
 		HttpSession session;
 		Map<String, Map<String, Object>> configResource;
 		ConfigContainer configContainer =
 			SingletonS2Container.getComponent(ConfigContainer.class);
-		session = getSession();
+		session = getSession(request);
+
 		configResource =
 			(Map<String, Map<String, Object>>) session
 				.getAttribute(CONFIG_RESOURCE);
@@ -63,7 +59,9 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 				configContainer.loadToBeans();
 			}
 		}
-		super.execute();
+
+		super.execute(request, response, filterChain);
+
 		configResource = CollectionsUtil.newHashMap();
 		synchronized (configContainer.getClass()) {
 			configContainer.saveFromBeans();
@@ -71,9 +69,10 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		}
 		session.setAttribute(CONFIG_RESOURCE, configResource);
 		session.setAttribute(CONFIG_NAME, configContainer.getConfigName());
+
 	}
 
-	private HttpSession getSession() {
+	private HttpSession getSession(ServletRequest request) {
 		HttpSession session;
 		session = ((HttpServletRequest) request).getSession(false);
 		if (session == null) {

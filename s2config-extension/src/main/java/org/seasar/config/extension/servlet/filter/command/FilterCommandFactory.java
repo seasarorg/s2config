@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -47,24 +46,20 @@ public final class FilterCommandFactory {
 	}
 
 	public static FilterCommand create(ServletRequest request,
-		ServletResponse response, FilterChain filterChain) {
+		ServletResponse response) {
 		if (!(request instanceof HttpServletRequest)
 			|| !(response instanceof HttpServletResponse)) {
-			return DefaultFilterCommand.getInstance(request, response,
-				filterChain);
+			return DefaultFilterCommand.getInstance();
 		}
 		final HttpServletRequest hrequest = (HttpServletRequest) request;
 		String uri = hrequest.getRequestURI();
 		if (!isTargetURI(uri)) {
-			return DefaultFilterCommand.getInstance(request, response,
-				filterChain);
+			return DefaultFilterCommand.getInstance();
 		}
 		if (HotdeployUtil.isHotdeploy()) {
-			return HotDeployFilterCommand.getInstance(request, response,
-				filterChain);
+			return HotDeployFilterCommand.getInstance();
 		}
-		return CoolDeployFilterCommand.getInstance(request, response,
-			filterChain);
+		return CoolDeployFilterCommand.getInstance();
 
 	}
 }

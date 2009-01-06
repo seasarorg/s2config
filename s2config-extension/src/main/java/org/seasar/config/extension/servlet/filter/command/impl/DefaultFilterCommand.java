@@ -12,21 +12,15 @@ import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 
 public class DefaultFilterCommand extends AbstractFilterCommand {
 
-	public static synchronized FilterCommand getInstance(
-		ServletRequest request, ServletResponse response,
-		FilterChain filterChain) {
+	public static synchronized FilterCommand getInstance() {
 		if (instance == null) {
-			instance = new DefaultFilterCommand(request, response, filterChain);
+			instance = new DefaultFilterCommand();
 		}
 		return instance;
 	}
 
-	protected DefaultFilterCommand(ServletRequest request,
-		ServletResponse response, FilterChain filterChain) {
-		super(request, response, filterChain);
-	}
-
-	public void execute() throws IOException, ServletException {
+	public void execute(ServletRequest request, ServletResponse response,
+		FilterChain filterChain) throws IOException, ServletException {
 		filterChain.doFilter(request, response);
 	}
 

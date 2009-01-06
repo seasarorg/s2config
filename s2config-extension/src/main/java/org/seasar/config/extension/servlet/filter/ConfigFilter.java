@@ -20,9 +20,8 @@ public class ConfigFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 		FilterChain filterChain) throws IOException, ServletException {
-		FilterCommand cmd =
-			FilterCommandFactory.create(request, response, filterChain);
-		cmd.execute();
+		FilterCommand cmd = FilterCommandFactory.create(request, response);
+		cmd.execute(request, response, filterChain);
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {
