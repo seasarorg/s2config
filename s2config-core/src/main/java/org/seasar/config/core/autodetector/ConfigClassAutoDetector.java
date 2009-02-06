@@ -15,7 +15,7 @@ import org.seasar.framework.util.tiger.ReflectionUtil;
 /**
  * Configクラスを自動的に認識するクラスです。
  * 
- * @author kato
+ * @author j5ik2o
  */
 public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	private static final String PACKAGE_NAME_CONFIG = "config";
