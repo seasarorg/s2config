@@ -14,10 +14,13 @@ import org.seasar.framework.util.ResourceUtil;
 import org.seasar.framework.util.tiger.CollectionsUtil;
 
 /**
- * @author junichi
+ * 設定情報をプロパティファイルから読み込むためのクラスです。
+ * 
+ * @author j5ik2o
  */
 public class ConfigPropertiesReader extends AbstractConfigReader {
-	private static Logger log = Logger.getLogger(ConfigPropertiesReader.class);
+	private static final Logger LOG =
+		Logger.getLogger(ConfigPropertiesReader.class);
 
 	private Properties properties;
 
@@ -43,13 +46,13 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		try {
 			properties = ResourceUtil.getProperties(configPropertiesName);
 		} catch (ResourceNotFoundRuntimeException e) {
-			log.warn(String.format("プロパティファイルがみつかりません。(%s)",
+			LOG.warn(String.format(
+				"プロパティファイルがみつかりません。(%s)",
 				configPropertiesName));
 		}
 	}
 
 	public void close() {
-
 	}
 
 	public <T extends Object> T readConfigValue(Class<T> resultClass, String key) {
@@ -60,10 +63,14 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 	private <T> T convertValue(Class<T> type, String value) {
 		if (type == String.class) {
 			return (T) value;
-		} else if (type == Integer.class || type == BigInteger.class
-			|| type == BigDecimal.class || type == Long.class
-			|| type == Short.class || type == Float.class
-			|| type == Double.class || type == Byte.class) {
+		} else if (type == Integer.class
+			|| type == BigInteger.class
+			|| type == BigDecimal.class
+			|| type == Long.class
+			|| type == Short.class
+			|| type == Float.class
+			|| type == Double.class
+			|| type == Byte.class) {
 			Object parseValue = NumberConversionUtil.convertNumber(type, value);
 			return (T) parseValue;
 		} else if (type == Boolean.class) {
@@ -75,7 +82,7 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T readConfigValue(Class<T> type, String key,
-		T defaultValue) {
+			T defaultValue) {
 		if (properties == null) {
 			return defaultValue;
 		}
@@ -91,5 +98,4 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		}
 		return convertValue(type, result);
 	}
-
 }

@@ -15,7 +15,13 @@ import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.util.ResourceUtil;
 import org.seasar.framework.util.tiger.CollectionsUtil;
 
+/**
+ * 設定情報をプロパティファイルに書き込むためのクラスです。
+ * 
+ * @author j5ik2o
+ */
 public class ConfigPropertiesWriter extends AbstractConfigWriter {
+	private static final String PROPERTIES = ".properties";
 
 	private Properties properties;
 
@@ -23,6 +29,11 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
 	private boolean changed = false;
 
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @see org.seasar.config.core.config.ConfigWriter#toMap()
+	 */
 	public Map<String, Object> toMap() {
 		Map<String, Object> result = CollectionsUtil.newHashMap();
 		if (properties != null) {
@@ -33,9 +44,14 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 		return result;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @see org.seasar.config.core.config.ConfigWriter#open(java.lang.String)
+	 */
 	public void open(String configName) {
 		try {
-			String realConfigName = configName.concat(".properties");
+			String realConfigName = configName.concat(PROPERTIES);
 			File file = ResourceUtil.getResourceAsFile(realConfigName, null);
 			configFilePath = file.getAbsolutePath();
 			properties = ResourceUtil.getProperties(realConfigName);
@@ -75,16 +91,26 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 		changed = false;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @see org.seasar.config.core.config.ConfigWriter#close()
+	 */
 	public void close() {
 		flash();
 		properties = null;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @see org.seasar.config.core.config.ConfigWriter#writeConfigValue(java.lang.String,
+	 *      java.lang.Object)
+	 */
 	public <T extends Object> void writeConfigValue(String key, T value) {
 		if (value != null) {
 			properties.setProperty(key, value.toString());
 			changed = true;
 		}
 	}
-
 }

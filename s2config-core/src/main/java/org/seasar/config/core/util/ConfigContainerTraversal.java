@@ -3,17 +3,20 @@ package org.seasar.config.core.util;
 import org.seasar.config.core.container.ConfigContainer;
 import org.seasar.config.core.container.impl.ConfigContainerImpl;
 
+/**
+ * {@link ConfigContainer}をトラバーサルを行うためのクラスです。
+ * 
+ * @author j5ik2o
+ */
 public final class ConfigContainerTraversal {
-
 	/**
 	 * コンフィグコンテナを処理するためのハンドラです．
 	 * 
-	 * @author junichi
+	 * @author j5ik2o
 	 * @param <T>
 	 *            ハンドラの戻り値の型
 	 */
 	public static interface ConfigContainerHandler<T> {
-
 		public T proccess(ConfigContainer container);
 	}
 
@@ -29,7 +32,7 @@ public final class ConfigContainerTraversal {
 	 * @return ハンドラからの戻り値
 	 */
 	public static <T> T forEachChild(ConfigContainerImpl rootContainer,
-		ConfigContainerHandler<T> handler) {
+			ConfigContainerHandler<T> handler) {
 		for (ConfigContainer currentContainer = rootContainer; currentContainer != null; currentContainer =
 			currentContainer.getChildConfigContainer()) {
 			T result = handler.proccess(currentContainer);
@@ -52,7 +55,7 @@ public final class ConfigContainerTraversal {
 	 * @return ハンドラからの戻り値
 	 */
 	public static <T> T forEachParent(ConfigContainerImpl rootContainer,
-		ConfigContainerHandler<T> handler) {
+			ConfigContainerHandler<T> handler) {
 		ConfigContainer currentContainer = rootContainer;
 		ConfigContainer lastChildContainer = null;
 		for (; currentContainer != null; currentContainer =
@@ -68,5 +71,4 @@ public final class ConfigContainerTraversal {
 		}
 		return null;
 	}
-
 }

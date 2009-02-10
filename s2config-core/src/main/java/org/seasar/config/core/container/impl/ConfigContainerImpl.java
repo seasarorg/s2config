@@ -20,8 +20,9 @@ import org.seasar.framework.util.tiger.CollectionsUtil;
  * @author junichi
  */
 public class ConfigContainerImpl implements ConfigContainer {
-
-	private static Logger log = Logger.getLogger(ConfigContainerImpl.class);
+	@SuppressWarnings("unused")
+	private static final Logger LOG =
+		Logger.getLogger(ConfigContainerImpl.class);
 
 	private boolean initialized;
 
@@ -39,7 +40,7 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	private ConfigInjector configInjector;
 
-	private boolean loaded;
+	private boolean loadedToBeans;
 
 	/*
 	 * (非 Javadoc)
@@ -61,7 +62,7 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 */
 	public void loadToBeans() {
 		initialize();
-		loaded = configInjector.inject(this, true);
+		loadedToBeans = configInjector.inject(this, true);
 	}
 
 	/*
@@ -82,11 +83,12 @@ public class ConfigContainerImpl implements ConfigContainer {
 	public ConfigContainer findAllConfigContainer(final String configName) {
 		initialize();
 		ConfigContainer result =
-			ConfigContainerTraversal.forEachChild(this,
+			ConfigContainerTraversal.forEachChild(
+				this,
 				new ConfigContainerHandler<ConfigContainer>() {
-
 					public ConfigContainer proccess(ConfigContainer container) {
-						return configName.equals(container.getConfigName()) ? container
+						return configName.equals(container.getConfigName())
+							? container
 							: null;
 					}
 				});
@@ -110,15 +112,17 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 *      java.lang.String, T)
 	 */
 	public <T> T findAllConfigValue(final Class<T> resultClass,
-		final String key, final T defaultValue) {
+			final String key, final T defaultValue) {
 		initialize();
 		T result =
-			ConfigContainerTraversal.forEachParent(this,
+			ConfigContainerTraversal.forEachParent(
+				this,
 				new ConfigContainerHandler<T>() {
-
 					public T proccess(ConfigContainer container) {
 						T result =
-							container.getConfigValue(resultClass, key,
+							container.getConfigValue(
+								resultClass,
+								key,
 								defaultValue);
 						return result;
 					}
@@ -203,8 +207,10 @@ public class ConfigContainerImpl implements ConfigContainer {
 				childConfigContainer =
 					(ConfigContainer) s2Container
 						.getComponent(ConfigContainer.class);
-				childConfigContainer.setConfigName(String.format("%s_%s",
-					configName, env));
+				childConfigContainer.setConfigName(String.format(
+					"%s_%s",
+					configName,
+					env));
 				childConfigContainer.initialize();
 				childConfigContainer.setParentConfigContainer(this);
 			}
@@ -299,12 +305,12 @@ public class ConfigContainerImpl implements ConfigContainer {
 		this.configInjector = configInjector;
 	}
 
-	public boolean isLoaded() {
-		return loaded;
+	public boolean isLoadedToBeans() {
+		return loadedToBeans;
 	}
 
 	public void loadFromMap(String configName,
-		Map<String, Map<String, Object>> resourceMap) {
+			Map<String, Map<String, Object>> resourceMap) {
 		Map<String, Object> configResource = resourceMap.get(configName);
 		this.configName = configName;
 		configReader.load(configResource);
@@ -313,8 +319,10 @@ public class ConfigContainerImpl implements ConfigContainer {
 			childConfigContainer =
 				(ConfigContainer) s2Container
 					.getComponent(ConfigContainer.class);
-			childConfigContainer.setConfigName(String.format("%s_%s",
-				configName, env));
+			childConfigContainer.setConfigName(String.format(
+				"%s_%s",
+				configName,
+				env));
 			loadFromMap(childConfigContainer.getConfigName(), resourceMap);
 			childConfigContainer.setParentConfigContainer(this);
 		}
@@ -332,7 +340,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 	}
 
 	public void saveToMap(final Map<String, Map<String, Object>> resourceMap) {
-		ConfigContainerTraversal.forEachParent(this,
+		ConfigContainerTraversal.forEachParent(
+			this,
 			new ConfigContainerHandler<Void>() {
 				public Void proccess(ConfigContainer container) {
 					ConfigWriter configCacheWriter =
@@ -344,7 +353,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 						Object value = container.getConfigMap().get(key);
 						configCacheWriter.writeConfigValue(key, value);
 					}
-					resourceMap.put(container.getConfigName(),
+					resourceMap.put(
+						container.getConfigName(),
 						configCacheWriter.toMap());
 					configCacheWriter.close();
 					configCacheWriter = null;
@@ -352,5 +362,4 @@ public class ConfigContainerImpl implements ConfigContainer {
 				}
 			});
 	}
-
 }

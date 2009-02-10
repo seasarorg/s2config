@@ -6,6 +6,7 @@ import java.util.List;
 import org.seasar.config.core.autodetector.ConfigClassAutoDetector;
 import org.seasar.config.core.config.ConfigValidator;
 import org.seasar.config.core.config.annotation.Config;
+import org.seasar.config.core.config.annotation.ConfigIgnore;
 import org.seasar.config.core.config.annotation.ConfigKey;
 import org.seasar.framework.beans.BeanDesc;
 import org.seasar.framework.beans.PropertyDesc;
@@ -20,9 +21,12 @@ import org.seasar.framework.util.ClassTraversal;
 import org.seasar.framework.util.ClassUtil;
 import org.seasar.framework.util.tiger.ReflectionUtil;
 
+/**
+ * @author kato
+ */
 public class ConfigInjector {
-
-	private static Logger log = Logger.getLogger(ConfigInjector.class);
+	@SuppressWarnings("unused")
+	private static final Logger LOG = Logger.getLogger(ConfigInjector.class);
 
 	private ConfigClassAutoDetector configClassAutoDetector;
 
@@ -39,9 +43,9 @@ public class ConfigInjector {
 	}
 
 	private void registerS2Component(S2Container s2Container) {
-		Traversal.forEachComponent(s2Container,
+		Traversal.forEachComponent(
+			s2Container,
 			new Traversal.ComponentDefHandler() {
-
 				public Object processComponent(ComponentDef componentDef) {
 					Class<?> clazz = componentDef.getComponentClass();
 					if (clazz != null) {
@@ -59,9 +63,8 @@ public class ConfigInjector {
 	private void registerSmartDepolyComponent(final S2Container s2Container) {
 		if (SmartDeployUtil.isSmartdeployMode(s2Container)) {
 			configClassAutoDetector.detect(new ClassTraversal.ClassHandler() {
-
 				public void processClass(String packageName,
-					String shortClassName) {
+						String shortClassName) {
 					String name =
 						ClassUtil.concatName(packageName, shortClassName);
 					Class<?> clazz = ReflectionUtil.forNameNoException(name);
@@ -81,6 +84,16 @@ public class ConfigInjector {
 		}
 	}
 
+	/**
+	 * 設定情報をインジェクトします。
+	 * 
+	 * @param rootConfigContainer
+	 *            {@link ConfigContainer}
+	 * @param toBeans
+	 *            設定情報からJavaBeansにインジェクトする場合はtrue,
+	 *            JavaBeanから設定情報をインジェクトする場合false,
+	 * @return インジェクトできた場合はtrue, できなかった場合はfalse
+	 */
 	public boolean inject(ConfigContainer rootConfigContainer, boolean toBeans) {
 		boolean result = false;
 		register();
@@ -95,61 +108,36 @@ public class ConfigInjector {
 				for (int i = 0; i < beanDesc.getPropertyDescSize(); i++) {
 					PropertyDesc propDesc = beanDesc.getPropertyDesc(i);
 					String configKeyName = propDesc.getPropertyName();
+					ConfigIgnore configIgnore =
+						propDesc.getField().getAnnotation(ConfigIgnore.class);
+					if (configIgnore != null) {
+						continue;
+					}
 					ConfigKey configKey =
 						propDesc.getField().getAnnotation(ConfigKey.class);
-					if (toBeans && propDesc.isWritable()
-						&& !configKey.readOnly()) {
-						putConfigValueToBeanValue(target, config,
-							configContainer, propDesc);
+					boolean readOnly = false;
+					if (configKey != null) {
+						configKeyName = configKey.name();
+						readOnly = configKey.readOnly();
+					}
+					if (toBeans && propDesc.isWritable() && !readOnly) {
+						Object value =
+							configContainer.findAllConfigValue(propDesc
+								.getField()
+								.getType(), configKeyName, null);
+						if (value != null) {
+							propDesc.setValue(target, value);
+						}
 						result = true;
 					} else if (propDesc.isReadable()) {
-						if (configKey != null) {
-							configKeyName = configKey.name();
-						}
 						Object value = propDesc.getValue(target);
 						configContainer.putConfigValue(configKeyName, value);
 						result = true;
 					}
 				}
 			}
-
 		}
 		return result;
-	}
-
-	/**
-	 * JavaBeansに設定値を読み込みます。８０
-	 * 
-	 * @param target
-	 * @param config
-	 * @param configContainer
-	 * @param propDesc
-	 */
-	private void putConfigValueToBeanValue(Object target, Config config,
-		ConfigContainer configContainer, PropertyDesc propDesc) {
-		String configKeyName = propDesc.getPropertyName();
-		ConfigKey configKey =
-			propDesc.getField().getAnnotation(ConfigKey.class);
-		if (configKey != null) {
-			configKeyName = configKey.name();
-		}
-		Object value =
-			configContainer.findAllConfigValue(propDesc.getField().getType(),
-				configKeyName, null);
-		if (value != null) {
-			String currentValue =
-				propDesc.getValue(target) != null ? propDesc.getValue(target)
-					.toString() : null;
-			// log
-			// .debug(String
-			// .format(
-			// "[PropertyDesc %s : configName = %s, configKeyName = %s value =
-			// %s] -> [targetClass %s:%d : value = %s]",
-			// propDesc, config.name(), configKeyName, value
-			// .toString(), target.getClass(), target.getClass()
-			// .hashCode(), currentValue));
-			propDesc.setValue(target, value);
-		}
 	}
 
 	/**
@@ -164,7 +152,7 @@ public class ConfigInjector {
 	 *            the configClassAutoDetector to set
 	 */
 	public void setConfigClassAutoDetector(
-		ConfigClassAutoDetector configClassAutoDetector) {
+			ConfigClassAutoDetector configClassAutoDetector) {
 		this.configClassAutoDetector = configClassAutoDetector;
 	}
 
@@ -183,5 +171,4 @@ public class ConfigInjector {
 	public void setConfigValidator(ConfigValidator configValidator) {
 		this.configValidator = configValidator;
 	}
-
 }

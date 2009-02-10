@@ -110,8 +110,8 @@ public class ConfigContainerWrapper implements ConfigContainer {
 		configContainer.dispose();
 	}
 
-	public boolean isLoaded() {
-		return configContainer.isLoaded();
+	public boolean isLoadedToBeans() {
+		return configContainer.isLoadedToBeans();
 	}
 
 	public Map<String, Object> getConfigMap() {

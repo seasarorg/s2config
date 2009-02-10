@@ -8,27 +8,48 @@ import org.seasar.framework.container.S2Container;
 import org.seasar.framework.util.Disposable;
 
 public interface ConfigContainer extends Disposable {
+	/**
+	 * 設定情報を{@link Map}で返します。
+	 * 
+	 * @return
+	 */
 	Map<String, Object> getConfigMap();
 
+	/**
+	 * {@link Map}に書き込みます。
+	 * 
+	 * @param resourceMap
+	 */
 	void saveToMap(Map<String, Map<String, Object>> resourceMap);
 
+	/**
+	 * {@link Map}から読み込みます。
+	 * 
+	 * @param configName
+	 * @param resourceMap
+	 */
 	void loadFromMap(String configName,
-		Map<String, Map<String, Object>> resourceMap);
-
-	boolean isLoaded();
+			Map<String, Map<String, Object>> resourceMap);
 
 	/**
-	 * 外部設定ファイルからJavaBeansに設定を読み込みます．
+	 * loadToBeansメソッドが呼ばれたがどうかを返します。
+	 * 
+	 * @return
+	 */
+	boolean isLoadedToBeans();
+
+	/**
+	 * 外部設定ファイルからJavaBeansに設定を読み込みます。
 	 */
 	void loadToBeans();
 
 	/**
-	 * JavaBeansから外部設定ファイルに設定を書き込みます．
+	 * JavaBeansから外部設定ファイルに設定を書き込みます。
 	 */
 	void saveFromBeans();
 
 	/**
-	 * コンフィグ名に対応するコンフィグコンテナを検索して返します．
+	 * コンフィグ名に対応するコンフィグコンテナを検索して返します。
 	 * 
 	 * @param configName
 	 *            コンフィグ名
@@ -36,21 +57,32 @@ public interface ConfigContainer extends Disposable {
 	 */
 	ConfigContainer findAllConfigContainer(final String configName);
 
+	/**
+	 * キー対応する設定値を検索して返します。
+	 * 
+	 * @param <T>
+	 *            設定値の型
+	 * @param resultClass
+	 *            設定値のクラス
+	 * @param key
+	 *            キー
+	 * @return 設定値
+	 */
 	<T> T findAllConfigValue(final Class<T> resultClass, final String key);
 
 	/**
-	 * キーに対応する値を末端のコンフィグコンテナから順番に検索し返します．
+	 * キーに対応する設定値を末端のコンフィグコンテナから順番に検索し返します．
 	 * 
 	 * @param <T>
-	 *            値の型
+	 *            設定値の型
 	 * @param key
 	 *            キー
 	 * @param defaultValue
 	 *            デフォルト値
-	 * @return 値
+	 * @return 設定値
 	 */
 	<T> T findAllConfigValue(final Class<T> resultClass, final String key,
-		final T defaultValue);
+			final T defaultValue);
 
 	/**
 	 * 子供のコンフィグコンテナを返します．
@@ -67,19 +99,42 @@ public interface ConfigContainer extends Disposable {
 	String getConfigName();
 
 	/**
-	 * キーに対応する値をコンフィグコンテナから取得します．
+	 * キーに対応する設定値をコンフィグコンテナから取得します。
 	 * 
 	 * @param <T>
-	 *            値の型
+	 *            設定値の型
 	 * @param key
+	 *            キー
 	 * @param defaultValue
 	 *            デフォルト値
-	 * @return
+	 * @return 設定値
 	 */
 	<T> T getConfigValue(Class<T> resultClass, String key, T defaultValue);
 
+	/**
+	 * キーに対応する設定値をコンフィグコンテナから取得します。
+	 * 
+	 * @param <T>
+	 *            設定値の型
+	 * @param resultClass
+	 *            設定値のクラス
+	 * @param key
+	 *            キー
+	 * @return 設定値
+	 */
 	<T> T getConfigValue(Class<T> resultClass, String key);
 
+	/**
+	 * キーに対応する設定値をコンフィグコンテナから取得します。
+	 * 
+	 * @param <T>
+	 *            設定値の型
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
+	 * @return 設定値
+	 */
 	<T> T getConfigValue(String key, T defaultValue);
 
 	/**
@@ -95,27 +150,63 @@ public interface ConfigContainer extends Disposable {
 	void initialize();
 
 	/**
-	 * キーに対応する値を設定します．
+	 * キーに対応する設定値を設定します．
 	 * 
 	 * @param <T>
-	 *            値の型
+	 *            設定値の型
 	 * @param key
 	 *            キー
 	 * @param value
-	 *            値
+	 *            設定値
 	 */
 	<T> void putConfigValue(String key, T value);
 
+	/**
+	 * 子供の{@link ConfigContainer}を設定します。
+	 * 
+	 * @param childConfigContainer
+	 *            子供の{@link ConfigContainer}
+	 */
 	void setChildConfigContainer(ConfigContainer childConfigContainer);
 
+	/**
+	 * 設定名を設定します。
+	 * 
+	 * @param configName
+	 *            設定名
+	 */
 	void setConfigName(String configName);
 
+	/**
+	 * {@link ConfigReader}を設定します。
+	 * 
+	 * @param configReader
+	 *            {@link ConfigReader}
+	 */
 	void setConfigReader(ConfigReader configReader);
 
+	/**
+	 * {@link ConfigWriter}を設定します。
+	 * 
+	 * @param configWriter
+	 *            {@link ConfigWriter}
+	 */
 	void setConfigWriter(ConfigWriter configWriter);
 
+	/**
+	 * 親の{@link ConfigContainer}を設定します。
+	 * 
+	 * @param parentConfigContainer
+	 *            親の{@link ConfigContainer}
+	 */
 	void setParentConfigContainer(ConfigContainer parentConfigContainer);
 
+	/**
+	 * {@link S2Container}を設定します。
+	 * 
+	 * @param container
+	 *            {@link S2Container}
+	 */
 	void setS2Container(S2Container container);
 
 	/**
@@ -124,9 +215,10 @@ public interface ConfigContainer extends Disposable {
 	void sync();
 
 	/**
+	 * {@link ConfigInjector}を設定します。
+	 * 
 	 * @param configInjector
-	 *            the configInjector to set
+	 *            {@link ConfigInjector}
 	 */
 	void setConfigInjector(ConfigInjector configInjector);
-
 }
