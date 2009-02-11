@@ -105,16 +105,29 @@ pageTracker._trackPageview();
 <p>
 <ul>
 	<li>S2Configのjarファイルをビルドパスに加える．</li>
-	<li>SMART deployでConfigクラスをデプロイする場合は以下をcreator.diconにConfigCreatorを設定する</br>
+	<li>configCustomize.diconを適宜編集しビルドパスに加える．</br>
+	デフォルトで用意されている設定情報を読み書きするコンポーネントの実装はプロパティファイルに対応したものになります。この実装はカスタマイズすることが可能です．
 	<pre>
-	&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR2.4//DTD S2Container//EN"
-	"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
+&lt;components>
+	&lt;!-- コンフィグの読み書きの実装を指定します (instance="prototype"は必須です)--&gt;
+	<strong>&lt;component class="org.seasar.config.core.config.impl.ConfigPropertiesWriter" instance="prototype"/&gt;
+	&lt;component class="org.seasar.config.core.config.impl.ConfigPropertiesReader" instance="prototype"/&gt;</strong>
+&lt;/components&gt;
+	</pre>
+	</li>
+	<li>SMART deployでConfigクラスを自動的にデプロイする場合は以下をcreator.diconにConfigCreatorを設定する．</br>
+	<pre>
+&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
 &lt;components&gt;
 	&lt;include path="convention.dicon"/&gt;
 	&lt;include path="customizer.dicon"/&gt;
 &lt;!-- 中略 --&gt;
-	<b>&lt;component class="org.seasar.config.core.creator.ConfigCreator"/&gt;</b>
+	<strong>&lt;component class="org.seasar.config.core.creator.ConfigCreator"/&gt;</strong>
 &lt;/components&gt;
 	</pre>
 	</li>
