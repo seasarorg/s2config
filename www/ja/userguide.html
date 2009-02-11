@@ -76,6 +76,7 @@ pageTracker._trackPageview();
 </ul>
 </p>
 </div>
+
 <!-- section -->
 <div class="section">
 <h4>コンフィグコンテナクラスの使い方</h4>
@@ -84,17 +85,143 @@ pageTracker._trackPageview();
 デフォルトのConfigPropertiesReaderとConfigPropertiesWriterを利用した場合は 設定名.propertiesという設定ファイルに対応するようになります．
 また，initMethodでloadToBeansメソッドを指定すると初期化時に読み込んだ設定情報を対応するコンフィグクラスに設定値をDIします．
 <pre>
-	&lt;include path="s2config-core.dicon"/&gt;
-	&lt;component class="org.seasar.config.core.container.ConfigContainer"&gt;
-		&lt;property name="configName"&gt;"log4j"&lt;/property&gt;
-		&lt;initMethod name="loadToBeans"/&gt; 
-	&lt;/component&gt; 	
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
+&lt;include path="s2config-core.dicon"/&gt;
+&lt;component name="configContainer" class="org.seasar.config.core.container.impl.ConfigContainerImpl"&gt;
+	&lt;property name="configName"&gt;"log4j"&lt;/property&gt;
+	&lt;initMethod name="loadToBeans"/&gt; 
+&lt;/component&gt; 	
 </pre>
+コンフィグコンテナは設定値を扱うコンテナですので，以下のようにgetConfigValueメソッドで設定値を取得することができます．<br/>
+この場合はConfigContainerを使って能動的に設定情報にアクセスすることになりますが，後述するコンフィグクラスでは受動的に設定情報をDIすることが可能になります．
+<pre>
+public class HogeAction {
+
+	public ConfigContainer configContainer;
+	
+	@Execute(validator=false)
+	public String doAction(){
+		// snip
+		String rootLogger = configContainer.getConfigValue(String.class, "log4j.rootLogger");	
+		// snip
+	}
+
+}
+</pre>
+また，以下のようにすることで既存のdiconファイルに関連づけも可能です．<br/>
+まず，config.diconを用意します．<br/>
+ConfigContainerはJava5のジェネリクスに対応したインターフェイスであるため，diconに対応したStrictConfigContainerクラスでラップします．
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
+&lt;components&gt;
+&lt;include path="s2config-core.dicon"/&gt;
+	&lt;component name="configContainer" class="org.seasar.config.core.container.impl.StrictConfigContainer"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.config.core.container.impl.ConfigContainerImpl" autoBinding="none"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="configName"&gt;"destinySystemConfig"&lt;/property&gt;
+	&lt;/component&gt;
+&lt;/components&gt;
+</pre>
+jdbc.diconでconfig.diconをインクルードします．<br/>
+コンポーネントのプロパティに対してコンフィグコンテナが保持している設定値をDIしたい場合はgetConfigXXXXメソッドを使います．XXXは設定値の型名になります．<br/>
+getConfigStringメソッドの場合は，第一引数に設定値のキー，第二引数はデフォルト値です．<br/>
+プロパティファイルなどの設定情報が読み取れない場合は，自動的にデフォルト値がDIされます．プロパティファイルが存在し対象の設定値がある場合はその値でDIされます．
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
+&lt;include path="config.dicon"/&gt;
+&lt;component name="xaDataSource"
+	class="org.seasar.extension.dbcp.impl.XADataSourceImpl"&gt;
+	&lt;property name="driverClassName"&gt;
+		configContainer.getConfigString("jdbc.driverClassName", "oracle.jdbc.driver.OracleDriver")
+	&lt;/property&gt;
+	&lt;property name="URL"&gt;
+		configContainer.getConfigString("jdbc.URL", "jdbc:oracle:thin:@192.168.1.1:1521:BTS")
+	&lt;/property&gt;
+	&lt;property name="user"&gt;configContainer.getConfigString("jdbc.user", "BTS_REAL")&lt;/property&gt;
+	&lt;property name="password"&gt;configContainer.getConfigString("jdbc.password", "hogehoge")&lt;/property&gt;
+&lt;/component&gt;
+</pre>	
 </p>
 </div>
+<div class="section">
+<h4>コンフィグクラスの使い方</h4>
+<p>
+コンフィグクラスはクラスのサフィックスがConfigであるJavaBeansです．(publicフィールドに対応しています)<br/>
+推奨のサフィックスはConfigですが、Dtoもコンフィグクラスとして扱うことが可能です．<br/>
+コンフィグクラスとして扱うには以下の条件が必須となります．
+<ul>
+	<li>コンフィグクラスに対してConfigアノテーションで設定情報と関連付けを行う．</li>
+	<li>コンフィグプロパティに対してConfigKeyアノテーションで設定値と関連付けを行う．<br/>
+	ConfigKeyのreadOnly属性がtrueの場合はコンフィグクラスから設定情報への同期は行われず，readOnly属性がfalseの場合は同期が可能になります．<br/>
+	ConfigKeyアノテーションがないプロパティに対してはプロパティ名で自動的に解決します．<br/>
+	関連づけを強制的に除外したい場合はConfigIgnoreアノテーションを利用します．</li>
+</ul>
+<pre>
+@Config(name = "log4j")
+public Log4jConfig{
+
+	/** log4j.rootLogger と読み込み専用で関連づけられます　*/
+	@ConfigKey(name = "log4j.rootLogger", readOnly = true)
+	public String rootLogger;
+
+	/** log4j.category.org.seasar と読み書きできるように関連づけられます */
+	@ConfigKey(name = "log4j.category.org.seasar")
+	public String categoryOrgSeasar;
+	
+	/** log4j.appender.C と自動的に関連づけられます */
+	public String log4jAppenderC;
+
+	@ConfigIgnore
+	public String ignore;
+
+}
+</pre>
+このコンフィグクラスをウェブアプリケーションなどで使いたい場合は，PageクラスやActionクラスのプロパティに保持するだけでSeasar2によって自動的にDIされるようになります．
+<pre>
+public class HogePage {
+
+	/** log4j.propertiesの情報が読み込まれたコンフィグクラスがDIされます */
+	public Log4jConfig log4jConfig;
+
+}
+</pre>
+また，デフォルト実装のConfigPropertiesReaderとConfigPropertiesWriterはクラスパス上からプロパティファイルを検索しますので，xxx.propertiesをアプリケーション外に配置すれば外部設定ファイルを扱えるようになります．
+Tomcat5.5の場合は$CATALINA_HOME/common/classese
+</p>
+</div>
+<div class="section">
+<h4>環境依存に対応した設定情報の扱い方</h4>
+<p>
+設定情報の中でenvキーを使うことによって環境に依存した設定値を扱うことができます．
+systemConfig.propertiesで以下のように本番環境のJDBC接続情報を定義しているとします．<br/>
+envキーを使って環境名をstaingとしています．
+<pre>
+env = staging
+jdbc.URL = jdbc:oracle:thin:@read-db:1521:BTS
+jdbc.user = BTS_REAL
+jdbc.password = hogehoge
+</pre>
+同様にクラスパス上にsystemConfig_staging.propertiesを配置し以下のように定義します．
+<pre>
+jdbc.URL = jdbc:oracle:thin:@stagin-db:1521:BTS
+jdbc.user = BTS_STAGING
+</pre>
+このように定義した場合，jdbc.URL, jdbc.userはsystemConfig_staging.propertiesによって上書きされます．<br/>
+ただし，jdbc.passwordのようにsystemConfig_staging.propertiesで定義されていない項目については上書きされません．
+</p>
+</div>
+
 </div>
 </div>
-<!-- article --></div>
+<!-- article -->
+</div>
 <!-- contents_center -->
 <div id="footer">
 <address>&copy; Copyright The Seasar Foundation and the others
