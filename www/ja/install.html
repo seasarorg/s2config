@@ -2,14 +2,17 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Language" content="ja" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<meta name="keywords" content="s2config, Seasar, The Seasar Project, The Seasar Foundation, OSS, Open Source Software, Java, Framework" />
+<meta name="keywords"
+	content="s2config, Seasar, The Seasar Project, The Seasar Foundation, OSS, Open Source Software, Java, Framework" />
 <meta name="description" content="s2config" />
 <title>s2config</title>
-<link rel="stylesheet" type="text/css" href="http://www.seasar.org/theme/main.css" media="screen,projection" />
-<link rel="stylesheet" type="text/css" href="http://www.seasar.org/theme/print.css" media="print" />
+<link rel="stylesheet" type="text/css"
+	href="http://www.seasar.org/theme/main.css" media="screen,projection" />
+<link rel="stylesheet" type="text/css"
+	href="http://www.seasar.org/theme/print.css" media="print" />
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -27,28 +30,31 @@ pageTracker._trackPageview();
 
 <div class="line"><span class="hide">spacer</span></div>
 
-<div id="logo"><h2 id="h01" class="hide">The Seasar Foundation Project Site</h2><img src="http://www.seasar.org/images/seasar_logo_blue.gif" alt="The Seasar Project" width="390" height="180" /></div>
+<div id="logo">
+<h2 id="h01" class="hide">The Seasar Foundation Project Site</h2>
+<img src="http://www.seasar.org/images/seasar_logo_blue.gif"
+	alt="The Seasar Project" width="390" height="180" /></div>
 
 <div id="tool">
 
 <h2><a href="http://search.seasar.org/">Site Search</a></h2>
 
 <form id="search" name="search" action="http://search.seasar.org/">
-<div>
-	<input id="search_phrase" type="text" name="phrase" size="20" />
-	<input type="hidden" name="perpage" value="30" />
-	<input type="hidden" name="enc" value="UTF-8" />
-	<input id="search_go" type="submit" value="Search" />
-</div>
+<div><input id="search_phrase" type="text" name="phrase" size="20" />
+<input type="hidden" name="perpage" value="30" /> <input type="hidden"
+	name="enc" value="UTF-8" /> <input id="search_go" type="submit"
+	value="Search" /></div>
 </form>
 
 <h2>Seasar Banner</h2>
 
-<p><img src="http://www.seasar.org/images/seasar_banner.gif" alt="Seasar Banner" title="Seasar Banner" width="146" height="33" /></p>
+<p><img src="http://www.seasar.org/images/seasar_banner.gif"
+	alt="Seasar Banner" title="Seasar Banner" width="146" height="33" /></p>
 
 </div>
 
-</div><!-- header -->
+</div>
+<!-- header -->
 
 
 <div id="contents_left">
@@ -69,37 +75,63 @@ pageTracker._trackPageview();
 	<li><a href="sampleguide.html">サンプルガイド</a></li>
 </ul>
 
-</div><!-- contents_left -->
+</div>
+<!-- contents_left -->
 
 <div id="contents_center">
 
+<!-- article -->
 <div id="article">
 
+<!-- section -->
 <div class="section">
 <h2>インストールガイド</h2>
 <p>以下の手順に従ってインストールを行ってください．</p>
-</div><!-- section -->
+</div>
+
+<!-- section -->
 <div class="section">
 <h3>前提条件</h3>
 <p>
-	<ul>
-    	<li>Java SE 5.0以降を前提とします．</li>
-        <li>Seasar2.4を前提とします．</li>
-    </ul>
+<ul>
+	<li>Java SE 5.0以降を前提とします．</li>
+	<li>Seasar2.4を前提とします．</li>
+</ul>
 </p>
+</div>
+
+<div class="section">
+<h3>インストール手順</h3>
+<p>
+<ul>
+	<li>S2Configのjarファイルをビルドパスに加える．</li>
+	<li>SMART deployでConfigクラスをデプロイする場合は以下をcreator.diconにConfigCreatorを設定する</br>
+	<pre>
+	&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.4//DTD S2Container//EN"
+	"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components&gt;
+	&lt;include path="convention.dicon"/&gt;
+	&lt;include path="customizer.dicon"/&gt;
+&lt;!-- 中略 --&gt;
+	<b>&lt;component class="org.seasar.config.core.creator.ConfigCreator"/&gt;</b>
+&lt;/components&gt;
+	</pre>
+	</li>
+</ul>
+</p>
+</div>
 
 </div>
-<!-- article -->
-
-</div><!-- contents_center -->
+<!-- contents_center -->
 
 <div id="footer">
-<address>&copy; Copyright The Seasar Foundation and the others 2006, all rights reserved.</address>
+<address>&copy; Copyright The Seasar Foundation and the others
+2006, all rights reserved.</address>
 <div class="line"><span class="hide">spacer</span></div>
-</div><!-- footer -->
-
-</div><!-- wrapper -->
-
+</div>
+<!-- footer --></div>
+<!-- wrapper -->
 </body>
 </html>
 
