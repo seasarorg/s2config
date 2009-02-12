@@ -66,9 +66,13 @@ pageTracker._trackPageview();
 <div class="section">
 <h3>S2Configとは？</h3>
 <div class="section">
-<h4>主に使うクラス</h4>
+<h4>主なクラスおよびリソース</h4>
 <p>
 <ul>
+	<li>設定情報<br/>
+	設定値をハッシュのようにキーと値の組で管理している情報.</li>
+	<li>設定ファイル<br/>
+	設定情報を保持したファイル．デフォルト実装ではプロパティファイルになります．</li>
 	<li>コンフィグコンテナクラス<br />
 	設定情報を扱うコンテナクラス．</li>
 	<li>コンフィグクラス<br />
@@ -81,6 +85,7 @@ pageTracker._trackPageview();
 <div class="section">
 <h4>コンフィグコンテナクラスの使い方</h4>
 <p>
+コンフィグコンテナは設定ファイルから設定情報を読み込んだり書き込んだりできます．
 まず，設定情報１つに対して１つのコンフィグコンテナを定義します ．configNameは設定名です．
 デフォルトのConfigPropertiesReaderとConfigPropertiesWriterを利用した場合は 設定名.propertiesという設定ファイルに対応するようになります．
 また，initMethodでloadToBeansメソッドを指定すると初期化時に読み込んだ設定情報を対応するコンフィグクラスに設定値をDIします．
@@ -175,9 +180,10 @@ public Log4jConfig{
 	@ConfigKey(name = "log4j.category.org.seasar")
 	public String categoryOrgSeasar;
 	
-	/** log4j.appender.C と自動的に関連づけられます */
-	public String log4jAppenderC;
+	/** ConfigKeyアノテーションがない場合はプロパティ名で自動的に関連づけられます */
+	public String key1;
 
+	/** S2Configとは無関係なプロパティ */
 	@ConfigIgnore
 	public String ignore;
 
@@ -201,7 +207,8 @@ Tomcat5.5の場合は$CATALINA_HOME/common/classese
 <p>
 設定情報の中でenvキーを使うことによって環境に依存した設定値を扱うことができます．
 systemConfig.propertiesで以下のように本番環境のJDBC接続情報を定義しているとします．<br/>
-envキーを使って環境名をstaingとしています．
+envキーを使って環境名をstaingとしています．<br/>
+systemConfig.properties
 <pre>
 env = staging
 jdbc.URL = jdbc:oracle:thin:@read-db:1521:BTS
@@ -214,7 +221,30 @@ jdbc.URL = jdbc:oracle:thin:@stagin-db:1521:BTS
 jdbc.user = BTS_STAGING
 </pre>
 このように定義した場合，jdbc.URL, jdbc.userはsystemConfig_staging.propertiesによって上書きされます．<br/>
-ただし，jdbc.passwordのようにsystemConfig_staging.propertiesで定義されていない項目については上書きされません．
+ただし，jdbc.passwordのようにsystemConfig_staging.propertiesで定義されていない項目については上書きされません．<br/>
+systemConfigのConfigContainer内部ではsystemConfig_staging用のConfigContainerが子供のコンテナとして生成されます．
+</p>
+</div>
+
+<div class="section">
+<h4>コンフィグクラスのプロパティを設定ファイルに同期するには</h4>
+<p>
+設定ファイルから設定情報を読み込み，対応するコンフィグクラスにDIするにはloadToBeansメソッドを使います．<br/>
+逆にコンフィグクラスからコンフィグコンテナ内部の設定情報を上書きする際はsaveFromBeansを呼び出します．この時点では設定ファイルには同期されません．<br/>
+ConfigKeyアノテーション(name = "log4j.rootLogger", readOnly = true)や，ConfigIgnoreアノテーションがsaveFromBeansメソッドを実行しても無視されます．<br/>
+同期するにはsyncメソッドを呼び出します．
+<pre>
+configContainer.saveFormBeans();
+configContainer.sync();
+</pre>
+ただし，現状の実装では，前述のenvキーを使って環境依存な設定ファイルを保持している場合は，saveFromBeansメソッドを呼び出した場合は，envキーを定義しているルートのコンフィグコンテナに，子供のコンテナから読み込んだ設定値が上書きされてしまいます．
+
+前述の例でいうと，
+systemConfig_staging.propertiesのjdbc.URLやjdbc.userの値でsystemConfig.propertiesのjdbc.URLやjdbc.userの値を上書きしてしまいます．
+
+これは，そのままsyncメソッドを実行してしまうと問題が生じる可能性がありますので，注意してください．
+今後の実装では，envキーを使った場合でも対応するコンフィグコンテナ（設定ファイル）に書き戻せるようにする予定です．
+
 </p>
 </div>
 
