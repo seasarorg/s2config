@@ -17,13 +17,13 @@ import org.seasar.framework.util.tiger.CollectionsUtil;
 
 public class HotDeployFilterCommand extends DefaultFilterCommand {
 	/**
-	 * ƒRƒ“ƒtƒBƒO–¼‚ÌƒZƒbƒVƒ‡ƒ“ƒL[‚Å‚·B
+	 * ã‚³ãƒ³ãƒ•ã‚£ã‚°åã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚­ãƒ¼ã§ã™ã€‚
 	 */
 	private static final String CONFIG_NAME =
 		"org.seasar.config.extension.ConfigName";
 
 	/**
-	 * ƒRƒ“ƒtƒBƒOƒŠƒ\[ƒX‚ÌƒZƒbƒVƒ‡ƒ“ƒL[‚Å‚·B
+	 * ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒªã‚½ãƒ¼ã‚¹ã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚­ãƒ¼ã§ã™ã€‚
 	 */
 	private static final String CONFIG_RESOURCE =
 		"org.seasar.config.extension.ConfigResource";

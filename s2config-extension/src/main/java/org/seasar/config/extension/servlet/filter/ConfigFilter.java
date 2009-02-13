@@ -13,14 +13,14 @@ import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 import org.seasar.config.extension.servlet.filter.command.FilterCommandFactory;
 
 /**
- * S2Config—pƒtƒBƒ‹ƒ^[‚Å‚·B
+ * S2Configç”¨ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã§ã™ã€‚
  * 
  * @author j5ik2o
  */
 public class ConfigFilter implements Filter {
 
 	/*
-	 * (”ñ Javadoc)
+	 * (é Javadoc)
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	public void destroy() {
@@ -28,7 +28,7 @@ public class ConfigFilter implements Filter {
 	}
 
 	/*
-	 * (”ñ Javadoc)
+	 * (é Javadoc)
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -38,7 +38,7 @@ public class ConfigFilter implements Filter {
 	}
 
 	/*
-	 * (”ñ Javadoc)
+	 * (é Javadoc)
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
