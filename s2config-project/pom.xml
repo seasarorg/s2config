@@ -14,8 +14,15 @@
 		<developer>
 			<id>j5ik2o</id>
 			<name>Junichi Kato</name>
-			<email>junichi_at_grandtech.jp</email>
+			<email>j5ik2o_at_gmail.com</email>
 			<url>http://d.hatena.ne.jp/j5ik2o/</url>
+			<timezone>+9</timezone>
+		</developer>
+		<developer>
+			<id>happy_ryo</id>
+			<name>Ryo Iwama</name>
+			<email>iwama.ryo.0731_at_gmail.com</email>
+			<url>http://d.hatena.ne.jp/happy_ryo/</url>
 			<timezone>+9</timezone>
 		</developer>
 	</developers>
