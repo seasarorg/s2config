@@ -15,13 +15,14 @@
  */
 package org.seasar.config.core.creator;
 
+import org.seasar.framework.container.ComponentCreator;
 import org.seasar.framework.container.ComponentCustomizer;
 import org.seasar.framework.container.creator.ComponentCreatorImpl;
 import org.seasar.framework.container.deployer.InstanceDefFactory;
 import org.seasar.framework.convention.NamingConvention;
 
 /**
- * Config用のCreatorです。
+ * Config用の{@link ComponentCreator}です。
  * 
  * @author j5ik2o
  */
