@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007-2009 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 package org.seasar.config.core.container.impl;
 
 import java.util.Map;
@@ -17,7 +32,7 @@ import org.seasar.framework.util.tiger.CollectionsUtil;
 /**
  * コンフィグを管理するコンテナクラスです．
  * 
- * @author junichi
+ * @author j5ik2o
  */
 public class ConfigContainerImpl implements ConfigContainer {
 	@SuppressWarnings("unused")
@@ -44,7 +59,6 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
 	 * @see org.seasar.config.core.container.impl.IConfigContainer#dispose()
 	 */
 	public void dispose() {
@@ -57,7 +71,6 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#loadToBeans()
 	 */
 	public void loadToBeans() {
@@ -67,8 +80,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#saveFromBeans()
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#saveFromBeans()
 	 */
 	public void saveFromBeans() {
 		initialize();
@@ -77,8 +90,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#findAllConfigContainer(java.lang.String)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#findAllConfigContainer
+	 * (java.lang.String)
 	 */
 	public ConfigContainer findAllConfigContainer(final String configName) {
 		initialize();
@@ -97,9 +111,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#findAllConfigValue(java.lang.Class,
-	 *      java.lang.String)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#findAllConfigValue
+	 * (java.lang.Class, java.lang.String)
 	 */
 	public <T> T findAllConfigValue(final Class<T> resultClass, final String key) {
 		return findAllConfigValue(resultClass, key, null);
@@ -107,9 +121,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#findAllConfigValue(java.lang.Class,
-	 *      java.lang.String, T)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#findAllConfigValue
+	 * (java.lang.Class, java.lang.String, T)
 	 */
 	public <T> T findAllConfigValue(final Class<T> resultClass,
 			final String key, final T defaultValue) {
@@ -132,8 +146,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#getChildConfigContainer()
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#getChildConfigContainer
+	 * ()
 	 */
 	public ConfigContainer getChildConfigContainer() {
 		return childConfigContainer;
@@ -141,8 +156,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#getConfigName()
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#getConfigName()
 	 */
 	public String getConfigName() {
 		return configName;
@@ -150,9 +165,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#getConfigValue(java.lang.Class,
-	 *      java.lang.String, T)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#getConfigValue(
+	 * java.lang.Class, java.lang.String, T)
 	 */
 	public <T> T getConfigValue(Class<T> resultClass, String key, T defaultValue) {
 		initialize();
@@ -162,9 +177,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#getConfigValue(java.lang.Class,
-	 *      java.lang.String)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#getConfigValue(
+	 * java.lang.Class, java.lang.String)
 	 */
 	public <T> T getConfigValue(Class<T> resultClass, String key) {
 		return getConfigValue(resultClass, key, null);
@@ -172,9 +187,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#getConfigValue(java.lang.String,
-	 *      T)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#getConfigValue(
+	 * java.lang.String, T)
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getConfigValue(String key, T defaultValue) {
@@ -183,8 +198,8 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.IConfigContainer#getParentConfigContainer()
+	 * @seeorg.seasar.config.core.container.impl.IConfigContainer#
+	 * getParentConfigContainer()
 	 */
 	public ConfigContainer getParentConfigContainer() {
 		return parentConfigContainer;
@@ -192,7 +207,6 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#initialize()
 	 */
 	public synchronized void initialize() {
@@ -222,9 +236,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#putConfigValue(java.lang.String,
-	 *      T)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#putConfigValue(
+	 * java.lang.String, T)
 	 */
 	public <T> void putConfigValue(String key, T value) {
 		initialize();
@@ -233,8 +247,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setChildConfigContainer(org.seasar.config.core.container.impl.ConfigContainer)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#setChildConfigContainer
+	 * (org.seasar.config.core.container.impl.ConfigContainer)
 	 */
 	@Binding(bindingType = BindingType.NONE)
 	public void setChildConfigContainer(ConfigContainer childConfigContainer) {
@@ -243,8 +258,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setConfigName(java.lang.String)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#setConfigName(java
+	 * .lang.String)
 	 */
 	public void setConfigName(String configName) {
 		this.configName = configName;
@@ -252,8 +268,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setConfigReader(org.seasar.config.core.config.ConfigReader)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#setConfigReader
+	 * (org.seasar.config.core.config.ConfigReader)
 	 */
 	public void setConfigReader(ConfigReader configReader) {
 		this.configReader = configReader;
@@ -261,8 +278,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setConfigWriter(org.seasar.config.core.config.ConfigWriter)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#setConfigWriter
+	 * (org.seasar.config.core.config.ConfigWriter)
 	 */
 	public void setConfigWriter(ConfigWriter configWriter) {
 		this.configWriter = configWriter;
@@ -270,8 +288,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setParentConfigContainer(org.seasar.config.core.container.impl.ConfigContainer)
+	 * @seeorg.seasar.config.core.container.impl.ConfigContainer#
+	 * setParentConfigContainer
+	 * (org.seasar.config.core.container.impl.ConfigContainer)
 	 */
 	@Binding(bindingType = BindingType.NONE)
 	public void setParentConfigContainer(ConfigContainer parentConfigContainer) {
@@ -280,8 +299,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setS2Container(org.seasar.framework.container.S2Container)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#setS2Container(
+	 * org.seasar.framework.container.S2Container)
 	 */
 	public void setS2Container(S2Container container) {
 		s2Container = container;
@@ -289,7 +309,6 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
 	 * @see org.seasar.config.core.container.impl.ConfigContainer#sync()
 	 */
 	public void sync() {
@@ -298,8 +317,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.config.core.container.impl.ConfigContainer#setConfigInjector(org.seasar.config.core.container.ConfigInjector)
+	 * @see
+	 * org.seasar.config.core.container.impl.ConfigContainer#setConfigInjector
+	 * (org.seasar.config.core.container.ConfigInjector)
 	 */
 	public void setConfigInjector(ConfigInjector configInjector) {
 		this.configInjector = configInjector;

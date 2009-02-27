@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007-2009 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 package org.seasar.config.core.container.impl;
 
 import java.util.Map;
@@ -10,8 +25,10 @@ import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.annotation.tiger.Binding;
 import org.seasar.framework.container.annotation.tiger.BindingType;
 
+/**
+ * @author j5ik2o
+ */
 public class ConfigContainerWrapper implements ConfigContainer {
-
 	private final ConfigContainer configContainer;
 
 	public ConfigContainerWrapper(ConfigContainer configContainer) {
@@ -27,8 +44,10 @@ public class ConfigContainerWrapper implements ConfigContainer {
 	}
 
 	public <T> T findAllConfigValue(Class<T> resultClass, String key,
-		T defaultValue) {
-		return configContainer.findAllConfigValue(resultClass, key,
+			T defaultValue) {
+		return configContainer.findAllConfigValue(
+			resultClass,
+			key,
 			defaultValue);
 	}
 
@@ -119,14 +138,11 @@ public class ConfigContainerWrapper implements ConfigContainer {
 	}
 
 	public void loadFromMap(String configName,
-		Map<String, Map<String, Object>> resourceMap) {
+			Map<String, Map<String, Object>> resourceMap) {
 		configContainer.loadFromMap(configName, resourceMap);
-
 	}
 
 	public void saveToMap(Map<String, Map<String, Object>> resourceMap) {
 		configContainer.saveToMap(resourceMap);
-
 	}
-
 }

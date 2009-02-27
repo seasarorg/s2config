@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007-2009 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 package org.seasar.config.core.autodetector;
 
 import org.seasar.config.core.config.ConfigValidator;
@@ -24,7 +39,6 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 
 	// protected final List<Class<? extends Annotation>> annotations =
 	// CollectionsUtil.newArrayList();
-
 	protected NamingConvention namingConvention;
 
 	protected ClassLoader classLoader;
@@ -89,11 +103,11 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	// public void addAnnotation(final Class<? extends Annotation> annotation) {
 	// // this.annotations.add(annotation);
 	// }
-
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * @see org.seasar.framework.autodetector.ClassAutoDetector#detect(org.seasar.framework.util.ClassTraversal.ClassHandler)
+	 * @see
+	 * org.seasar.framework.autodetector.ClassAutoDetector#detect(org.seasar
+	 * .framework.util.ClassTraversal.ClassHandler)
 	 */
 	@SuppressWarnings("unchecked")
 	public void detect(final ClassHandler handler) {
@@ -104,11 +118,13 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 				try {
 					resources.forEach(new ClassHandler() {
 						public void processClass(final String packageName,
-							final String shortClassName) {
+								final String shortClassName) {
 							if (packageName.startsWith(packageName)
 								&& ConfigClassAutoDetector.this.isConfig(
-									packageName, shortClassName)) {
-								handler.processClass(packageName,
+									packageName,
+									shortClassName)) {
+								handler.processClass(
+									packageName,
 									shortClassName);
 							}
 						}
@@ -130,7 +146,7 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	 * @return Configクラスであるならtrue, そうでないならfalse。
 	 */
 	protected boolean isConfig(final String packageName,
-		final String shortClassName) {
+			final String shortClassName) {
 		final String name = ClassUtil.concatName(packageName, shortClassName);
 		final Class<?> clazz = this.getClass(name);
 		if (clazz != null) {

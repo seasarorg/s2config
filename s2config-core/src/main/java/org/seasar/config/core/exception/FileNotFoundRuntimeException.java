@@ -1,7 +1,7 @@
 package org.seasar.config.core.exception;
 
 /**
- * @author kato
+ * @author j5ik2o
  */
 @SuppressWarnings("serial")
 public class FileNotFoundRuntimeException extends RuntimeException {
