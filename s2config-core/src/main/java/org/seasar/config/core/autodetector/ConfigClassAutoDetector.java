@@ -98,7 +98,7 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see
 	 * org.seasar.framework.autodetector.ClassAutoDetector#detect(org.seasar
 	 * .framework.util.ClassTraversal.ClassHandler)
