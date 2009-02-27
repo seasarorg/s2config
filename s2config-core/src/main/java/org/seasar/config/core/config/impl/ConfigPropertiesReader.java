@@ -39,6 +39,10 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 
 	private Properties properties;
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigReader#toMap()
+	 */
 	public Map<String, Object> toMap() {
 		Map<String, Object> result = CollectionsUtil.newHashMap();
 		if (properties != null) {
@@ -49,6 +53,10 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigReader#load(java.util.Map)
+	 */
 	public void load(Map<String, Object> configResource) {
 		properties = new Properties();
 		for (String key : configResource.keySet()) {
@@ -56,6 +64,10 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigReader#open(java.lang.String)
+	 */
 	public void open(String configName) {
 		String configPropertiesName = configName.concat(".properties");
 		try {
@@ -67,9 +79,19 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigReader#close()
+	 */
 	public void close() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.seasar.config.core.config.ConfigReader#readConfigValue(java.lang.
+	 * Class, java.lang.String)
+	 */
 	public <T extends Object> T readConfigValue(Class<T> resultClass, String key) {
 		return readConfigValue(resultClass, key, null);
 	}
@@ -95,6 +117,12 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.seasar.config.core.config.ConfigReader#readConfigValue(java.lang.
+	 * Class, java.lang.String, java.lang.Object)
+	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T readConfigValue(Class<T> type, String key,
 			T defaultValue) {

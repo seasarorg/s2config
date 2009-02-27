@@ -84,6 +84,10 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigWriter#flash()
+	 */
 	public synchronized void flash() {
 		if (!changed) {
 			return;
@@ -105,7 +109,7 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigWriter#close()
 	 */
 	public void close() {
@@ -114,7 +118,7 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see
 	 * org.seasar.config.core.config.ConfigWriter#writeConfigValue(java.lang
 	 * .String, java.lang.Object)
