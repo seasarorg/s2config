@@ -28,6 +28,12 @@ import org.seasar.framework.convention.NamingConvention;
 public class ConfigCreator extends ComponentCreatorImpl {
 	private static final String NAME_SUFFIX_CONFIG = "Config";
 
+	/**
+	 * コンストラクタです．
+	 * 
+	 * @param namingConvention
+	 *            {@link NamingConvention}
+	 */
 	public ConfigCreator(NamingConvention namingConvention) {
 		super(namingConvention);
 		setNameSuffix(NAME_SUFFIX_CONFIG);
@@ -37,10 +43,21 @@ public class ConfigCreator extends ComponentCreatorImpl {
 		setEnableInterface(false);
 	}
 
+	/**
+	 * Config用の{@link ComponentCustomizer}を返します．
+	 * 
+	 * @return {@link ComponentCustomizer}
+	 */
 	public ComponentCustomizer getConfigCustomizer() {
 		return super.getCustomizer();
 	}
 
+	/**
+	 * Config用の{@link ComponentCustomizer}を設定します．
+	 * 
+	 * @param customizer
+	 *            {@link ComponentCustomizer}
+	 */
 	public void setConfigCustomizer(ComponentCustomizer customizer) {
 		super.setCustomizer(customizer);
 	}
