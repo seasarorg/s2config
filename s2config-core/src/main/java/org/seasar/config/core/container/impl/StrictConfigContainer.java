@@ -32,7 +32,7 @@ import org.seasar.framework.container.annotation.tiger.BindingType;
  */
 public class StrictConfigContainer extends ConfigContainerWrapper {
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @seeorg.seasar.config.core.container.impl.ConfigContainerWrapper#
 	 * setChildConfigContainer(org.seasar.config.core.container.ConfigContainer)
 	 */
@@ -142,14 +142,41 @@ public class StrictConfigContainer extends ConfigContainerWrapper {
 		return getConfigValue(Short.class, key, defaultValue);
 	}
 
+	/**
+	 * {@link BigInteger}型の設定値を返します。
+	 * 
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
+	 * @return 設定値
+	 */
 	public BigInteger getConfigBigInteger(String key, BigInteger defaultValue) {
 		return getConfigValue(BigInteger.class, key, defaultValue);
 	}
 
+	/**
+	 * {@link Byte}型の設定値を返します。
+	 * 
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
+	 * @return 設定値
+	 */
 	public Byte getConfigByte(String key, Byte defaultValue) {
 		return getConfigValue(Byte.class, key, defaultValue);
 	}
 
+	/**
+	 * {@link Boolean}型の設定値を返します。
+	 * 
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
+	 * @return 設定値
+	 */
 	public Boolean getConfigBoolean(String key, Boolean defaultValue) {
 		return getConfigValue(Boolean.class, key, defaultValue);
 	}
