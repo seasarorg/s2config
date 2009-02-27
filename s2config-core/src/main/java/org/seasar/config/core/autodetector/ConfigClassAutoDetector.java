@@ -37,8 +37,6 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 
 	private static final String PACKAGE_NAME_DTO = "dto";
 
-	// protected final List<Class<? extends Annotation>> annotations =
-	// CollectionsUtil.newArrayList();
 	protected NamingConvention namingConvention;
 
 	protected ClassLoader classLoader;
@@ -49,7 +47,6 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 	 * コンストラクタです。
 	 */
 	public ConfigClassAutoDetector() {
-		// this.annotations.add(Task.class);
 	}
 
 	/**
@@ -100,16 +97,12 @@ public class ConfigClassAutoDetector extends AbstractClassAutoDetector {
 		}
 	}
 
-	// public void addAnnotation(final Class<? extends Annotation> annotation) {
-	// // this.annotations.add(annotation);
-	// }
 	/*
 	 * (非 Javadoc)
 	 * @see
 	 * org.seasar.framework.autodetector.ClassAutoDetector#detect(org.seasar
 	 * .framework.util.ClassTraversal.ClassHandler)
 	 */
-	@SuppressWarnings("unchecked")
 	public void detect(final ClassHandler handler) {
 		for (int i = 0; i < getTargetPackageNameSize(); i++) {
 			final String packageName = getTargetPackageName(i);
