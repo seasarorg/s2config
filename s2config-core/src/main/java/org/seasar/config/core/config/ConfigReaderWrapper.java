@@ -36,7 +36,7 @@ public class ConfigReaderWrapper extends AbstractConfigReader {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigReader#close()
 	 */
 	public void close() {
@@ -44,7 +44,7 @@ public class ConfigReaderWrapper extends AbstractConfigReader {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigReader#load(java.util.Map)
 	 */
 	public void load(Map<String, Object> configResource) {
@@ -52,7 +52,7 @@ public class ConfigReaderWrapper extends AbstractConfigReader {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigReader#open(java.lang.String)
 	 */
 	public void open(String configName) {
@@ -60,7 +60,7 @@ public class ConfigReaderWrapper extends AbstractConfigReader {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see
 	 * org.seasar.config.core.config.ConfigReader#readConfigValue(java.lang.
 	 * Class, java.lang.String, java.lang.Object)
@@ -71,7 +71,7 @@ public class ConfigReaderWrapper extends AbstractConfigReader {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see
 	 * org.seasar.config.core.config.ConfigReader#readConfigValue(java.lang.
 	 * Class, java.lang.String)
