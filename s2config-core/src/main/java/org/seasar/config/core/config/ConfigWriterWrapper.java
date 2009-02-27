@@ -36,7 +36,7 @@ public class ConfigWriterWrapper extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigWriter#close()
 	 */
 	public void close() {
@@ -44,7 +44,7 @@ public class ConfigWriterWrapper extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigWriter#flash()
 	 */
 	public void flash() {
@@ -52,7 +52,7 @@ public class ConfigWriterWrapper extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigWriter#open(java.lang.String)
 	 */
 	public void open(String configName) {
@@ -60,7 +60,7 @@ public class ConfigWriterWrapper extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigWriter#toMap()
 	 */
 	public Map<String, Object> toMap() {
@@ -68,7 +68,7 @@ public class ConfigWriterWrapper extends AbstractConfigWriter {
 	}
 
 	/*
-	 * (非 Javadoc)
+	 * (non-Javadoc)
 	 * @see
 	 * org.seasar.config.core.config.ConfigWriter#writeConfigValue(java.lang
 	 * .String, java.lang.Object)
