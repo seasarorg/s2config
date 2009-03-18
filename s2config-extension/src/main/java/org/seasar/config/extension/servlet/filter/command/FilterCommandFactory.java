@@ -36,6 +36,12 @@ public final class FilterCommandFactory {
 	private static Map<String, Pattern> targetURIPatternMap =
 		CollectionsUtil.newHashMap();
 
+	/**
+	 * ターゲットURIを追加します。
+	 * 
+	 * @param targetURI
+	 *            ターゲットURI
+	 */
 	public static void addTargetURI(String targetURI) {
 		if (targetURI == null) {
 			throw new IllegalArgumentException("targetURI is null.");
@@ -45,6 +51,9 @@ public final class FilterCommandFactory {
 		targetURIPatternMap.put(targetURI, pattern);
 	}
 
+	/**
+	 * ターゲットURIをクリアします。
+	 */
 	public static void clearTargetURIs() {
 		targetURIList.clear();
 		targetURIPatternMap.clear();
@@ -60,8 +69,17 @@ public final class FilterCommandFactory {
 		return false;
 	}
 
+	/**
+	 * フィルターコマンドを生成します。
+	 * 
+	 * @param request
+	 *            {@link ServletRequest}
+	 * @param response
+	 *            {@link ServletResponse}
+	 * @return {@link FilterCommand}
+	 */
 	public static FilterCommand create(ServletRequest request,
-		ServletResponse response) {
+			ServletResponse response) {
 		if (!(request instanceof HttpServletRequest)
 			|| !(response instanceof HttpServletResponse)) {
 			return DefaultFilterCommand.getInstance();
@@ -75,6 +93,5 @@ public final class FilterCommandFactory {
 			return HotDeployFilterCommand.getInstance();
 		}
 		return CoolDeployFilterCommand.getInstance();
-
 	}
 }

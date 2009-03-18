@@ -26,7 +26,19 @@ import org.seasar.config.core.container.ConfigContainer;
 import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 import org.seasar.framework.container.SingletonS2Container;
 
+/**
+ * COOL deploy時のフィルターコマンドです。
+ * 
+ * @author j5ik2o
+ */
 public class CoolDeployFilterCommand extends DefaultFilterCommand {
+	private static boolean initialized;
+
+	/**
+	 * シングルトンなインスタンスを返します。
+	 * 
+	 * @return {@link CoolDeployFilterCommand}
+	 */
 	public static synchronized FilterCommand getInstance() {
 		if (instance == null) {
 			instance = new CoolDeployFilterCommand();
@@ -34,11 +46,16 @@ public class CoolDeployFilterCommand extends DefaultFilterCommand {
 		return instance;
 	}
 
-	public static boolean initialized;
-
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.seasar.config.extension.servlet.filter.command.impl.DefaultFilterCommand
+	 * #execute(javax.servlet.ServletRequest, javax.servlet.ServletResponse,
+	 * javax.servlet.FilterChain)
+	 */
 	@Override
 	public void execute(ServletRequest request, ServletResponse response,
-		FilterChain filterChain) throws IOException, ServletException {
+			FilterChain filterChain) throws IOException, ServletException {
 		if (!initialized) {
 			ConfigContainer configContainer =
 				SingletonS2Container.getComponent(ConfigContainer.class);
@@ -49,5 +66,4 @@ public class CoolDeployFilterCommand extends DefaultFilterCommand {
 		}
 		super.execute(request, response, filterChain);
 	}
-
 }

@@ -43,25 +43,37 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 	private static final String CONFIG_RESOURCE =
 		"org.seasar.config.extension.ConfigResource";
 
+	/**
+	 * @param request
+	 * @param response
+	 * @param filterChain
+	 * @return
+	 */
 	public static synchronized FilterCommand getInstance(
-		ServletRequest request, ServletResponse response,
-		FilterChain filterChain) {
+			ServletRequest request, ServletResponse response,
+			FilterChain filterChain) {
 		if (instance == null) {
 			instance = new HotDeployFilterCommand();
 		}
 		return instance;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.seasar.config.extension.servlet.filter.command.impl.DefaultFilterCommand
+	 * #execute(javax.servlet.ServletRequest, javax.servlet.ServletResponse,
+	 * javax.servlet.FilterChain)
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void execute(ServletRequest request, ServletResponse response,
-		FilterChain filterChain) throws IOException, ServletException {
+			FilterChain filterChain) throws IOException, ServletException {
 		HttpSession session;
 		Map<String, Map<String, Object>> configResource;
 		ConfigContainer configContainer =
 			SingletonS2Container.getComponent(ConfigContainer.class);
 		session = getSession(request);
-
 		configResource =
 			(Map<String, Map<String, Object>>) session
 				.getAttribute(CONFIG_RESOURCE);
@@ -74,9 +86,7 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 				configContainer.loadToBeans();
 			}
 		}
-
 		super.execute(request, response, filterChain);
-
 		configResource = CollectionsUtil.newHashMap();
 		synchronized (configContainer.getClass()) {
 			configContainer.saveFromBeans();
@@ -84,7 +94,6 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		}
 		session.setAttribute(CONFIG_RESOURCE, configResource);
 		session.setAttribute(CONFIG_NAME, configContainer.getConfigName());
-
 	}
 
 	private HttpSession getSession(ServletRequest request) {
@@ -95,5 +104,4 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		}
 		return session;
 	}
-
 }

@@ -15,11 +15,19 @@
  */
 package org.seasar.config.extension.servlet.filter.command;
 
-
+/**
+ * 抽象フィルターコマンドです。
+ * 
+ * @author j5ik2o
+ *
+ */
 public abstract class AbstractFilterCommand implements FilterCommand {
 
 	protected static FilterCommand instance;
 
+	/**
+	 * コンストラクタです。
+	 */
 	protected AbstractFilterCommand() {
 	}
 }

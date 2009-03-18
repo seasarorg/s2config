@@ -22,7 +22,26 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * フィルターコマンドです。
+ * 
+ * @author j5ik2o
+ */
 public interface FilterCommand {
+	/**
+	 * フィルターコマンドを実行します。
+	 * 
+	 * @param request
+	 *            {@link ServletRequest}
+	 * @param response
+	 *            {@link ServletResponse}
+	 * @param filterChain
+	 *            {@link FilterChain}
+	 * @throws IOException
+	 *             {@link IOException}
+	 * @throws ServletException
+	 *             {@link ServletException}
+	 */
 	void execute(ServletRequest request, ServletResponse response,
-		FilterChain filterChain) throws IOException, ServletException;
+			FilterChain filterChain) throws IOException, ServletException;
 }

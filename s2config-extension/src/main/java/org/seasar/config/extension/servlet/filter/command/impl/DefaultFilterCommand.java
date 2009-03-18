@@ -25,8 +25,17 @@ import javax.servlet.ServletResponse;
 import org.seasar.config.extension.servlet.filter.command.AbstractFilterCommand;
 import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 
+/**
+ * デフォルトのフィルターコマンドです。
+ * 
+ * @author j5ik2o
+ */
 public class DefaultFilterCommand extends AbstractFilterCommand {
-
+	/**
+	 * シングルトンなインスタンスを返します。
+	 * 
+	 * @return {@link DefaultFilterCommand}
+	 */
 	public static synchronized FilterCommand getInstance() {
 		if (instance == null) {
 			instance = new DefaultFilterCommand();
@@ -34,9 +43,15 @@ public class DefaultFilterCommand extends AbstractFilterCommand {
 		return instance;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.seasar.config.extension.servlet.filter.command.FilterCommand#execute
+	 * (javax.servlet.ServletRequest, javax.servlet.ServletResponse,
+	 * javax.servlet.FilterChain)
+	 */
 	public void execute(ServletRequest request, ServletResponse response,
-		FilterChain filterChain) throws IOException, ServletException {
+			FilterChain filterChain) throws IOException, ServletException {
 		filterChain.doFilter(request, response);
 	}
-
 }
