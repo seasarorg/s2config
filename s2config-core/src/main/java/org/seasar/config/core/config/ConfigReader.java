@@ -79,4 +79,11 @@ public interface ConfigReader {
 	 * 設定情報を閉じます。
 	 */
 	public void close();
+
+	/**
+	 * 設定情報を開いているかどうかを返します。
+	 * 
+	 * @return 開いている場合はtrue
+	 */
+	public boolean isOpened();
 }

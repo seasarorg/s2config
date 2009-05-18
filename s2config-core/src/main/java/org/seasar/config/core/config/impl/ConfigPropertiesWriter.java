@@ -42,6 +42,8 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 
 	private String configFilePath;
 
+	private boolean opened = false;
+
 	private boolean changed = false;
 
 	/*
@@ -72,6 +74,7 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 			properties = new Properties();
 		}
 		changed = false;
+		opened = true;
 	}
 
 	private void closeOutputStream(OutputStream os) {
@@ -115,6 +118,7 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 	public void close() {
 		flash();
 		properties = null;
+		opened = false;
 	}
 
 	/*
@@ -128,5 +132,13 @@ public class ConfigPropertiesWriter extends AbstractConfigWriter {
 			properties.setProperty(key, value.toString());
 			changed = true;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigWriter#isOpened()
+	 */
+	public boolean isOpened() {
+		return opened;
 	}
 }

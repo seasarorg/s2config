@@ -87,4 +87,8 @@ public class ConfigReaderWrapper extends AbstractConfigReader {
 	public Map<String, Object> toMap() {
 		return configReader.toMap();
 	}
+
+	public boolean isOpened() {
+		return configReader.isOpened();
+	}
 }

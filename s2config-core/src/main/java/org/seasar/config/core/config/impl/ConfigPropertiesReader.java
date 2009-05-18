@@ -39,6 +39,8 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 
 	private Properties properties;
 
+	private boolean opened;
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.seasar.config.core.config.ConfigReader#toMap()
@@ -77,6 +79,7 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 				"プロパティファイルがみつかりません。(%s)",
 				configPropertiesName));
 		}
+		opened = true;
 	}
 
 	/*
@@ -84,6 +87,7 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 	 * @see org.seasar.config.core.config.ConfigReader#close()
 	 */
 	public void close() {
+		opened = false;
 	}
 
 	/*
@@ -146,5 +150,9 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 			return convertValue(targetClass, result);
 		}
 		return convertValue(type, result);
+	}
+
+	public boolean isOpened() {
+		return opened;
 	}
 }

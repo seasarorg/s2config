@@ -17,7 +17,7 @@ public class ConfigInjectorTest {
 	public void testInject() {
 		configContainer.setConfigName("test");
 		configContainer.loadToBeans();
-		assertEquals("abc", applicationConfig.hoge);
-		assertEquals(true, applicationConfig.debug);
+		assertEquals("abcdef", applicationConfig.hoge);
+		assertEquals(false, applicationConfig.debug);
 	}
 }

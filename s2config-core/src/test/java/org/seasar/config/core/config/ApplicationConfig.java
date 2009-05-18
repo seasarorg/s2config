@@ -5,7 +5,6 @@ import org.seasar.config.core.config.annotation.ConfigKey;
 
 @Config(name = "test")
 public class ApplicationConfig {
-
 	public String env;
 
 	@ConfigKey(name = "test")
@@ -14,4 +13,6 @@ public class ApplicationConfig {
 	@ConfigKey(name = "app.debug")
 	public boolean debug;
 
+	@ConfigKey(name = "xxx")
+	public Integer xxx;
 }

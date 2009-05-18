@@ -76,4 +76,12 @@ public class ConfigWriterWrapper extends AbstractConfigWriter {
 	public <T> void writeConfigValue(String key, T value) {
 		configWriter.writeConfigValue(key, value);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.seasar.config.core.config.ConfigWriter#isOpened()
+	 */
+	public boolean isOpened() {
+		return configWriter.isOpened();
+	}
 }

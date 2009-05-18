@@ -59,4 +59,11 @@ public interface ConfigWriter {
 	 * 設定情報を閉じます。
 	 */
 	public void close();
+
+	/**
+	 * 設定情報を開いているかどうかを返します。
+	 * 
+	 * @return　開いている場合true
+	 */
+	public boolean isOpened();
 }
