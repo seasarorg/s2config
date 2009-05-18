@@ -19,5 +19,6 @@ public class ConfigInjectorTest {
 		configContainer.loadToBeans();
 		assertEquals("abcdef", applicationConfig.hoge);
 		assertEquals(false, applicationConfig.debug);
+		assertEquals(Integer.valueOf(100), applicationConfig.xxx);
 	}
 }
