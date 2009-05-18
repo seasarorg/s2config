@@ -4,5 +4,6 @@
 <components>
 	<include path="convention.dicon"/>
 	<include path="customizer.dicon"/>
+	<component class="org.seasar.framework.container.creator.DtoCreator"/>
 	<component class="org.seasar.config.core.creator.ConfigCreator"/>
 </components>

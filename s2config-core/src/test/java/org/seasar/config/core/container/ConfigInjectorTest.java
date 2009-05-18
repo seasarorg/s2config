@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seasar.config.core.config.ApplicationConfig;
+import org.seasar.config.core.dto.ApplicationConfigDto;
 import org.seasar.framework.unit.Seasar2;
 
 @RunWith(Seasar2.class)
@@ -13,6 +14,8 @@ public class ConfigInjectorTest {
 
 	private ApplicationConfig applicationConfig;
 
+	private ApplicationConfigDto applicationConfigDto;
+
 	@Test
 	public void testInject() {
 		configContainer.setConfigName("test");
@@ -20,5 +23,8 @@ public class ConfigInjectorTest {
 		assertEquals("abcdef", applicationConfig.hoge);
 		assertEquals(false, applicationConfig.debug);
 		assertEquals(Integer.valueOf(100), applicationConfig.xxx);
+		assertEquals("abcdef", applicationConfigDto.hoge);
+		assertEquals(false, applicationConfigDto.debug);
+		assertEquals(Integer.valueOf(100), applicationConfigDto.xxx);
 	}
 }
