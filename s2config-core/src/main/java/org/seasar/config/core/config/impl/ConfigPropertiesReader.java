@@ -100,7 +100,13 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 	private <T> T convertValue(Class<T> type, String value) {
 		if (type == String.class) {
 			return (T) value;
-		} else if (type == Integer.class
+		} else if (type == int.class
+			|| type == short.class
+			|| type == long.class
+			|| type == float.class
+			|| type == double.class
+			|| type == byte.class
+			|| type == Integer.class
 			|| type == BigInteger.class
 			|| type == BigDecimal.class
 			|| type == Long.class
@@ -110,7 +116,7 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 			|| type == Byte.class) {
 			Object parseValue = NumberConversionUtil.convertNumber(type, value);
 			return (T) parseValue;
-		} else if (type == Boolean.class) {
+		} else if (type == boolean.class || type == Boolean.class) {
 			Boolean parseValue = BooleanConversionUtil.toBoolean(value);
 			return (T) parseValue;
 		}

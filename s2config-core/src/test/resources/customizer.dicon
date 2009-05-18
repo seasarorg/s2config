@@ -3,11 +3,9 @@
 	"http://www.seasar.org/dtd/components21.dtd">
 <components>
 	<include path="std-customizer.dicon"/>
-	<!--
 	<component name="configCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain">
 		<initMethod name="addCustomizer">
 			<arg>traceCustomizer</arg>
 		</initMethod>
 	</component>
-	-->
 </components>
