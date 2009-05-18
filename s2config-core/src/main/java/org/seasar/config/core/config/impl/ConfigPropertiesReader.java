@@ -87,6 +87,7 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 	 * @see org.seasar.config.core.config.ConfigReader#close()
 	 */
 	public void close() {
+		properties = null;
 		opened = false;
 	}
 
