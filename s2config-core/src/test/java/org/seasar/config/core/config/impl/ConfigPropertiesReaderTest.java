@@ -1,6 +1,6 @@
 package org.seasar.config.core.config.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Map;
 
@@ -46,5 +46,33 @@ public class ConfigPropertiesReaderTest {
 			configPropertiesReader.readConfigValue(Integer.class, "xxx", 0);
 		configPropertiesReader.close();
 		assertEquals(100, ret);
+	}
+
+	/**
+	 * isOpenedがTrueを返す場合のテスト
+	 */
+	@Test
+	public void testIsOpenedがTrueを返す場合のテスト(){
+		configPropertiesReader.open("test");
+		assertTrue(configPropertiesReader.isOpened());
+	}
+
+	/**
+	 * isOpenedがFalseを返す場合のテスト
+	 */
+	@Test
+	public void testIsOpenedがFalseを返す場合のテスト(){
+		configPropertiesReader.open("test");
+		configPropertiesReader.close();
+		assertFalse(configPropertiesReader.isOpened());
+	}
+
+	/**
+	 * propertyがnullの時、readConfigValueがデフォルトの値（null）を返す場合
+	 */
+	@Test
+	public void testConfigValue_PropertyNull(){
+		Object object = configPropertiesReader.readConfigValue(null, null);
+		assertNull(object);
 	}
 }
