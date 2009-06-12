@@ -6,13 +6,17 @@
 		<relativePath>../s2config-project/pom.xml</relativePath>
 		<groupId>org.seasar.config</groupId>
 		<artifactId>s2config-project</artifactId>
-		<version>1.0.0-RC1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-extension</artifactId>
 	<packaging>jar</packaging>
 	<name>S2Config Extension</name>
+	<version>1.0.0</version>
 	<url>http://s2config.sandbox.seasar.org/</url>
+		<developers>
+	</developers>
 	<build>
 		<defaultGoal>validate</defaultGoal>
 		<plugins>

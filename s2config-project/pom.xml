@@ -4,7 +4,7 @@
 	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-project</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-RC1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>S2Config Project</name>
 	<description></description>
 	<url>http://s2config.sandbox.seasar.org/
@@ -26,6 +26,20 @@
 			<timezone>+9</timezone>
 		</developer>
 	</developers>
+	<mailingLists>
+		<mailingList>
+			<name>Seasar-user</name>
+			<subscribe>http://lists.sourceforge.jp/mailman/listinfo/seasar-user
+			</subscribe>
+			<unsubscribe>
+				http://lists.sourceforge.jp/mailman/listinfo/seasar-user
+			</unsubscribe>
+			<post>seasar-user@lists.sourceforge.jp
+			</post>
+			<archive>http://lists.sourceforge.jp/mailman/archives/seasar-user/
+			</archive>
+		</mailingList>
+	</mailingLists>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -93,14 +107,14 @@
 	</repositories>
 	<distributionManagement>
 		<repository>
-			<uniqueVersion>false</uniqueVersion>
+			<uniqueVersion>true</uniqueVersion>
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
 			<url>dav:https://www.seasar.org/maven/maven2
 			</url>
 		</repository>
 		<snapshotRepository>
-			<uniqueVersion>true</uniqueVersion>
+			<uniqueVersion>false</uniqueVersion>
 			<id>maven.seasar.org</id>
 			<name>
 				The Seasar Foundation Maven2 Snapshot Repository
