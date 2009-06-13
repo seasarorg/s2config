@@ -237,6 +237,7 @@ ConfigKeyアノテーション(name = "log4j.rootLogger", readOnly = true)や，
 configContainer.saveFormBeans();
 configContainer.sync();
 </pre>
+<font color="red">
 ただし，現状の実装では，前述のenvキーを使って環境依存な設定ファイルを保持している場合は，saveFromBeansメソッドを呼び出した場合は，envキーを定義しているルートのコンフィグコンテナに，子供のコンテナから読み込んだ設定値が上書きされてしまいます．
 
 前述の例でいうと，
@@ -244,7 +245,7 @@ systemConfig_staging.propertiesのjdbc.URLやjdbc.userの値でsystemConfig.prop
 
 これは，そのままsyncメソッドを実行してしまうと問題が生じる可能性がありますので，注意してください．
 今後の実装では，envキーを使った場合でも対応するコンフィグコンテナ（設定ファイル）に書き戻せるようにする予定です．
-
+</font>
 </p>
 </div>
 
