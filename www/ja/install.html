@@ -104,7 +104,7 @@ pageTracker._trackPageview();
 <h3>インストール手順</h3>
 <p>
 <ul>
-	<li>S2Configのjarファイルをビルドパスに加える．</li>
+	<li>s2config-coreのjarファイルをビルドパスに加える．</li>
 	<li>configCustomize.diconを適宜編集しビルドパスに加える．<br/>
 	デフォルトで用意されている設定情報を読み書きするコンポーネントの実装はプロパティファイルに対応したものになります。この実装はカスタマイズすることが可能です．
 	<pre>
@@ -131,7 +131,29 @@ pageTracker._trackPageview();
 &lt;/components&gt;
 	</pre>
 	</li>
+	<li>ウェブアプリケーションの場合はフィルターを利用する.<br/>
+	s2config-extensionのjarファイルをビルドパスに加えて、以下のようにweb.xmlにフィルター定義を行います.（HotDeployFilterの後に以下を追加してください）</br>
+	<pre>
+&lt;filter&gt;
+	&lt;filter-name>configFilter&lt;/filter-name&gt;
+	&lt;filter-class&gt;
+		org.seasar.config.extension.servlet.filter.ConfigLoadFilter
+	&lt;/filter-class&gt;
+	&lt;init-param&gt;
+		&lt;param-name&gt;targetURIs&lt;/param-name&gt;
+		&lt;param-value&gt;login.*,logout.*&lt;/param-value&gt;
+	&lt;/init-param>
+&lt;/filter&gt;
+	</pre>
+	これによって、dicon上に登録されているConfigContainerの設定情報をHOT deploy時にも維持します.
+	また、COOL deploy時には起動時にloadToBeansを実行し設定情報を自動的にコンフィグクラスにマッピングします.
+	targetURIsを指定することで、フィルターを適用するURLパターンを指定できます.
+	フィルターの実装を拡張したい場合はConfigFilterを拡張していただく必要がありますが、次のバージョンではフィルター内部で実行しているフィルターコマンドを生成しているファクトリをユーザ側で指定できるようにする予定です.
+	</li>
 </ul>
+
+
+
 </p>
 </div>
 
