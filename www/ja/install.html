@@ -145,8 +145,8 @@ pageTracker._trackPageview();
 	&lt;/init-param>
 &lt;/filter&gt;
 	</pre>
-	これによって、dicon上に登録されているConfigContainerの設定情報をHOT deploy時にも維持します.
-	また、COOL deploy時には起動時にloadToBeansを実行し設定情報を自動的にコンフィグクラスにマッピングします.
+	これによって、起動時にloadToBeansを実行し設定情報を自動的にコンフィグクラスにマッピングし、dicon上に登録されているConfigContainerの設定情報をHOT deploy時にも維持します.
+	また、COOL deploy時には起動時に一度だけコンフィグクラスにマッピングします.
 	targetURIsを指定することで、フィルターを適用するURLパターンを指定できます.
 	フィルターの実装を拡張したい場合はConfigFilterを拡張していただく必要がありますが、次のバージョンではフィルター内部で実行しているフィルターコマンドを生成しているファクトリをユーザ側で指定できるようにする予定です.
 	</li>
