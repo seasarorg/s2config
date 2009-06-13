@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="s2config-example" default="dist" basedir=".">
-  <property name="ver" value="0.0.1-RC1"/>
+  <property name="ver" value="1.0.0"/>
 
-  <path id="s2chronos.classpath">
-    <pathelement location="build/classes" />
+  <path id="s2config.classpath">
+    <pathelement location="target/classes" />
 <!--
   	<fileset dir="src/main/webapp/WEB-INF/lib">
       <include name="**/*.jar" />
@@ -21,8 +21,8 @@
                 includes="* .settings/** src/**"
                 excludes="target"/>
     </zip>
-  	<mkdir dir="../www/release" />
-  	<copy file="target/s2config-example-${ver}.zip" todir="../www/release"/>
+  	<mkdir dir="../s2config-www/release" />
+  	<copy file="target/s2config-example-${ver}.zip" todir="../s2config-www/release"/>
   </target>
 
 </project>
