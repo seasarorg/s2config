@@ -26,6 +26,8 @@ import javax.servlet.ServletResponse;
 
 import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 import org.seasar.config.extension.servlet.filter.command.FilterCommandFactory;
+import org.seasar.config.extension.servlet.filter.command.impl.FilterCommandFactoryImpl;
+import org.seasar.framework.util.tiger.ReflectionUtil;
 
 /**
  * S2Config用フィルターです。
@@ -33,22 +35,24 @@ import org.seasar.config.extension.servlet.filter.command.FilterCommandFactory;
  * @author j5ik2o
  */
 public class ConfigFilter implements Filter {
+	private FilterCommandFactory filterCommandFactory;
 
 	/*
 	 * (非 Javadoc)
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	public void destroy() {
-		FilterCommandFactory.clearTargetURIs();
+		filterCommandFactory.clearTargetURIs();
 	}
 
 	/*
 	 * (非 Javadoc)
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
+	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
-		FilterChain filterChain) throws IOException, ServletException {
-		FilterCommand cmd = FilterCommandFactory.create(request, response);
+			FilterChain filterChain) throws IOException, ServletException {
+		FilterCommand cmd = filterCommandFactory.create(request, response);
 		cmd.execute(request, response, filterChain);
 	}
 
@@ -57,11 +61,21 @@ public class ConfigFilter implements Filter {
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
+		String factoryClassName =
+			filterConfig.getInitParameter("factoryClassName");
+		Class<?> filterCommandFactoryClass =
+			ReflectionUtil.forNameNoException(factoryClassName);
+		if (filterCommandFactoryClass != null) {
+			filterCommandFactory =
+				(FilterCommandFactory) ReflectionUtil
+					.newInstance(filterCommandFactoryClass);
+		} else {
+			filterCommandFactory = new FilterCommandFactoryImpl();
+		}
 		String targetURIs = filterConfig.getInitParameter("targetURIs");
 		String[] targetURIArray = targetURIs.split(",");
 		for (String targetURI : targetURIArray) {
-			FilterCommandFactory.addTargetURI(targetURI);
+			filterCommandFactory.addTargetURI(targetURI);
 		}
 	}
-
 }

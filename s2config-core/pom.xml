@@ -5,14 +5,13 @@
         <relativePath>../s2config-project/pom.xml</relativePath>
         <groupId>org.seasar.config</groupId>
         <artifactId>s2config-project</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.seasar.config</groupId>
     <artifactId>s2config-core</artifactId>
     <packaging>jar</packaging>
     <name>S2Config Core</name>
-    <version>1.0.0</version>
     <url>http://s2config.sandbox.seasar.org/</url>
     <build>
         <defaultGoal>validate</defaultGoal>
