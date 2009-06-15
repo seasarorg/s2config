@@ -61,21 +61,48 @@ public class ConfigFilter implements Filter {
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
-		String factoryClassName =
-			filterConfig.getInitParameter("factoryClassName");
-		Class<?> filterCommandFactoryClass =
-			ReflectionUtil.forNameNoException(factoryClassName);
-		if (filterCommandFactoryClass != null) {
-			filterCommandFactory =
-				(FilterCommandFactory) ReflectionUtil
-					.newInstance(filterCommandFactoryClass);
-		} else {
-			filterCommandFactory = new FilterCommandFactoryImpl();
-		}
+		filterCommandFactory = getFilterCommandFactory(filterConfig);
 		String targetURIs = filterConfig.getInitParameter("targetURIs");
 		String[] targetURIArray = targetURIs.split(",");
 		for (String targetURI : targetURIArray) {
 			filterCommandFactory.addTargetURI(targetURI);
 		}
+	}
+
+	/**
+	 * {FilterCommandFactory}のインスタンスを返します。
+	 * 
+	 * @param filterConfig
+	 *            {FilterConfig}
+	 * @return {FilterCommandFactory}のインスタンス
+	 */
+	protected FilterCommandFactory getFilterCommandFactory(
+			FilterConfig filterConfig) {
+		FilterCommandFactory filterCommandFactory = null;
+		Class<FilterCommandFactory> filterCommandFactoryClass =
+			getFilterCommandFactoryClass(filterConfig);
+		if (filterCommandFactoryClass != null) {
+			filterCommandFactory =
+				ReflectionUtil.newInstance(filterCommandFactoryClass);
+		} else {
+			filterCommandFactory = new FilterCommandFactoryImpl();
+		}
+		return filterCommandFactory;
+	}
+
+	/**
+	 * {FilterCommandFactory}のクラスを返します。
+	 * 
+	 * @param filterConfig
+	 *            {FilterConfig}
+	 * @return {FilterCommandFactory}のクラス
+	 */
+	protected Class<FilterCommandFactory> getFilterCommandFactoryClass(
+			FilterConfig filterConfig) {
+		String factoryClassName =
+			filterConfig.getInitParameter("factoryClassName");
+		Class<FilterCommandFactory> filterCommandFactoryClass =
+			ReflectionUtil.forNameNoException(factoryClassName);
+		return filterCommandFactoryClass;
 	}
 }
