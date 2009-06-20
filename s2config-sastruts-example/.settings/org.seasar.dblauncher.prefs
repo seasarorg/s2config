@@ -1,0 +1,4 @@
+#Thu Jun 18 20:39:00 JST 2009
+baseDir=/s2config-sastruts-example/src/main/resources/data
+eclipse.preferences.version=1
+initDB=/s2config-sastruts-example/src/main/resources/data

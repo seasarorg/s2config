@@ -1,0 +1,9 @@
+#Thu Jun 18 20:39:00 JST 2009
+DaoType=None
+DefaultResourcePath=/s2config-sastruts-example/src/main/resources
+DefaultRootPackage=org.seasar.config.web
+DefaultSrcPath=/s2config-sastruts-example/src/main/java
+ServletPath=/s2config-sastruts-example
+ViewType=SA-Struts+Mayaa
+WebContentsRoot=src/main/webapp
+eclipse.preferences.version=1
