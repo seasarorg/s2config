@@ -9,4 +9,6 @@ public interface FilterCommandFactory {
 	void clearTargetURIs();
 
 	void addTargetURI(String targetURI);
+
+	void addConfigName(String configName);
 }

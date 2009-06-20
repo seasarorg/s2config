@@ -44,6 +44,18 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		"org.seasar.config.extension.ConfigResource";
 
 	/**
+	 * シングルトンなインスタンスを返します。
+	 * 
+	 * @return {@link DefaultFilterCommand}
+	 */
+	public static synchronized FilterCommand getInstance() {
+		if (instance == null) {
+			instance = new HotDeployFilterCommand();
+		}
+		return instance;
+	}
+
+	/**
 	 * @param request
 	 * @param response
 	 * @param filterChain

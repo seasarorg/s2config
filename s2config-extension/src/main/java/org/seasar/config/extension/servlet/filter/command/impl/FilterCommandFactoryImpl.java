@@ -32,6 +32,8 @@ import org.seasar.framework.util.tiger.CollectionsUtil;
 public final class FilterCommandFactoryImpl implements FilterCommandFactory {
 	private final List<String> targetURIList = CollectionsUtil.newArrayList();
 
+	private final List<String> configNameList = CollectionsUtil.newArrayList();
+
 	private final Map<String, Pattern> targetURIPatternMap =
 		CollectionsUtil.newHashMap();
 
@@ -91,5 +93,9 @@ public final class FilterCommandFactoryImpl implements FilterCommandFactory {
 			return HotDeployFilterCommand.getInstance();
 		}
 		return CoolDeployFilterCommand.getInstance();
+	}
+
+	public void addConfigName(String configName) {
+		configNameList.add(configName);
 	}
 }

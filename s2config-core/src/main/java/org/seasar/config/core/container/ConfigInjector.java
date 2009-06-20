@@ -23,6 +23,7 @@ import org.seasar.config.core.config.ConfigValidator;
 import org.seasar.config.core.config.annotation.Config;
 import org.seasar.config.core.config.annotation.ConfigIgnore;
 import org.seasar.config.core.config.annotation.ConfigKey;
+import org.seasar.config.core.util.ConfigContainerTraversal;
 import org.seasar.framework.beans.BeanDesc;
 import org.seasar.framework.beans.PropertyDesc;
 import org.seasar.framework.beans.factory.BeanDescFactory;
@@ -146,7 +147,24 @@ public class ConfigInjector {
 						result = true;
 					} else if (propDesc.isReadable()) {
 						Object value = propDesc.getValue(target);
-						configContainer.putConfigValue(configKeyName, value);
+						final String targetConfigKeyName = configKeyName;
+						// 書き込む先のコンテナを選ぶ
+						ConfigContainer targetContainer =
+							ConfigContainerTraversal
+								.forEachParent(
+									configContainer,
+									new ConfigContainerTraversal.ConfigContainerHandler<ConfigContainer>() {
+										public ConfigContainer proccess(
+												ConfigContainer container) {
+											if (null != container
+												.getConfigMap()
+												.get(targetConfigKeyName)) {
+												return container;
+											}
+											return null;
+										}
+									});
+						targetContainer.putConfigValue(configKeyName, value);
 						result = true;
 					}
 				}

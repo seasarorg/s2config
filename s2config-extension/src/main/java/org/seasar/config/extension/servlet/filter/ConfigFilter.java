@@ -62,6 +62,11 @@ public class ConfigFilter implements Filter {
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
 		filterCommandFactory = getFilterCommandFactory(filterConfig);
+		// String configNames = filterConfig.getInitParameter("configNames");
+		// String[] configNameArray = configNames.split(",");
+		// for (String configName : configNameArray) {
+		// filterCommandFactory.addConfigName(configName);
+		// }
 		String targetURIs = filterConfig.getInitParameter("targetURIs");
 		String[] targetURIArray = targetURIs.split(",");
 		for (String targetURI : targetURIArray) {

@@ -8,8 +8,16 @@ import org.seasar.framework.unit.Seasar2;
 
 @RunWith(Seasar2.class)
 public class ConfigContainerTest {
-
 	private ConfigContainer configContainer;
+
+	@Test
+	public void testSync() {
+		configContainer.setConfigName("test");
+		configContainer.initialize();
+		configContainer.getChildConfigContainer().putConfigValue("test", "xxx");
+		configContainer.saveFromBeans();
+		configContainer.sync();
+	}
 
 	@Test
 	public void testFindAllConfigValue() {

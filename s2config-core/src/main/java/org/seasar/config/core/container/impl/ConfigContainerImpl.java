@@ -313,6 +313,9 @@ public class ConfigContainerImpl implements ConfigContainer {
 	 */
 	public void sync() {
 		configWriter.flash();
+		if (childConfigContainer != null) {
+			childConfigContainer.sync();
+		}
 	}
 
 	/*
