@@ -30,6 +30,12 @@ import org.seasar.config.extension.servlet.filter.command.FilterCommand;
 import org.seasar.framework.container.SingletonS2Container;
 import org.seasar.framework.util.tiger.CollectionsUtil;
 
+/**
+ * ホットデプロイ用のフィルターコマンド
+ *
+ * @author j5ik2o
+ * @author happy_ryo
+ */
 public class HotDeployFilterCommand extends DefaultFilterCommand {
 	/**
 	 * コンフィグ名のセッションキーです。
@@ -104,6 +110,7 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 			configContainer.saveFromBeans();
 			configContainer.saveToMap(configResource);
 		}
+                session = getSession(request);
 		session.setAttribute(CONFIG_RESOURCE, configResource);
 		session.setAttribute(CONFIG_NAME, configContainer.getConfigName());
 	}
