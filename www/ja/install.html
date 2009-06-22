@@ -118,7 +118,7 @@ pageTracker._trackPageview();
 &lt;/components&gt;
 	</pre>
 	</li>
-	<li>SMART deployでConfigクラスを自動的にデプロイする場合は以下をcreator.diconにConfigCreatorを設定する．</br>
+	<li>SMART deployでConfigクラスを自動的にデプロイする場合は以下の様にcreator.diconにConfigCreatorを設定し、customizer.diconにconfigCustomizerを設定する．</br>
 	<pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
@@ -130,6 +130,17 @@ pageTracker._trackPageview();
 	<strong>&lt;component class="org.seasar.config.core.creator.ConfigCreator"/&gt;</strong>
 &lt;/components&gt;
 	</pre>
+	<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN" 
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
+&lt;components&gt;
+  &lt;include path="default-customizer.dicon"/&gt;
+&lt;!-- 中略 --&gt;
+    <strong>&lt;component name="configCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain"&gt;</strong>
+  &lt;/component&gt;
+&lt;/components&gt;
+	</pre>
 	</li>
 	<li>ウェブアプリケーションの場合はフィルターを利用する.<br/>
 	s2config-extensionのjarファイルをビルドパスに加えて、以下のようにweb.xmlにフィルター定義を行います.（HotDeployFilterの後に以下を追加してください）</br>
@@ -137,7 +148,7 @@ pageTracker._trackPageview();
 &lt;filter&gt;
 	&lt;filter-name>configFilter&lt;/filter-name&gt;
 	&lt;filter-class&gt;
-		org.seasar.config.extension.servlet.filter.ConfigLoadFilter
+		org.seasar.config.extension.servlet.filter.ConfigFilter
 	&lt;/filter-class&gt;
 	&lt;init-param&gt;
 		&lt;param-name&gt;targetURIs&lt;/param-name&gt;
