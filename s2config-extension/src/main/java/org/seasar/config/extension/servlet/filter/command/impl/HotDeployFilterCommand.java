@@ -31,7 +31,7 @@ import org.seasar.framework.container.SingletonS2Container;
 import org.seasar.framework.util.tiger.CollectionsUtil;
 
 /**
- * ホットデプロイ用のフィルターコマンド
+ * ホットデプロイフィルター用のコマンド
  *
  * @author j5ik2o
  * @author happy_ryo
@@ -65,7 +65,7 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 	 * @param request
 	 * @param response
 	 * @param filterChain
-	 * @return
+	 * @return FilterCommand
 	 */
 	public static synchronized FilterCommand getInstance(
 			ServletRequest request, ServletResponse response,
