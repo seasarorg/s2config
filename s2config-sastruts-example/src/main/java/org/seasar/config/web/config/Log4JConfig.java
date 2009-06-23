@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2008 the Seasar Foundation and the Others.
+ * Copyright 2007-2009 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,15 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.config.web.action;
+package org.seasar.config.web.config;
 
-import org.seasar.config.web.config.Log4JConfig;
-import org.seasar.struts.annotation.Execute;
+import org.seasar.config.core.config.annotation.Config;
+import org.seasar.config.core.config.annotation.ConfigKey;
 
-public class IndexAction {
-	public Log4JConfig log4jConfig;
+@Config(name = "log4j")
+public class Log4JConfig {
 
-	@Execute(validator = false)
-	public String index() {
-		return "index.html";
-	}
+	@ConfigKey(name = "log4j.category.org.seasar")
+	public String category;
+
 }
