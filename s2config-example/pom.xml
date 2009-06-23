@@ -6,7 +6,7 @@
 	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-example</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>S2Config Example</name>
 	<url>http://s2config.sandbox.seasar.org/</url>
 		<developers>
@@ -64,13 +64,13 @@
 	</dependencies>
 	<distributionManagement>
 		<repository>
-			<uniqueVersion>true</uniqueVersion>
+			<uniqueVersion>false</uniqueVersion>
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
 			<url>dav:https://www.seasar.org/maven/maven2</url>
 		</repository>
 		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
+			<uniqueVersion>true</uniqueVersion>
 			<id>maven.seasar.org</id>
 			<name>
 				The Seasar Foundation Maven2 Snapshot Repository

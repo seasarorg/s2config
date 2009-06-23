@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="s2config-example" default="dist" basedir=".">
-  <property name="ver" value="1.0.0"/>
+  <property name="ver" value="1.0.2-SNAPSHOT"/>
 
   <path id="s2config.classpath">
     <pathelement location="target/classes" />
