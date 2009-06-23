@@ -156,9 +156,10 @@ public class ConfigInjector {
 									new ConfigContainerTraversal.ConfigContainerHandler<ConfigContainer>() {
 										public ConfigContainer proccess(
 												ConfigContainer container) {
-											if (null != container
+											if (container
 												.getConfigMap()
-												.get(targetConfigKeyName)) {
+												.containsKey(
+													targetConfigKeyName)) {
 												return container;
 											}
 											return null;
