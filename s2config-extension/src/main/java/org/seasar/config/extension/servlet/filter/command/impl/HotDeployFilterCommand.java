@@ -110,12 +110,4 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		configName = configContainer.getConfigName();
 	}
 
-	private HttpSession getSession(ServletRequest request) {
-		HttpSession session;
-		session = ((HttpServletRequest) request).getSession(false);
-		if (session == null) {
-			session = ((HttpServletRequest) request).getSession(true);
-		}
-		return session;
-	}
 }
