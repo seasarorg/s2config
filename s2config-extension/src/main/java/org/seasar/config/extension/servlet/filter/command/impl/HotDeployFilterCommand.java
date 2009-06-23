@@ -32,7 +32,7 @@ import org.seasar.framework.util.tiger.CollectionsUtil;
 
 /**
  * ホットデプロイフィルター用のコマンド
- *
+ * 
  * @author j5ik2o
  * @author happy_ryo
  */
@@ -76,6 +76,10 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 		return instance;
 	}
 
+	private Map<String, Map<String, Object>> configResource;
+
+	private String configName;
+
 	/*
 	 * (non-Javadoc)
 	 * @see
@@ -87,15 +91,8 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 	@SuppressWarnings("unchecked")
 	public void execute(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
-		HttpSession session;
-		Map<String, Map<String, Object>> configResource;
 		ConfigContainer configContainer =
 			SingletonS2Container.getComponent(ConfigContainer.class);
-		session = getSession(request);
-		configResource =
-			(Map<String, Map<String, Object>>) session
-				.getAttribute(CONFIG_RESOURCE);
-		String configName = (String) session.getAttribute(CONFIG_NAME);
 		synchronized (configContainer.getClass()) {
 			if (configResource == null) {
 				configContainer.loadToBeans();
@@ -110,9 +107,7 @@ public class HotDeployFilterCommand extends DefaultFilterCommand {
 			configContainer.saveFromBeans();
 			configContainer.saveToMap(configResource);
 		}
-                session = getSession(request);
-		session.setAttribute(CONFIG_RESOURCE, configResource);
-		session.setAttribute(CONFIG_NAME, configContainer.getConfigName());
+		configName = configContainer.getConfigName();
 	}
 
 	private HttpSession getSession(ServletRequest request) {
