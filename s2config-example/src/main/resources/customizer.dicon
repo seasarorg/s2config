@@ -3,4 +3,5 @@
 	"http://www.seasar.org/dtd/components21.dtd">
 <components>
 	<include path="default-customizer.dicon"/>
+	<component name="configCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain"/>
 </components>

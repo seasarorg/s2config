@@ -3,7 +3,7 @@
 	"http://www.seasar.org/dtd/components24.dtd">
 <components>
 	<include path="s2config-core.dicon"/>
-	<component class="org.seasar.config.core.container.ConfigContainer">
+	<component class="org.seasar.config.core.container.impl.ConfigContainerImpl">
 		<property name="configName">"log4j"</property>
 		<initMethod name="loadToBeans"/>
 	</component>	
