@@ -136,7 +136,7 @@ public class ConfigInjector {
 						configKeyName = configKey.name();
 						readOnly = configKey.readOnly();
 					}
-					if (toBeans && propDesc.isWritable() && !readOnly) {
+					if (toBeans && propDesc.isWritable()) {
 						Object value =
 							configContainer.findAllConfigValue(propDesc
 								.getField()
@@ -145,7 +145,7 @@ public class ConfigInjector {
 							propDesc.setValue(target, value);
 						}
 						result = true;
-					} else if (propDesc.isReadable()) {
+					} else if (propDesc.isReadable() && readOnly == false) {
 						Object value = propDesc.getValue(target);
 						final String targetConfigKeyName = configKeyName;
 						// 書き込む先のコンテナを選ぶ
