@@ -18,4 +18,10 @@ public class ApplicationConfigDto {
 
 	@ConfigKey(name = "xxx")
 	public Integer xxx;
+
+        @ConfigKey(name = "read",readOnly=true)
+        public String readOnlyTrue;
+
+        @ConfigKey(name = "load",readOnly=false)
+        public String readOnlyFalse;
 }
