@@ -28,11 +28,13 @@ public class ConfigInjectorTest {
 		configContainer.loadToBeans();
 		assertEquals("abcdef", applicationConfig.hoge);
 		assertEquals(false, applicationConfig.debug);
-                assertEquals("readOnly", applicationConfig.readOnlyTrue);
-                assertEquals("readOnlyFalse", applicationConfig.readOnlyFalse);
+                assertEquals("read", applicationConfig.readOnlyTrue);
+                assertEquals("load", applicationConfig.readOnlyFalse);
 		assertEquals(Integer.valueOf(100), applicationConfig.xxx);
 		assertEquals("abcdef", applicationConfigDto.hoge);
 		assertEquals(false, applicationConfigDto.debug);
 		assertEquals(Integer.valueOf(100), applicationConfigDto.xxx);
+                assertEquals("read", applicationConfigDto.readOnlyTrue);
+                assertEquals("load", applicationConfigDto.readOnlyFalse);
 	}
 }
