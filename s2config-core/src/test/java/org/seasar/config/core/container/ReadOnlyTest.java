@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seasar.config.core.config.ApplicationConfig;
+import org.seasar.config.core.dto.ApplicationConfigDto;
 import org.seasar.framework.unit.Seasar2;
 
 /**
@@ -31,6 +32,7 @@ public class ReadOnlyTest {
 	private ConfigContainer configContainer;
 
 	private ApplicationConfig applicationConfig;
+	private ApplicationConfigDto applicationConfigDto;
 
 	/**
 	 * @ConfigKyeにTrueを選択した場合の動作確認用
@@ -43,6 +45,8 @@ public class ReadOnlyTest {
 		assertEquals("readOnlyFalse", applicationConfig.readOnlyFalse);
 		applicationConfig.readOnlyTrue = "updateText1";
 		applicationConfig.readOnlyFalse = "updateText2";
+		applicationConfigDto.readOnlyTrue = "updateText1";
+		applicationConfigDto.readOnlyFalse = "updateText2";
 		configContainer.saveFromBeans();
 		configContainer.sync();
 		configContainer.dispose();
@@ -50,5 +54,7 @@ public class ReadOnlyTest {
 		configContainer.loadToBeans();
 		assertEquals("readOnly", applicationConfig.readOnlyTrue);
 		assertEquals("updateText2", applicationConfig.readOnlyFalse);
+		assertEquals("readOnly", applicationConfigDto.readOnlyTrue);
+		assertEquals("updateText2", applicationConfigDto.readOnlyFalse);
 	}
 }
