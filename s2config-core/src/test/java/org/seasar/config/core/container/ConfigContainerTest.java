@@ -14,7 +14,9 @@ public class ConfigContainerTest {
 	public void testSync() {
 		configContainer.setConfigName("test");
 		configContainer.initialize();
-		configContainer.getChildConfigContainer().putConfigValue("test", "xxx");
+		configContainer.getChildConfigContainer().putConfigValue(
+			"syncTest",
+			"xxx");
 		configContainer.saveFromBeans();
 		configContainer.sync();
 	}
@@ -23,9 +25,9 @@ public class ConfigContainerTest {
 	public void testFindAllConfigValue() {
 		configContainer.setConfigName("test");
 		String result =
-			configContainer.findAllConfigValue(String.class, "test");
-		assertNotNull(result);
+			configContainer.findAllConfigValue(String.class, "testSync");
 		System.out.println(result);
+		assertNotNull(result);
 		configContainer.dispose();
 	}
 
