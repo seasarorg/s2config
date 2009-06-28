@@ -14,33 +14,32 @@
  *  limitations under the License.
  *  under the License.
  */
-
 package org.seasar.config.core.container;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seasar.config.core.config.ApplicationConfig;
 import org.seasar.framework.unit.Seasar2;
 
 /**
- *
  * @author happy_ryo
  */
 @RunWith(Seasar2.class)
 public class ReadOnlyTest {
 	private ConfigContainer configContainer;
+
 	private ApplicationConfig applicationConfig;
 
-    /**
-     * @ConfigKyeにTrueを選択した場合の動作確認用
-     */
+	/**
+	 * @ConfigKyeにTrueを選択した場合の動作確認用
+	 */
 	@Test
-    public void testReadOnlyTrue() {
-        configContainer.setConfigName("test");
-        configContainer.loadToBeans();
-        assertEquals("read", applicationConfig.readOnlyTrue);
+	public void testReadOnlyTrue() {
+		configContainer.setConfigName("test");
+		configContainer.loadToBeans();
+		assertEquals("readOnly", applicationConfig.readOnlyTrue);
+		assertEquals("readOnlyFalse", applicationConfig.readOnlyFalse);
 	}
 }

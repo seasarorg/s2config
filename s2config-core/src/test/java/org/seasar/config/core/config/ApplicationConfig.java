@@ -16,12 +16,12 @@ public class ApplicationConfig {
 	@ConfigKey(name = "xxx")
 	public Integer xxx;
 
-        /**
-         * readOnlyプロパティがTrueの場合のテスト用
-         */
-        @ConfigKey(name="read", readOnly = true)
-        public String readOnlyTrue;
+	/**
+	 * readOnlyプロパティがTrueの場合のテスト用
+	 */
+	@ConfigKey(name = "read", readOnly = true)
+	public String readOnlyTrue;
 
-        @ConfigKey(name = "load", readOnly = false)
-        public String readOnlyFalse;
+	@ConfigKey(name = "load", readOnly = false)
+	public String readOnlyFalse;
 }
