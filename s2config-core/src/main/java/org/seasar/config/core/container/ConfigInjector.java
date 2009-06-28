@@ -145,7 +145,7 @@ public class ConfigInjector {
 							propDesc.setValue(target, value);
 						}
 						result = true;
-					} else if (propDesc.isReadable() && readOnly == false) {
+					} else if (propDesc.isReadable()) {
 						Object value = propDesc.getValue(target);
 						final String targetConfigKeyName = configKeyName;
 						// 書き込む先のコンテナを選ぶ
@@ -165,8 +165,11 @@ public class ConfigInjector {
 											return null;
 										}
 									});
-						targetContainer.putConfigValue(configKeyName, value);
-						result = true;
+						if (readOnly == false) {
+							targetContainer
+								.putConfigValue(configKeyName, value);
+							result = true;
+						}
 					}
 				}
 			}
