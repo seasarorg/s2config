@@ -45,5 +45,10 @@ public class ReadOnlyTest {
 		applicationConfig.readOnlyFalse = "updateText2";
 		configContainer.saveFromBeans();
 		configContainer.sync();
+		configContainer.dispose();
+		configContainer.initialize();
+		configContainer.loadToBeans();
+		assertEquals("readOnly", applicationConfig.readOnlyTrue);
+		assertEquals("updateText2", applicationConfig.readOnlyFalse);
 	}
 }

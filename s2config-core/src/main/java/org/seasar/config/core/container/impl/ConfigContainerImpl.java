@@ -67,6 +67,7 @@ public class ConfigContainerImpl implements ConfigContainer {
 		if (childConfigContainer != null) {
 			childConfigContainer.dispose();
 		}
+		initialized = false;
 	}
 
 	/*
