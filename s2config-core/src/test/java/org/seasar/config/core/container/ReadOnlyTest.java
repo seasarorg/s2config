@@ -32,6 +32,7 @@ public class ReadOnlyTest {
 	private ConfigContainer configContainer;
 
 	private ApplicationConfig applicationConfig;
+
 	private ApplicationConfigDto applicationConfigDto;
 
 	/**
@@ -43,6 +44,8 @@ public class ReadOnlyTest {
 		configContainer.loadToBeans();
 		assertEquals("readOnly", applicationConfig.readOnlyTrue);
 		assertEquals("readOnlyFalse", applicationConfig.readOnlyFalse);
+		assertEquals("readOnly", applicationConfigDto.readOnlyTrue);
+		assertEquals("readOnlyFalse", applicationConfigDto.readOnlyFalse);
 		applicationConfig.readOnlyTrue = "updateText1";
 		applicationConfig.readOnlyFalse = "updateText2";
 		applicationConfigDto.readOnlyTrue = "updateText1";
@@ -50,7 +53,6 @@ public class ReadOnlyTest {
 		configContainer.saveFromBeans();
 		configContainer.sync();
 		configContainer.dispose();
-		configContainer.initialize();
 		configContainer.loadToBeans();
 		assertEquals("readOnly", applicationConfig.readOnlyTrue);
 		assertEquals("updateText2", applicationConfig.readOnlyFalse);
