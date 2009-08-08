@@ -21,7 +21,7 @@ import org.seasar.config.core.config.annotation.ConfigKey;
 @Config(name = "log4j")
 public class Log4JConfig {
 
-	@ConfigKey(name = "log4j.category.org.seasar")
+	@ConfigKey(name = "log4j.category.org.seasar",readOnly = true)
 	public String category;
 
 }

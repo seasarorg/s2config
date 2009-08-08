@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.seasar.config.web</groupId>
 	<artifactId>s2config-sastruts-example</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>war</packaging>
 	<name>s2config-sastruts-example</name>
 	<build>

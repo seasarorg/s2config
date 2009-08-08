@@ -6,10 +6,10 @@
 	<groupId>org.seasar.config</groupId>
 	<artifactId>s2config-example</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>S2Config Example</name>
 	<url>http://s2config.sandbox.seasar.org/</url>
-		<developers>
+	<developers>
 	</developers>
 	<build>
 		<defaultGoal>validate</defaultGoal>
@@ -34,7 +34,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>		
+		</plugins>
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
