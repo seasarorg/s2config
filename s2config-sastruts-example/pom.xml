@@ -77,7 +77,7 @@
 	    <dependency>
         	<groupId>org.seasar.config</groupId>
 			<artifactId>s2config-extension</artifactId>
-        	<version>1.0.1-SNAPSHOT</version>
+        	<version>1.0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
