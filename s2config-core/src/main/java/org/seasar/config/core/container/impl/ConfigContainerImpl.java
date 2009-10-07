@@ -220,6 +220,10 @@ public class ConfigContainerImpl implements ConfigContainer {
 			String env = configReader.readConfigValue(String.class, "env");
 			if (env != null) {
 				childConfigContainer = new ConfigContainerImpl();
+				childConfigContainer.setConfigReader((ConfigReader) s2Container
+					.getComponent(ConfigReader.class));
+				childConfigContainer.setConfigWriter((ConfigWriter) s2Container
+					.getComponent(ConfigWriter.class));
 				childConfigContainer.setConfigName(String.format(
 					"%s_%s",
 					configName,
