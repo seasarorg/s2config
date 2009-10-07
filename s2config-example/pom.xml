@@ -64,13 +64,13 @@
 	</dependencies>
 	<distributionManagement>
 		<repository>
-			<uniqueVersion>true</uniqueVersion>
+			<uniqueVersion>false</uniqueVersion>
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
 			<url>dav:https://www.seasar.org/maven/maven2</url>
 		</repository>
 		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
+			<uniqueVersion>true</uniqueVersion>
 			<id>maven.seasar.org</id>
 			<name>
 				The Seasar Foundation Maven2 Snapshot Repository
