@@ -64,6 +64,7 @@ public class ConfigPropertiesReader extends AbstractConfigReader {
 		for (String key : configResource.keySet()) {
 			properties.put(key, configResource.get(key));
 		}
+		opened = true;
 	}
 
 	/*

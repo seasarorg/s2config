@@ -350,16 +350,20 @@ public class ConfigContainerImpl implements ConfigContainer {
 		Map<String, Object> configResource = resourceMap.get(configName);
 		this.configName = configName;
 		configReader.load(configResource);
+		configWriter.open(configName + "_cache");
 		String env = configReader.readConfigValue(String.class, "env");
 		if (env != null) {
-			childConfigContainer =
-				(ConfigContainer) s2Container
-					.getComponent(ConfigContainer.class);
+			childConfigContainer = new ConfigContainerImpl();
+			childConfigContainer.setConfigReader((ConfigReader) s2Container
+				.getComponent(ConfigReader.class));
+			childConfigContainer.setConfigWriter((ConfigWriter) s2Container
+				.getComponent(ConfigWriter.class));
 			childConfigContainer.setConfigName(String.format(
 				"%s_%s",
 				configName,
 				env));
-			loadFromMap(childConfigContainer.getConfigName(), resourceMap);
+			childConfigContainer.loadFromMap(childConfigContainer
+				.getConfigName(), resourceMap);
 			childConfigContainer.setParentConfigContainer(this);
 		}
 		initialized = true;
