@@ -65,12 +65,12 @@
         <dependency>
             <groupId>org.seasar.container</groupId>
             <artifactId>s2-extension</artifactId>
-            <version>2.4.33</version>
+            <version>${s2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seasar.container</groupId>
             <artifactId>s2-tiger</artifactId>
-            <version>2.4.33</version>
+            <version>${s2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -84,4 +84,7 @@
             <version>2.2</version>
         </dependency>
     </dependencies>
+    <properties>
+    	<s2.version>2.4.34</s2.version>
+    </properties>
 </project>
