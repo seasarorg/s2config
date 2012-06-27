@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd">
+<components>
+	<include path="aop.dicon"/>
+	
+	<include path="convention.dicon"
+		condition="@org.seasar.config.core.util.DiconConditionUtil@hasConvention()" />
+	<include path="configCustomize.dicon"
+		condition="@org.seasar.config.core.util.DiconConditionUtil@hasCustomize()" />
+		
+	<component name="configValidator" class="org.seasar.config.core.config.ConfigValidator"/>
+	<component name="configClassAutoDetector" class="org.seasar.config.core.autodetector.ConfigClassAutoDetector"/>
+	<component name="configInjector" class="org.seasar.config.core.container.ConfigInjector"/>
+
+
+</components>
