@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.seasar.config</groupId>
+	<artifactId>s2config-project</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.4-SNAPSHOT</version>
+	<name>S2Config Project</name>
+	<description></description>
+	<url>http://s2config.sandbox.seasar.org/
+	</url>
+	<inceptionYear>2006</inceptionYear>
+	<developers>
+		<developer>
+			<id>j5ik2o</id>
+			<name>Junichi Kato</name>
+			<email>j5ik2o_at_gmail.com</email>
+			<url>http://d.hatena.ne.jp/j5ik2o/</url>
+			<timezone>+9</timezone>
+		</developer>
+		<developer>
+			<id>happy_ryo</id>
+			<name>Ryo Iwama</name>
+			<email>iwama.ryo.0731_at_gmail.com</email>
+			<url>http://d.hatena.ne.jp/happy_ryo/</url>
+			<timezone>+9</timezone>
+		</developer>
+	</developers>
+	<mailingLists>
+		<mailingList>
+			<name>Seasar-user</name>
+			<subscribe>http://lists.sourceforge.jp/mailman/listinfo/seasar-user
+			</subscribe>
+			<unsubscribe>
+				http://lists.sourceforge.jp/mailman/listinfo/seasar-user
+			</unsubscribe>
+			<post>seasar-user@lists.sourceforge.jp
+			</post>
+			<archive>http://lists.sourceforge.jp/mailman/archives/seasar-user/
+			</archive>
+		</mailingList>
+	</mailingLists>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt
+			</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>
+			scm:svn:https://www.seasar.org/svn/sandbox/s2config/trunk/s2config/
+		</connection>
+		<developerConnection>
+			scm:svn:https://www.seasar.org/svn/sandbox/s2config/trunk/s2config/
+		</developerConnection>
+		<url>http://svn.seasar.org/browse/?root=sandbox.s2config
+		</url>
+	</scm>
+	<organization>
+		<name>The Seasar Foundation</name>
+		<url>http://www.seasar.org/</url>
+	</organization>
+	<build>
+		<defaultGoal>validate</defaultGoal>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>../s2config-core</module>
+		<module>../s2config-extension</module>
+	</modules>
+	<repositories>
+		<repository>
+			<id>local</id>
+			<name>local Repository</name>
+			<url>file:repo</url>
+		</repository>
+		<repository>
+			<id>maven.seasar.org</id>
+			<name>The Seasar Foundation Maven2 Repository</name>
+			<url>http://maven.seasar.org/maven2
+			</url>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>maven.seasar.org</id>
+			<name>The Seasar Foundation Maven2 Repository</name>
+			<url>dav:https://www.seasar.org/maven/maven2
+			</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>maven.seasar.org</id>
+			<name>
+				The Seasar Foundation Maven2 Snapshot Repository
+			</name>
+			<url>dav:https://www.seasar.org/maven/maven2-snapshot
+			</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
